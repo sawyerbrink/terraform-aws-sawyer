@@ -17,10 +17,10 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
-  # profile = var.profile
-  assume_role {
-    role_arn = "arn:aws:iam::376974069562:role/administrator"
+  region  = var.region
+  profile = var.profile
+  default_tags {
+    tags = var.tags
   }
 }
 

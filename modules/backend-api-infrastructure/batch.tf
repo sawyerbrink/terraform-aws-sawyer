@@ -1,16 +1,16 @@
 resource "aws_batch_compute_environment" "batch-compute-environment" {
   compute_environment_name = "risk-sensing-compute-tf"
-  type                     = "MANAGED"
-  state                    = "ENABLED"
+  type                     = var.batch-type
+  state                    = var.batch-state
   service_role             = aws_iam_role.aws_batch_service_role.arn
 
   compute_resources {
-    max_vcpus = 16
+    max_vcpus = var.batch-max-cpus
 
     security_group_ids = data.aws_security_groups.sb-list.ids
     subnets            = data.aws_subnet_ids.sb-vpc.ids
 
-    type = "FARGATE_SPOT"
+    type = var.batch-compute-type
   }
 
   tags = merge({ Name = "risk-sensing-compute-tf" }, var.tags)
@@ -32,12 +32,12 @@ resource "aws_batch_job_definition" "batch-compute-job-definition" {
   name = "risk-sensing-compute-tf-job-definition"
   type = "container"
 
-  platform_capabilities = ["FARGATE"]
+  platform_capabilities = var.batch-compute-type == "FARGATE_SPOT" ? ["FARGATE"] : []
 
   tags = merge({ Name = "risk-sensing-compute-tf-job-definition" }, var.tags)
 
   retry_strategy {
-    attempts = 1
+    attempts = var.batch-retry-attempts
   }
 
   timeout {
@@ -48,7 +48,7 @@ resource "aws_batch_job_definition" "batch-compute-job-definition" {
 {
     "command": ["sh", "-c", "./start.sh" ],
     "image": "${local.image}",
-    "fargatePlatformConfiguration": { 
+    "fargatePlatformConfiguration": {
          "platformVersion": "${var.fargate-version}"
     },
     "readonlyRootFilesystem": false,

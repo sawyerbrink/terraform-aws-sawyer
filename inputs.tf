@@ -2,10 +2,20 @@ variable "profile" {
   description = "The AWS configuration profile to use"
 }
 
+variable "region" {
+  type        = string
+  description = "The AWS region to use"
+}
+
 variable "sawyer-version" {
   type        = string
   description = "The version of sawyer to use"
   default     = "latest"
+}
+
+variable "tags" {
+  type        = map(any)
+  description = "A map of commonly used tags"
 }
 
 variable "backendinfra-support-sns-topic" {
@@ -46,16 +56,6 @@ variable "backendinfra-api-stage-auto-deploy" {
 variable "backendinfra-security-policy" {
   type        = string
   description = "The TLS policy to apply to the API Gateway domain"
-}
-
-variable "backendinfra-tags" {
-  type        = map(any)
-  description = "A map of commonly used tags"
-}
-
-variable "backendinfra-region" {
-  type        = string
-  description = "The AWS region to use"
 }
 
 variable "backendinfra-passthrough-behavior" {
@@ -172,4 +172,50 @@ variable "backendinfra-rds-postgres-engine-version" {
 variable "backendinfra-rds-postgres-engine" {
   type        = string
   description = "The RDS postgres engine to utilize"
+}
+
+variable "backendinfra-disable-default-endpoint" {
+  type        = bool
+  default     = true
+  description = "Disable API Gateway default HTTP endpoint"
+}
+
+variable "backendinfra-authorizer-type" {
+  type        = string
+  default     = "JWT"
+  description = "The default authentication type for API Gateway"
+  validation {
+    condition     = can(regex("JWT|IAM", var.backend-authorizer-type))
+    error_message = "ERROR: API Gateway authorizer type must be either JWT or IAM."
+  }
+}
+
+variable "backendinfra-batch-state" {
+  type        = string
+  default     = "ENABLED"
+  description = "Enable the AWS Batch compute environment"
+}
+
+variable "backendinfra-batch-type" {
+  type        = string
+  default     = "MANAGED"
+  description = "Specify if a compute environment is managed by AWS or manually"
+}
+
+variable "backendinfra-batch-max-cpus" {
+  type        = number
+  default     = 16
+  description = "The maximum number of CPUs to allocate for the Batch compute environment"
+}
+
+variable "backendinfra-batch-compute-type" {
+  type        = string
+  default     = "FARGATE_SPOT"
+  description = "The type of the Batch compute environment"
+}
+
+variable "backendinfra-batch-retry-attempts" {
+  type        = number
+  default     = 1
+  description = "The number of times to retry the Batch job"
 }

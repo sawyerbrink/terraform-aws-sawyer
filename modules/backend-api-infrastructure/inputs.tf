@@ -174,6 +174,48 @@ variable "sawyer-version" {
   default     = "latest"
 }
 
+variable "disable-default-endpoint" {
+  type        = bool
+  default     = true
+  description = "Disable API Gateway default HTTP endpoint"
+}
+
+variable "authorizer-type" {
+  type        = string
+  default     = "JWT"
+  description = "The default authentication type for API Gateway"
+}
+
+variable "batch-state" {
+  type        = string
+  default     = "ENABLED"
+  description = "Enable the AWS Batch compute environment"
+}
+
+variable "batch-type" {
+  type        = string
+  default     = "MANAGED"
+  description = "Specify if a compute environment is managed by AWS or manually"
+}
+
+variable "batch-max-cpus" {
+  type        = number
+  default     = 16
+  description = "The maximum number of CPUs to allocate for the Batch compute environment"
+}
+
+variable "batch-compute-type" {
+  type        = string
+  default     = "FARGATE_SPOT"
+  description = "The type of the Batch compute environment"
+}
+
+variable "batch-retry-attempts" {
+  type        = number
+  default     = 1
+  description = "The number of times to retry the Batch job"
+}
+
 locals {
   codeBucket       = "${var.domain-name}-${var.environment}-${data.aws_region.current.name}"
   image            = "https://github.com/sawyerbrink/sawyer/pkgs/container/sawyer/risk-sensing:${var.sawyer-version}"

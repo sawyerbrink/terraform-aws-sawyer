@@ -14,8 +14,8 @@ module "apigateway-core" {
   auto-deploy              = var.api-stage-auto-deploy
   stage-name               = var.api-stage-name
   protocol-type            = var.protocol-type
-  disable-default-endpoint = true
-  authorizer_type          = "JWT"
+  disable-default-endpoint = var.disable-default-endpoint
+  authorizer_type          = var.authorizer-type
 
   destination-log-group-arn = aws_cloudwatch_log_group.APIGateway-log-group.arn
   access-log-format         = var.access-log-format
@@ -25,13 +25,6 @@ module "apigateway-core" {
   cors-allow-methods  = var.cors-allow-methods
   cors-expose-headers = var.cors-expose-headers
 
-  # route-keys = [
-  #   {
-  #     key: "GET /v${var.api-version}/organization/{id}",
-  #     throttling_burst_limit: 1000,
-  #     throttling_rate_limit: 100
-  #   }
-  # ]
   tags          = merge({ type = "v2" }, var.tags)
   audience      = [aws_cognito_user_pool_client.authorized-flow-client.id, aws_cognito_user_pool_client.implicit-flow-client.id]
   auth-endpoint = aws_cognito_user_pool.user-pool.endpoint
@@ -43,7 +36,6 @@ module "apigateway-core" {
 ####################################
 resource "aws_apigatewayv2_domain_name" "api-sawyerbrink" {
   domain_name = var.api-domain-name
-  tags        = var.tags
 
   domain_name_configuration {
     certificate_arn = data.aws_acm_certificate.api-cert.arn
