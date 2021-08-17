@@ -1,5 +1,5 @@
 resource "aws_batch_compute_environment" "batch-compute-environment" {
-  compute_environment_name = "risk-sensing-compute-tf"
+  compute_environment_name = "${var.name}-risk-sensing-compute-tf"
   type                     = var.batch-type
   state                    = var.batch-state
   service_role             = aws_iam_role.aws_batch_service_role.arn
@@ -13,28 +13,28 @@ resource "aws_batch_compute_environment" "batch-compute-environment" {
     type = var.batch-compute-type
   }
 
-  tags = merge({ Name = "risk-sensing-compute-tf" }, var.tags)
+  tags = merge({ Name = "${var.name}-risk-sensing-compute-tf" }, var.tags)
 
   depends_on = [aws_iam_role.aws_batch_service_role, aws_iam_role.ecs_instance_role]
 }
 
 resource "aws_batch_job_queue" "batch-compute-queue" {
-  name     = "risk-sensing-compute-tf-job-queue"
+  name     = "${var.name}-risk-sensing-compute-tf-job-queue"
   state    = "ENABLED"
   priority = 1
   compute_environments = [
     aws_batch_compute_environment.batch-compute-environment.arn
   ]
-  tags = merge({ Name = "risk-sensing-compute-tf-job-queue" }, var.tags)
+  tags = merge({ Name = "${var.name}-risk-sensing-compute-tf-job-queue" }, var.tags)
 }
 
 resource "aws_batch_job_definition" "batch-compute-job-definition" {
-  name = "risk-sensing-compute-tf-job-definition"
+  name = "${var.name}-risk-sensing-compute-tf-job-definition"
   type = "container"
 
   platform_capabilities = var.batch-compute-type == "FARGATE_SPOT" ? ["FARGATE"] : []
 
-  tags = merge({ Name = "risk-sensing-compute-tf-job-definition" }, var.tags)
+  tags = merge({ Name = "${var.name}-risk-sensing-compute-tf-job-definition" }, var.tags)
 
   retry_strategy {
     attempts = var.batch-retry-attempts

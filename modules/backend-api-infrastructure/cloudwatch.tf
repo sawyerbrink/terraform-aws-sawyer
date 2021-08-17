@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_log_group" "APIGateway-log-group" {
-  name              = "SawyerBrinkAPI-logs"
+  name              = "${var.name}-APIGateway-logs"
   retention_in_days = 1
   kms_key_id        = data.aws_kms_key.main-key-alias.arn
 }

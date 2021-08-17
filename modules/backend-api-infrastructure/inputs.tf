@@ -2,6 +2,15 @@ variable "profile" {
   description = "The AWS configuration profile to use"
 }
 
+variable "name" {
+  type = string
+  description = "Name prefix to use for infrastructure resources."
+}
+
+variable "kms-key-arn" {
+  type = string
+  description = "The KMS arn to use for encryption"
+}
 variable "support-sns-topic" {
   type        = string
   description = "The SNS topic to leverage for support purposes"
@@ -108,6 +117,42 @@ variable "newslitapi-parameter-name" {
   type = string
 }
 
+variable "dynamodb-billing-mode" {
+  type = string
+  description = "The billing mode for DynamoDB"
+}
+
+variable "dynamodb-provisioning-read-capacity" {
+  type = number
+  description = "The read capacity to allocated"
+}
+
+variable "dynamodb-provisioning-write-capacity" {
+  type = number
+  description = "The write capacity to allocated"
+}
+
+variable "dynamodb-gsi-provisioning-read-capacity" {
+  type = number
+  description = "The read capacity to allocated for GSI"
+}
+
+variable "dynamodb-gsi-provisioning-write-capacity" {
+  type = number
+  description = "The write capacity to allocated for GSI"
+}
+
+variable "dynamodb-point-in-recovery" {
+  type = bool
+  description = "Enable/Disable DynamoDB point in time recovery"
+  default = false
+}
+
+variable "dynamodb-stream" {
+  type = bool
+  description = "Enable/disable DynamoDB streams"
+}
+
 variable "lambda-sqs-index-document-concurrency-limit" {
   type        = number
   description = "Amount of capacity to allocate. Must be greater than or equal to 1"
@@ -168,6 +213,12 @@ variable "rds-postgres-engine" {
   description = "The RDS postgres engine to utilize"
 }
 
+variable "cognito-auto-verify-attrs" {
+  type = list(string)
+  description = "The list of cogito attributes to auto-verify"
+  default = [ "email" ]
+}
+
 variable "sawyer-version" {
   type        = string
   description = "The version of sawyer to use"
@@ -214,6 +265,11 @@ variable "batch-retry-attempts" {
   type        = number
   default     = 1
   description = "The number of times to retry the Batch job"
+}
+
+variable "ecr-image-tag-mutability" {
+  type = string
+  description = "Mutability setting for risk-sensing ECR repository"
 }
 
 locals {

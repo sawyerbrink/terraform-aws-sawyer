@@ -6,16 +6,16 @@ data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}
 
-data "terraform_remote_state" "support-infra" {
-  backend = "remote"
+# data "terraform_remote_state" "support-infra" {
+#   backend = "remote"
 
-  config = {
-    organization = "SawyerBrink"
-    workspaces = {
-      name = "sawyerbrink-${var.environment}-us-east-1"
-    }
-  }
-}
+#   config = {
+#     organization = "SawyerBrink"
+#     workspaces = {
+#       name = "sawyerbrink-${var.environment}-us-east-1"
+#     }
+#   }
+# }
 
 data "aws_route53_zone" "primary" {
   name         = var.api-domain-name

@@ -7,6 +7,12 @@ variable "region" {
   description = "The AWS region to use"
 }
 
+variable "name" {
+  type        = string
+  description = "The global name of the owner. This could be a company, owning team, or area name. A default name will be provided if not specified."
+  default     = ""
+}
+
 variable "sawyer-version" {
   type        = string
   description = "The version of sawyer to use"
@@ -16,6 +22,11 @@ variable "sawyer-version" {
 variable "tags" {
   type        = map(any)
   description = "A map of commonly used tags"
+}
+
+variable "kms-key-arn" {
+  type = string
+  description = "The KMS arn to use for encryption"
 }
 
 variable "backendinfra-support-sns-topic" {
@@ -113,6 +124,48 @@ variable "backendinfra-auth-domain" {
 variable "backendinfra-newslitapi-parameter-name" {
   type = string
 }
+
+variable "backendinfra-dynamodb-billing-mode" {
+  type        = string
+  description = "The DynomoDB billing mode to use"
+  default     = "PAY_PER_REQUEST"
+}
+
+variable "backendinfra-dynamodb-provisioning-read-capacity" {
+  type        = number
+  description = "The read capacity to allocated"
+  default     = 6
+}
+
+variable "backendinfra-dynamodb-provisioning-write-capacity" {
+  type        = number
+  description = "The write capacity to allocated"
+  default     = 10
+}
+
+variable "backendinfra-dynamodb-point-in-recovery" {
+  type        = bool
+  description = "Enable/Disable DynamoDB point in time recovery"
+}
+
+variable "backendinfra-dynamodb-stream" {
+  type        = bool
+  description = "Enable/disable DynamoDB streams"
+  default     = false
+}
+
+variable "backendinfra-dynamodb-gsi-provisioning-read-capacity" {
+  type        = number
+  description = "The read capacity to allocated for GSI"
+  default = 10
+}
+
+variable "backendinfra-dynamodb-gsi-provisioning-write-capacity" {
+  type        = number
+  description = "The write capacity to allocated for GSI"
+  default = 4
+}
+
 
 variable "backendinfra-lambda-sqs-index-document-concurrency-limit" {
   type        = number
@@ -218,4 +271,14 @@ variable "backendinfra-batch-retry-attempts" {
   type        = number
   default     = 1
   description = "The number of times to retry the Batch job"
+}
+
+variable "backendinfra-ecr-image-tag-mutability" {
+  type = string
+  description = "Mutability setting for the ECR generated repository"
+  defdefault = "MUTABLE"  
+}
+
+locals {
+  name = var.name != "" ? var.name : random_string.id.result
 }

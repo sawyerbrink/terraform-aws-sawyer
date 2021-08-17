@@ -14,8 +14,8 @@ data "aws_iam_policy_document" "lambda-instance-assume-role-policy" {
 
 resource "aws_iam_role" "lambda-role" {
   name               = "LambdaExecution-API-role"
-  description        = "This is the main role for Lambdas related to the API methods"
-  path               = "/system/"
+  description        = "This is the main role for Sawyer Lambdas related to the API methods"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-instance-assume-role-policy.json
   tags               = var.tags
 }
@@ -155,8 +155,8 @@ data "aws_iam_policy_document" "lambda-rds-instance-assume-role-policy" {
 
 resource "aws_iam_role" "lambda-rds-role" {
   name               = "LambdaExecution-RDS-write-role"
-  description        = "This is the main role for Lambdas related to the API methods"
-  path               = "/system/"
+  description        = "This is the main role for Sawyer Lambdas related to the RDS access"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-rds-instance-assume-role-policy.json
   tags               = var.tags
 }
@@ -250,8 +250,8 @@ data "aws_iam_policy_document" "ApigatewayCloudwatch-assume-role-policy" {
 
 resource "aws_iam_role" "APIGatwayCloudwatch-role" {
   name               = "APIGatwayCloudwatch-role"
-  description        = "This is the main role for APIGatway to push logs to Cloudwatch"
-  path               = "/system/"
+  description        = "This is the main role for Sawyer APIGateway to push logs to Cloudwatch"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.ApigatewayCloudwatch-assume-role-policy.json
   tags               = var.tags
 }
@@ -277,8 +277,8 @@ data "aws_iam_policy_document" "SQS-access-policy" {
 
 resource "aws_iam_role" "lambda-sqs-role" {
   name               = "SQS-Access-Lambda-Role"
-  description        = "This is the main role for Lambdas accessing SQS for auditing purposes"
-  path               = "/system/"
+  description        = "This is the main role for Sawyer Lambdas accessing SQS for auditing purposes"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.SQS-access-policy.json
   tags               = var.tags
 }
@@ -372,8 +372,8 @@ data "aws_iam_policy_document" "lambda-s3readwrite-assume-role-policy" {
 
 resource "aws_iam_role" "lambda-role-s3" {
   name               = "auditing-s3-lambda-role"
-  description        = "This is the main role for Lambdas related to the API methods"
-  path               = "/system/"
+  description        = "This is the main role for Sawyer Lambdas related to the S3 methods"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-s3readwrite-assume-role-policy.json
   tags               = var.tags
 }
@@ -462,8 +462,8 @@ data "aws_iam_policy_document" "cloudwatch-role-assume-role-policy" {
 
 resource "aws_iam_role" "cloudwatch-cron-log-role" {
   name               = "cloudwatch-cron-lambda-role"
-  description        = "This is a role for Cloudwatch Events to trigger the log aggregator Lambda"
-  path               = "/system/"
+  description        = "This is a role for Sawyer Cloudwatch Events to trigger the log aggregator Lambda"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.cloudwatch-role-assume-role-policy.json
   tags               = var.tags
 }
@@ -502,8 +502,8 @@ data "aws_iam_policy_document" "lambda-api-gateway-reads3-assume-role-policy" {
 
 resource "aws_iam_role" "lambda-apigateway-role-s3" {
   name               = "APIGateway-s3read-lambda-role"
-  description        = "This is the main role for Lambdas related to the API methods that can read S3"
-  path               = "/system/"
+  description        = "This is the main role for Lambdas related to the API methods that can invoke S3 API functions"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-api-gateway-reads3-assume-role-policy.json
   tags               = var.tags
 }
@@ -599,8 +599,8 @@ data "aws_iam_policy_document" "lambda-instance-assume-role-policy-delete" {
 
 resource "aws_iam_role" "lambda-role-delete" {
   name               = "LambdaExecution-API-delete-role"
-  description        = "This is the main role for Lambdas related to the API methods-delete"
-  path               = "/system/"
+  description        = "This is the main role for Lambdas related to the API methods of type DELETE"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-instance-assume-role-policy-delete.json
   tags               = var.tags
 }
@@ -754,7 +754,7 @@ data "aws_iam_policy_document" "lambda-api-gateway-presignedUrl-assume-role-poli
 resource "aws_iam_role" "lambda-apigateway-role-presigned-url" {
   name               = "APIGateway-presignedUrl-lambda-role"
   description        = "This is the main role for Lambdas related to the API methods that can read S3 for presignedUrl purposes"
-  path               = "/system/"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-api-gateway-presignedUrl-assume-role-policy.json
   tags               = var.tags
 }
@@ -866,8 +866,8 @@ data "aws_iam_policy_document" "index-document-lambda-assume-role-policy" {
 
 resource "aws_iam_role" "index-document-lambda" {
   name               = "IndexDocument-Lambda-role"
-  description        = "This is the main role for Lambdas related to the indexing customer documents"
-  path               = "/system/"
+  description        = "This is the main role for Sawyer Lambdas related to the indexing customer documents"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.index-document-lambda-assume-role-policy.json
   tags               = var.tags
 }
@@ -955,262 +955,7 @@ data "aws_iam_policy_document" "index-document-core-permission" {
     resources = [data.aws_sns_topic.sawyerbrink-support.arn]
   }
 }
-############################
-# Data Pipeline Roles
-#############################
-# data "aws_iam_policy_document" "datapipeline-ec2-role-policy" {
-#   statement {
-#     actions = ["sts:AssumeRole"]
 
-#     principals {
-#       type        = "Service"
-#       identifiers = ["ec2.amazonaws.com"]
-#     }
-#   }
-# }
-
-# resource "aws_iam_role" "data-pipeline-ec2-role" {
-#   name               = "data-pipeline-ec2-role"
-#   description        = "This is a role for the datapipleine to leverage for compute resources"
-#   path               = "/system/"
-#   assume_role_policy = data.aws_iam_policy_document.datapipeline-ec2-role-policy.json
-#   tags               = var.tags
-# }
-
-# resource "aws_iam_instance_profile" "data-pipeline-instance-role" {
-#   name = "data-pipeline-instance-role"
-#   role = aws_iam_role.data-pipeline-ec2-role.name
-# }
-
-# resource "aws_iam_role_policy_attachment" "attach-kms-permissions" {
-#   role       = aws_iam_role.data-pipeline-ec2-role.name
-#   policy_arn = data.aws_iam_policy.kms-policy.arn
-# }
-
-# resource "aws_iam_role_policy" "test_policy" {
-#   name   = "CorePermissions"
-#   role   = aws_iam_role.data-pipeline-ec2-role.id
-#   policy = data.aws_iam_policy_document.data-pipeline-instance-permissions.json
-# }
-
-# data "aws_iam_policy_document" "data-pipeline-instance-permissions" {
-#   // TODO
-#   // Must reduce permissions once we have a better understanding
-#   statement {
-#     actions = [
-#       "cloudwatch:*",
-#       "datapipeline:*",
-#       "ec2:Describe*",
-#       "elasticmapreduce:AddJobFlowSteps",
-#       "elasticmapreduce:Describe*",
-#       "elasticmapreduce:ListInstance*",
-#       "elasticmapreduce:ModifyInstanceGroups"
-#     ]
-#     resources = ["*"]
-#   }
-
-
-#   statement {
-#     actions = [
-#       "dynamodb:BatchGetItem",
-#       "dynamodb:ConditionCheckItem",
-#       "dynamodb:GetItem",
-#       "dynamodb:Query",
-#       "dynamodb:BatchWriteItem",
-#       "dynamodb:PutItem",
-#       "dynamodb:DescribeExport",
-#       "dynamodb:DescribeTable",
-#       "dynamodb:Scan",
-#       "dynamodb:UpdateTable"
-#     ]
-
-#     resources = [
-#       aws_dynamodb_table.organization-table.arn,
-#       "${aws_dynamodb_table.organization-table.arn}/index/*"
-#     ]
-#   }
-
-#   statement {
-#     actions = [
-#       "s3:PutObject",
-#       "s3:PutObjectAcl",
-#       "s3:PutObjectTagging",
-#       "s3:PutObjectVersionTagging",
-#       "s3:AbortMultipartUpload"
-#     ]
-
-#     resources = [
-#       "${aws_s3_bucket.raw-data-storage.arn}/*"
-#     ]
-#   }
-
-#   // Needed to download Amazon EMR scripts
-#   // Check EMR errors for S3 failures as these
-#   // locations may change
-#   statement {
-#     actions = [
-#       "s3:Get*",
-#       "s3:List*"
-#     ]
-#     resources = [
-#       "arn:aws:s3:::dynamodb-dpl-${var.region}",
-#       "arn:aws:s3:::dynamodb-dpl-${var.region}/*",
-#       "arn:aws:s3:::datapipeline-${var.region}",
-#       "arn:aws:s3:::datapipeline-${var.region}/*",
-#       "arn:aws:s3:::${var.region}.elasticmapreduce",
-#       "arn:aws:s3:::${var.region}.elasticmapreduce/*"
-#     ]
-#   }
-# }
-
-# data "aws_iam_policy_document" "datapipeline-role-policy" {
-#   statement {
-#     actions = ["sts:AssumeRole"]
-
-#     principals {
-#       type = "Service"
-#       identifiers = [
-#         "datapipeline.amazonaws.com",
-#         "elasticmapreduce.amazonaws.com"
-#       ]
-#     }
-#   }
-# }
-
-# resource "aws_iam_role" "data-pipeline-service-role" {
-#   name               = "data-pipeline-service-role"
-#   description        = "This is a role for the datapipeline and EMR service"
-#   assume_role_policy = data.aws_iam_policy_document.datapipeline-role-policy.json
-#   tags               = var.tags
-# }
-
-# resource "aws_iam_role_policy_attachment" "data-pipeline-service-attach-kms-permissions" {
-#   role       = aws_iam_role.data-pipeline-service-role.name
-#   policy_arn = data.aws_iam_policy.kms-policy.arn
-# }
-
-# resource "aws_iam_role_policy" "data-pipeline-service-permissions" {
-#   name   = "CorePermissions"
-#   role   = aws_iam_role.data-pipeline-service-role.id
-#   policy = data.aws_iam_policy_document.data-pipeline-service-permissions.json
-# }
-
-# data "aws_iam_policy_document" "data-pipeline-service-permissions" {
-#   // TODO
-#   // Must reduce permissions once we have a better understanding
-#   statement {
-#     actions = [
-#       "cloudwatch:*",
-#       "datapipeline:DescribeObjects",
-#       "datapipeline:EvaluateExpression",
-#       "ec2:AuthorizeSecurityGroupIngress",
-#       "ec2:CancelSpotInstanceRequests",
-#       "ec2:CreateSecurityGroup",
-#       "ec2:CreateTags",
-#       "ec2:DeleteTags",
-#       "ec2:Describe*",
-#       "ec2:ModifyImageAttribute",
-#       "ec2:ModifyInstanceAttribute",
-#       "ec2:RequestSpotInstances",
-#       "ec2:RunInstances",
-#       "ec2:StartInstances",
-#       "ec2:StopInstances",
-#       "ec2:TerminateInstances",
-#       "ec2:AuthorizeSecurityGroupEgress",
-#       "ec2:DeleteSecurityGroup",
-#       "ec2:RevokeSecurityGroupEgress",
-#       "ec2:DescribeNetworkInterfaces",
-#       "ec2:CreateNetworkInterface",
-#       "ec2:DeleteNetworkInterface",
-#       "ec2:DetachNetworkInterface",
-#       "elasticmapreduce:*",
-#       "iam:GetInstanceProfile",
-#       "iam:GetRole",
-#       "iam:GetRolePolicy",
-#       "iam:ListAttachedRolePolicies",
-#       "iam:ListRolePolicies",
-#       "iam:ListInstanceProfiles",
-#       "iam:PassRole"
-#     ]
-#     resources = ["*"]
-#   }
-
-#   statement {
-#     actions = [
-#       "dynamodb:BatchGetItem",
-#       "dynamodb:DescribeTable",
-#       "dynamodb:BatchWriteItem",
-#       "dynamodb:PutItem",
-#       "dynamodb:GetItem",
-#       "dynamodb:Query",
-#       "dynamodb:Scan",
-#       "dynamodb:UpdateTable",
-#     ]
-
-#     resources = [
-#       aws_dynamodb_table.organization-table.arn,
-#       "${aws_dynamodb_table.organization-table.arn}/index/*"
-#     ]
-#   }
-
-#   statement {
-#     actions = [
-#       "s3:PutObject",
-#       "s3:PutObjectAcl",
-#       "s3:PutObjectTagging",
-#       "s3:PutObjectVersionTagging",
-#       "s3:GetObject",
-#       "s3:GetObjectAcl",
-#       "s3:GetObjectTagging",
-#       "s3:GetObjectVersion",
-#       "s3:GetObjectVersionAcl",
-#       "s3:AbortMultipartUpload"
-#     ]
-#     resources = [
-#       "${aws_s3_bucket.raw-data-storage.arn}/*"
-#     ]
-#   }
-
-#   statement {
-#     actions = [
-#       "s3:GetBucketAcl",
-#       "s3:GetBucketLocation",
-#       "s3:GetBucketPolicy",
-#       "s3:GetBucketCORS",
-#       "s3:GetBucketPublicAccessBlock",
-#       "s3:GetBucketVersioning",
-#       "s3:ListBucket",
-#       "s3:ListBucketVersions"
-#     ]
-
-#     resources = [
-#       aws_s3_bucket.raw-data-storage.arn
-#     ]
-#   }
-
-#   statement {
-#     actions = [
-#       "iam:CreateServiceLinkedRole"
-#     ]
-#     resources = ["*"]
-#     condition {
-#       test     = "StringLike"
-#       variable = "iam:AWSServiceName"
-
-#       values = [
-#         "elasticmapreduce.amazonaws.com",
-#         "spot.amazonaws.com"
-#       ]
-#     }
-#   }
-
-#   statement {
-#     actions = [
-#       "sns:Publish"
-#     ]
-#     resources = [data.aws_sns_topic.sawyerbrink-support.arn]
-#   }
-# }
 ##############################################
 # AWS Batch
 ##############################################
@@ -1241,8 +986,8 @@ resource "aws_iam_instance_profile" "ecs_instance_role" {
 
 resource "aws_iam_policy" "ecs-instance-managed-policy" {
   name        = "ecs-instance-role-permissions"
-  path        = "/system/"
-  description = "IAM Managed policy for ECS Instance Role"
+  path        = "/sawyer/"
+  description = "IAM Managed policy for Sawyer ECS Instance Role"
   policy      = data.aws_iam_policy_document.ecs_instance_role_permissions.json
 }
 
@@ -1389,7 +1134,7 @@ data "aws_iam_policy_document" "aws_ecs_task_role_trust" {
 
 resource "aws_iam_role" "aws_ecs_task_role" {
   name = "ecs_task_role"
-
+  description = "The Sawyer ECS Task role for Risk Sensing Batch"
   assume_role_policy = data.aws_iam_policy_document.aws_ecs_task_role_trust.json
 
 
@@ -1397,8 +1142,8 @@ resource "aws_iam_role" "aws_ecs_task_role" {
 
 resource "aws_iam_policy" "aws_ecs_task_role_policy" {
   name        = "sb-ecs-container-policy"
-  path        = "/"
-  description = "Default ECS Task IAM Policy"
+  path        = "/saywer/"
+  description = "Default Saywer ECS Task IAM Policy"
 
   policy = data.aws_iam_policy_document.ecs_instance_task_permissions.json
 }
@@ -1544,7 +1289,7 @@ data "aws_iam_policy_document" "lambda-s3-trigger-trust-policy" {
 resource "aws_iam_role" "lambda-batch-trigger-role" {
   name               = "lambda-submit-batch-job"
   description        = "This role triggers a Lambda that submits an AWS Batch Job."
-  path               = "/system/"
+  path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-s3-trigger-trust-policy.json
   tags               = var.tags
 }
@@ -1600,5 +1345,4 @@ data "aws_iam_policy_document" "lambda-submit-batch-job-core-permission" {
 
     resources = [data.terraform_remote_state.support-infra.outputs.sb-support-sns-arn]
   }
-
 }

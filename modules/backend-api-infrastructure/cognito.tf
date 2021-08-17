@@ -1,7 +1,7 @@
 resource "aws_cognito_user_pool" "user-pool" {
-  name = "sawyerbrink-customers-tf"
+  name = "${var.name}-users-tf"
 
-  auto_verified_attributes = ["email"]
+  auto_verified_attributes = var.cognito-auto-verify-attrs
 
 
   password_policy {
@@ -16,7 +16,7 @@ resource "aws_cognito_user_pool" "user-pool" {
   admin_create_user_config {
     allow_admin_create_user_only = false
     invite_message_template {
-      email_message = "Welcome to SawyerBrink!\n Your username is {username} and temporary password is {####}.\n The temporary password is valid for 72 hrs. "
+      email_message = "Welcome to ${var.name}!\n Your username is {username} and temporary password is {####}.\n The temporary password is valid for 72 hrs. "
       email_subject = "SawyerBrink Temp credentials"
       sms_message   = "Welcome to SawyerBrink!\n Your username is {username} and temporary password is {####}.\n The temporary password is valid for 72 hrs. "
     }
@@ -59,8 +59,8 @@ resource "aws_cognito_user_pool" "user-pool" {
     }
   }
 
-  email_verification_subject = "SawyerBrink User Verification Code"
-  email_verification_message = "<div><h1> Welcome to SawyerBrink!</1></div><div><p>Your verification code is {####}.</p></div>"
+  email_verification_subject = "${local.name} User Verification Code"
+  email_verification_message = "<div><h1> Welcome to Sawyer!</1></div><div><p>Your verification code is {####}.</p></div>"
 
   email_configuration {
     source_arn            = data.terraform_remote_state.support-infra.outputs.ses-email-arn
@@ -82,8 +82,6 @@ resource "aws_cognito_user_pool" "user-pool" {
   lambda_config {
     pre_sign_up = aws_lambda_alias.preSignUp-trigger-alias.arn
   }
-
-
 }
 
 resource "aws_cognito_user_group" "user-group-non-admins" {
@@ -100,7 +98,7 @@ resource "aws_cognito_user_group" "user-group-admins" {
 
 
 resource "aws_cognito_user_pool_client" "implicit-flow-client" {
-  name = "implicit-flow"
+  name = "implicit-flow-users"
 
   user_pool_id = aws_cognito_user_pool.user-pool.id
 
@@ -127,7 +125,7 @@ resource "aws_cognito_user_pool_client" "implicit-flow-client" {
 
 
 resource "aws_cognito_user_pool_client" "authorized-flow-client" {
-  name = "authorized-flow-customers"
+  name = "authorized-flow-users"
 
   user_pool_id = aws_cognito_user_pool.user-pool.id
 
@@ -154,17 +152,7 @@ resource "aws_cognito_user_pool_client" "authorized-flow-client" {
 
 
 resource "aws_cognito_user_pool_domain" "cognito-domain" {
-  domain       = "${var.environment}-sawyerbrink"
+  domain       = "${var.environment}-${local.name}"
   user_pool_id = aws_cognito_user_pool.user-pool.id
   # certificate_arn = data.aws_acm_certificate.auth-cert.arn
-}
-
-resource "aws_cognito_user_pool_ui_customization" "logo" {
-  client_id = aws_cognito_user_pool_client.implicit-flow-client.id
-
-  image_file = filebase64("../../../static/SawyerBrinkBlackWallpaperWhite.png")
-
-  # Refer to the aws_cognito_user_pool_domain resource's
-  # user_pool_id attribute to ensure it is in an 'Active' state
-  user_pool_id = aws_cognito_user_pool_domain.cognito-domain.user_pool_id
 }

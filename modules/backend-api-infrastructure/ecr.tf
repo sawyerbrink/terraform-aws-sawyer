@@ -1,16 +1,14 @@
 resource "aws_ecr_repository" "sb-registry" {
-  name                 = "risk-sensing"
-  image_tag_mutability = var.environment == "prod" ? "IMMUTABLE" : "MUTABLE"
+  name                 = "${local.name}-risk-sensing"
+  image_tag_mutability = var.ecr-image-tag-mutability
 
   image_scanning_configuration {
     scan_on_push = false
   }
   encryption_configuration {
     encryption_type = "KMS"
-    kms_key         = data.aws_kms_key.main-key-alias.arn
+    kms_key         = var.kms-key-arn
   }
-
-
 }
 
 resource "aws_ecr_lifecycle_policy" "default-policy" {

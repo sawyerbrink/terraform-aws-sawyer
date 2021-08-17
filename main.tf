@@ -4,6 +4,8 @@ module "backend-api-infrastructure" {
   profile        = var.profile
   region         = var.region
   tags           = var.tags
+  name           = local.name
+  kms-key-arn    = var.kms-key-arn
 
   support-sns-topic                           = var.backendinfra-support-sns-topic
   api-name                                    = var.backendinfra-api-name
@@ -42,9 +44,18 @@ module "backend-api-infrastructure" {
   rds-postgres-engine                         = var.backendinfra-rds-postgres-engine
   disable-default-endpoint                    = var.backendinfra-disable-default-endpoint
   authorizer-type                             = var.backendinfra-authorizer-type
-  batch-state                                 = var.backendinfra-batch-state
-  batch-type                                  = var.backendinfra-batch-type
-  batch-max-cpus                              = var.backendinfra-batch-max-cpus
-  batch-compute-type                          = var.backendinfra-batch-compute-type
-  batch-retry-attempts                        = var.backendinfra-batch-retry-attempts
+
+  batch-state          = var.backendinfra-batch-state
+  batch-type           = var.backendinfra-batch-type
+  batch-max-cpus       = var.backendinfra-batch-max-cpus
+  batch-compute-type   = var.backendinfra-batch-compute-type
+  batch-retry-attempts = var.backendinfra-batch-retry-attempts
+
+  dynamodb-billing-mode                    = var.backendinfra-dynamodb-billing-mode
+  dynamodb-provisioning-read-capacity      = var.backendinfra-dynamodb-provisioning-read-capacity
+  dynamodb-provisioning-write-capacity     = var.backendinfra-dynamodb-provisioning-write-capacity
+  dynamodb-point-in-recovery               = var.backendinfra-dynamodb-point-in-recovery
+  dynamodb-stream                          = var.backendinfra-dynamodb-stream
+  dynamodb-gsi-provisioning-read-capacity  = var.backendinfra-dynamodb-gsi-provisioning-read-capacity
+  dynamodb-gsi-provisioning-write-capacity = var.backendinfra-dynamodb-gsi-provisioning-write-capacity
 }
