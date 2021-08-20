@@ -25,7 +25,7 @@ variable "tags" {
 }
 
 variable "kms-key-arn" {
-  type = string
+  type        = string
   description = "The KMS arn to use for encryption"
 }
 
@@ -157,13 +157,13 @@ variable "backendinfra-dynamodb-stream" {
 variable "backendinfra-dynamodb-gsi-provisioning-read-capacity" {
   type        = number
   description = "The read capacity to allocated for GSI"
-  default = 10
+  default     = 10
 }
 
 variable "backendinfra-dynamodb-gsi-provisioning-write-capacity" {
   type        = number
   description = "The write capacity to allocated for GSI"
-  default = 4
+  default     = 4
 }
 
 
@@ -274,9 +274,33 @@ variable "backendinfra-batch-retry-attempts" {
 }
 
 variable "backendinfra-ecr-image-tag-mutability" {
-  type = string
+  type        = string
   description = "Mutability setting for the ECR generated repository"
-  defdefault = "MUTABLE"  
+  default     = "MUTABLE"
+}
+
+variable "lambda-repository-region" {
+  type    = string
+  default = "us-east-1"
+  validation {
+    condition     = can(regex("us-east-1|us-west-2", var.lambda-repository-region))
+    error_message = "ERROR: Lambda repository is only available in us-east-1 or us-west-2"
+  }
+}
+
+variable "backendinfra-private-subnet-ids" {
+  type        = list(string)
+  description = "A list of private subnet ids"
+}
+
+variable "backendinfra-security-group-ids" {
+  type        = list(string)
+  description = "A list of security group ids"
+}
+
+variable "backendinfra-iam-kms-grant-policy" {
+  type        = string
+  description = "IAM policy that grants access to KMS key."
 }
 
 locals {

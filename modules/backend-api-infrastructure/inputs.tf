@@ -3,12 +3,12 @@ variable "profile" {
 }
 
 variable "name" {
-  type = string
+  type        = string
   description = "Name prefix to use for infrastructure resources."
 }
 
 variable "kms-key-arn" {
-  type = string
+  type        = string
   description = "The KMS arn to use for encryption"
 }
 variable "support-sns-topic" {
@@ -118,38 +118,38 @@ variable "newslitapi-parameter-name" {
 }
 
 variable "dynamodb-billing-mode" {
-  type = string
+  type        = string
   description = "The billing mode for DynamoDB"
 }
 
 variable "dynamodb-provisioning-read-capacity" {
-  type = number
+  type        = number
   description = "The read capacity to allocated"
 }
 
 variable "dynamodb-provisioning-write-capacity" {
-  type = number
+  type        = number
   description = "The write capacity to allocated"
 }
 
 variable "dynamodb-gsi-provisioning-read-capacity" {
-  type = number
+  type        = number
   description = "The read capacity to allocated for GSI"
 }
 
 variable "dynamodb-gsi-provisioning-write-capacity" {
-  type = number
+  type        = number
   description = "The write capacity to allocated for GSI"
 }
 
 variable "dynamodb-point-in-recovery" {
-  type = bool
+  type        = bool
   description = "Enable/Disable DynamoDB point in time recovery"
-  default = false
+  default     = false
 }
 
 variable "dynamodb-stream" {
-  type = bool
+  type        = bool
   description = "Enable/disable DynamoDB streams"
 }
 
@@ -214,9 +214,9 @@ variable "rds-postgres-engine" {
 }
 
 variable "cognito-auto-verify-attrs" {
-  type = list(string)
+  type        = list(string)
   description = "The list of cogito attributes to auto-verify"
-  default = [ "email" ]
+  default     = ["email"]
 }
 
 variable "sawyer-version" {
@@ -268,14 +268,35 @@ variable "batch-retry-attempts" {
 }
 
 variable "ecr-image-tag-mutability" {
-  type = string
+  type        = string
   description = "Mutability setting for risk-sensing ECR repository"
 }
 
+variable "lambda-repository-region" {
+  type    = string
+  default = "us-east-1"
+}
+
+variable "private-subnet-ids" {
+  type        = list(string)
+  description = "A list of private subnet ids"
+}
+
+variable "security-group-ids" {
+  type        = list(string)
+  description = "A list of security group ids"
+}
+
+variable "iam-kms-grant-policy" {
+  type        = string
+  description = "IAM policy that grants access to KMS key."
+}
+
 locals {
-  codeBucket       = "${var.domain-name}-${var.environment}-${data.aws_region.current.name}"
-  image            = "https://github.com/sawyerbrink/sawyer/pkgs/container/sawyer/risk-sensing:${var.sawyer-version}"
-  signedSourceList = data.aws_s3_bucket_objects.signedLambdas.keys
-  sourceHashList   = data.aws_s3_bucket_object.object_info.*.metadata
-  sourceHashMap    = zipmap(local.signedSourceList, local.sourceHashList)
+  codeBucket         = "sawyerbrink-lambda-binaries-${var.lambda-repository-region}"
+  image              = "https://github.com/sawyerbrink/sawyer/pkgs/container/sawyer/risk-sensing:${var.sawyer-version}"
+  signedSourceList   = data.aws_s3_bucket_objects.signedLambdas.keys
+  sourceHashList     = data.aws_s3_bucket_object.object_info.*.metadata
+  sourceHashMap      = zipmap(local.signedSourceList, local.sourceHashList)
+  default-kms-policy = var.iam-kms-grant-policy != "" ? var.iam-kms-grant-policy : aws_iam_policy.iam-kms-policy.arn
 }

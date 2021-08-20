@@ -22,7 +22,7 @@ resource "aws_iam_role" "lambda-role" {
 
 resource "aws_iam_role_policy_attachment" "lambda-role-attach-kms" {
   role       = aws_iam_role.lambda-role.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 resource "aws_iam_role_policy" "corePermissions" {
@@ -163,7 +163,7 @@ resource "aws_iam_role" "lambda-rds-role" {
 
 resource "aws_iam_role_policy_attachment" "lambda-rds-role-attach-kms" {
   role       = aws_iam_role.lambda-rds-role.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 resource "aws_iam_role_policy" "corePermissions-rds" {
@@ -285,7 +285,7 @@ resource "aws_iam_role" "lambda-sqs-role" {
 
 resource "aws_iam_role_policy_attachment" "lambda-sqs-role-attach-kms" {
   role       = aws_iam_role.lambda-sqs-role.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 resource "aws_iam_role_policy" "main-permissions" {
@@ -380,7 +380,7 @@ resource "aws_iam_role" "lambda-role-s3" {
 
 resource "aws_iam_role_policy_attachment" "lambda-role-s3-attach-kms" {
   role       = aws_iam_role.lambda-role-s3.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 resource "aws_iam_role_policy" "corePermissions-s3ReadWrite" {
@@ -510,7 +510,7 @@ resource "aws_iam_role" "lambda-apigateway-role-s3" {
 
 resource "aws_iam_role_policy_attachment" "lambda-apigateway-role-s3-attach-kms" {
   role       = aws_iam_role.lambda-apigateway-role-s3.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 resource "aws_iam_role_policy" "corePermissions-s3Read" {
@@ -607,7 +607,7 @@ resource "aws_iam_role" "lambda-role-delete" {
 
 resource "aws_iam_role_policy_attachment" "lambda-role-delete-attach-kms" {
   role       = aws_iam_role.lambda-role-delete.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 resource "aws_iam_role_policy" "corePermissions-delete" {
@@ -761,7 +761,7 @@ resource "aws_iam_role" "lambda-apigateway-role-presigned-url" {
 
 resource "aws_iam_role_policy_attachment" "lambda-apigateway-role-presigned-url-attach-kms" {
   role       = aws_iam_role.lambda-apigateway-role-presigned-url.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 
@@ -874,7 +874,7 @@ resource "aws_iam_role" "index-document-lambda" {
 
 resource "aws_iam_role_policy_attachment" "index-document-lambda-attach-kms" {
   role       = aws_iam_role.index-document-lambda.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 resource "aws_iam_role_policy" "corePermissions-index-document" {
@@ -1113,7 +1113,7 @@ resource "aws_iam_role_policy_attachment" "aws_batch_service_role" {
 
 resource "aws_iam_role_policy_attachment" "aws_batch_service_role_policy_attachment_kms" {
   role       = aws_iam_role.aws_batch_service_role.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 ######################
@@ -1133,8 +1133,8 @@ data "aws_iam_policy_document" "aws_ecs_task_role_trust" {
 }
 
 resource "aws_iam_role" "aws_ecs_task_role" {
-  name = "ecs_task_role"
-  description = "The Sawyer ECS Task role for Risk Sensing Batch"
+  name               = "ecs_task_role"
+  description        = "The Sawyer ECS Task role for Risk Sensing Batch"
   assume_role_policy = data.aws_iam_policy_document.aws_ecs_task_role_trust.json
 
 
@@ -1157,7 +1157,7 @@ resource "aws_iam_role_policy_attachment" "aws_ecs_task_role_policy_attachment_c
 
 resource "aws_iam_role_policy_attachment" "aws_ecs_task_role_policy_attachment_kms" {
   role       = aws_iam_role.aws_ecs_task_role.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 data "aws_iam_policy_document" "ecs_instance_task_permissions" {
@@ -1303,12 +1303,12 @@ resource "aws_iam_role_policy_attachment" "lambda-batch-trigger-role-policy-atta
 
 resource "aws_iam_role_policy_attachment" "lambda-batch-trigger-role-policy-attachmentkms" {
   role       = aws_iam_role.lambda-batch-trigger-role.name
-  policy_arn = data.aws_iam_policy.kms-policy.arn
+  policy_arn = local.default-kms-policy
 }
 
 resource "aws_iam_policy" "lambda-trigger-batch-policy" {
   name = "sb-lambda-trigger-batch-policy"
-  path = "/"
+  path = "/sawyer/"
 
   policy = data.aws_iam_policy_document.lambda-submit-batch-job-core-permission.json
 }
@@ -1343,6 +1343,37 @@ data "aws_iam_policy_document" "lambda-submit-batch-job-core-permission" {
       "sns:Publish"
     ]
 
-    resources = [data.terraform_remote_state.support-infra.outputs.sb-support-sns-arn]
+    resources = [var.support-sns-topic]
   }
+}
+
+data "aws_iam_policy_document" "iam-kms-policy" {
+  count = local.default-kms-policy != "" ? 0 : 1
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:ReEncrypt*",
+      "kms:CreateGrant",
+      "kms:RevokeGrant",
+      "kms:RetireGrant",
+      "kms:GenerateDataKey*",
+      "kms:DescribeKey",
+      "kms:GetKeyPolicy",
+      "kms:GetKeyRotationStatus",
+      "kms:List*"
+    ]
+    resources = [
+      var.kms-key-arn
+    ]
+  }
+}
+
+resource "aws_iam_policy" "iam-kms-policy" {
+  count       = local.default-kms-policy != "" ? 0 : 1
+  name        = "${var.name}-iam-kms-grant-policy"
+  path        = "/sawyer/"
+  description = "IAM policy that grants access to the main kms key"
+  policy      = data.aws_iam_policy_document.iam-kms-policy.json
 }

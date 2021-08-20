@@ -1,11 +1,13 @@
 module "backend-api-infrastructure" {
-  source         = "./modules/backend-api-infrastructure"
-  sawyer-version = var.sawyer-version
-  profile        = var.profile
-  region         = var.region
-  tags           = var.tags
-  name           = local.name
-  kms-key-arn    = var.kms-key-arn
+  source = "./modules/backend-api-infrastructure"
+
+  sawyer-version           = var.sawyer-version
+  profile                  = var.profile
+  region                   = var.region
+  tags                     = var.tags
+  name                     = local.name
+  kms-key-arn              = var.kms-key-arn
+  lambda-repository-region = var.lambda-repository-region
 
   support-sns-topic                           = var.backendinfra-support-sns-topic
   api-name                                    = var.backendinfra-api-name
@@ -58,4 +60,8 @@ module "backend-api-infrastructure" {
   dynamodb-stream                          = var.backendinfra-dynamodb-stream
   dynamodb-gsi-provisioning-read-capacity  = var.backendinfra-dynamodb-gsi-provisioning-read-capacity
   dynamodb-gsi-provisioning-write-capacity = var.backendinfra-dynamodb-gsi-provisioning-write-capacity
+
+  private-subnet-ids   = var.backendinfra-private-subnet-ids
+  security-group-ids   = var.backendinfra-security-group-ids
+  iam-kms-grant-policy = var.backendinfra-iam-kms-grant-policy
 }

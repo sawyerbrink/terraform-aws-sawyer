@@ -1,16 +1,14 @@
 resource "aws_lambda_function" "preSignUp-trigger" {
-  s3_bucket               = local.codeBucket
-  s3_key                  = "${var.environment}/signed/preSignUp.zip"
-  function_name           = "preSignUp"
-  role                    = aws_iam_role.lambda-role.arn
-  handler                 = "main"
-  runtime                 = "go1.x"
-  description             = "A lambda function that verifies valid email domains for users signing up"
-  timeout                 = 30
-  memory_size             = 128
-  source_code_hash        = lookup(local.sourceHashMap, "${var.environment}/signed/preSignUp.zip", "")["Source-Code-Hash"]
-  publish                 = true
-  code_signing_config_arn = data.terraform_remote_state.support-infra.outputs.lambda-code-signing-config-arn
+  s3_bucket     = local.codeBucket
+  s3_key        = "${var.sawyer-version}/preSignUp.zip"
+  function_name = "preSignUp"
+  role          = aws_iam_role.lambda-role.arn
+  handler       = "main"
+  runtime       = "go1.x"
+  description   = "A lambda function that verifies valid email domains for users signing up"
+  timeout       = 30
+  memory_size   = 128
+  publish       = true
 
   environment {
     variables = {
@@ -19,8 +17,6 @@ resource "aws_lambda_function" "preSignUp-trigger" {
       API_VERSION = var.api-version
     }
   }
-
-
 }
 
 resource "aws_lambda_permission" "allow_Cognito" {
@@ -49,25 +45,22 @@ resource "aws_lambda_function_event_invoke_config" "preSignUp-trigger-lambda-inv
 resource "aws_cloudwatch_log_group" "pollsqs-lambda-cloudwatch-group" {
   name              = "/aws/lambda/preSignUp"
   retention_in_days = 1
-  tags              = var.tags
-  kms_key_id        = data.aws_kms_key.main-key-alias.arn
+  kms_key_id        = var.kms-key-arn
 }
 ############################################################
 # Configure RDS
 ############################################################
 resource "aws_lambda_function" "setupDB" {
-  s3_bucket               = local.codeBucket
-  s3_key                  = "${var.environment}/signed/setup_db.zip"
-  function_name           = "setup_db"
-  role                    = aws_iam_role.lambda-role.arn
-  handler                 = "setup_db.lambda_handler"
-  runtime                 = "python3.7"
-  description             = "A lambda function that sets up all the RDS permissions"
-  timeout                 = 30
-  memory_size             = 128
-  source_code_hash        = lookup(local.sourceHashMap, "${var.environment}/signed/setup_db.zip", "")["Source-Code-Hash"]
-  publish                 = true
-  code_signing_config_arn = data.terraform_remote_state.support-infra.outputs.lambda-code-signing-config-arn
+  s3_bucket     = local.codeBucket
+  s3_key        = "${var.sawyer-version}/setup_db.zip"
+  function_name = "setup_db"
+  role          = aws_iam_role.lambda-role.arn
+  handler       = "setup_db.lambda_handler"
+  runtime       = "python3.7"
+  description   = "A lambda function that sets up all the RDS permissions"
+  timeout       = 30
+  memory_size   = 128
+  publish       = true
 
   environment {
     variables = {
@@ -82,8 +75,8 @@ resource "aws_lambda_function" "setupDB" {
   }
 
   vpc_config {
-    security_group_ids = data.aws_security_groups.sb-list.ids
-    subnet_ids         = data.aws_subnet_ids.sb-vpc.ids
+    security_group_ids = var.security-group-ids
+    subnet_ids         = var.subnet-ids
   }
 
 
@@ -117,6 +110,5 @@ resource "aws_lambda_function_event_invoke_config" "setupDB-trigger-lambda-invok
 resource "aws_cloudwatch_log_group" "setupDB-lambda-cloudwatch-group" {
   name              = "/aws/lambda/setup_db"
   retention_in_days = 1
-  tags              = var.tags
   kms_key_id        = data.aws_kms_key.main-key-alias.arn
 }
