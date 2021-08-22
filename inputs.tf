@@ -210,21 +210,32 @@ variable "backendinfra-rds-write-role" {
 variable "backendinfra-rds-db-name" {
   type        = string
   description = "The DB name"
+  default = "sawyer"
 }
 
 variable "backendinfra-rds-db-port" {
   type        = number
   description = "The RDS port that accepts network traffic."
+  default = 5432
+}
+
+variable "backendinfra-rds-az-list" {
+  type = list(string)
+  description = "A list of availability zones to deploy RDS into."
+  default = []
+  
 }
 
 variable "backendinfra-rds-postgres-engine-version" {
   type        = string
   description = "The RDS postgres engine version to use."
+  default = "12.4"
 }
 
 variable "backendinfra-rds-postgres-engine" {
   type        = string
   description = "The RDS postgres engine to utilize"
+  default = "aurora-postgresql"
 }
 
 variable "backendinfra-disable-default-endpoint" {
@@ -301,6 +312,17 @@ variable "backendinfra-security-group-ids" {
 variable "backendinfra-iam-kms-grant-policy" {
   type        = string
   description = "IAM policy that grants access to KMS key."
+}
+
+variable "backendinfra-vpc-id" {
+  type = string
+  description = "The VPC ID to deploy Sawyer resources into."
+}
+
+variable "backendinfra-rds-instance-size" {
+  type = string
+  description = "The Amazon Aurora instance size to use"
+  default = "db.t3.medium"
 }
 
 locals {

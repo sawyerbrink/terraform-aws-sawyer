@@ -17,7 +17,7 @@ resource "aws_iam_role" "lambda-role" {
   description        = "This is the main role for Sawyer Lambdas related to the API methods"
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-instance-assume-role-policy.json
-  tags               = var.tags
+
 }
 
 resource "aws_iam_role_policy_attachment" "lambda-role-attach-kms" {
@@ -158,7 +158,7 @@ resource "aws_iam_role" "lambda-rds-role" {
   description        = "This is the main role for Sawyer Lambdas related to the RDS access"
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-rds-instance-assume-role-policy.json
-  tags               = var.tags
+
 }
 
 resource "aws_iam_role_policy_attachment" "lambda-rds-role-attach-kms" {
@@ -253,7 +253,7 @@ resource "aws_iam_role" "APIGatwayCloudwatch-role" {
   description        = "This is the main role for Sawyer APIGateway to push logs to Cloudwatch"
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.ApigatewayCloudwatch-assume-role-policy.json
-  tags               = var.tags
+
 }
 
 resource "aws_iam_role_policy_attachment" "APIGatwayCloudwatch-attachment" {
@@ -280,7 +280,7 @@ resource "aws_iam_role" "lambda-sqs-role" {
   description        = "This is the main role for Sawyer Lambdas accessing SQS for auditing purposes"
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.SQS-access-policy.json
-  tags               = var.tags
+
 }
 
 resource "aws_iam_role_policy_attachment" "lambda-sqs-role-attach-kms" {
@@ -375,7 +375,7 @@ resource "aws_iam_role" "lambda-role-s3" {
   description        = "This is the main role for Sawyer Lambdas related to the S3 methods"
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-s3readwrite-assume-role-policy.json
-  tags               = var.tags
+
 }
 
 resource "aws_iam_role_policy_attachment" "lambda-role-s3-attach-kms" {
@@ -465,7 +465,7 @@ resource "aws_iam_role" "cloudwatch-cron-log-role" {
   description        = "This is a role for Sawyer Cloudwatch Events to trigger the log aggregator Lambda"
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.cloudwatch-role-assume-role-policy.json
-  tags               = var.tags
+
 }
 
 resource "aws_iam_role_policy" "cloudwatch-core-permissions" {
@@ -505,7 +505,7 @@ resource "aws_iam_role" "lambda-apigateway-role-s3" {
   description        = "This is the main role for Lambdas related to the API methods that can invoke S3 API functions"
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-api-gateway-reads3-assume-role-policy.json
-  tags               = var.tags
+
 }
 
 resource "aws_iam_role_policy_attachment" "lambda-apigateway-role-s3-attach-kms" {
@@ -602,7 +602,7 @@ resource "aws_iam_role" "lambda-role-delete" {
   description        = "This is the main role for Lambdas related to the API methods of type DELETE"
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-instance-assume-role-policy-delete.json
-  tags               = var.tags
+
 }
 
 resource "aws_iam_role_policy_attachment" "lambda-role-delete-attach-kms" {
@@ -756,7 +756,7 @@ resource "aws_iam_role" "lambda-apigateway-role-presigned-url" {
   description        = "This is the main role for Lambdas related to the API methods that can read S3 for presignedUrl purposes"
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-api-gateway-presignedUrl-assume-role-policy.json
-  tags               = var.tags
+
 }
 
 resource "aws_iam_role_policy_attachment" "lambda-apigateway-role-presigned-url-attach-kms" {
@@ -869,7 +869,7 @@ resource "aws_iam_role" "index-document-lambda" {
   description        = "This is the main role for Sawyer Lambdas related to the indexing customer documents"
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.index-document-lambda-assume-role-policy.json
-  tags               = var.tags
+
 }
 
 resource "aws_iam_role_policy_attachment" "index-document-lambda-attach-kms" {
@@ -975,7 +975,7 @@ data "aws_iam_policy_document" "ecs_instance_role_trust" {
 resource "aws_iam_role" "ecs_instance_role" {
   name               = "ecs_batch_role"
   assume_role_policy = data.aws_iam_policy_document.ecs_instance_role_trust.json
-  tags               = var.tags
+
   depends_on         = [aws_cloudwatch_log_group.aws_batch]
 }
 
@@ -1102,7 +1102,7 @@ data "aws_iam_policy_document" "aws_batch_service_role_trust" {
 
 resource "aws_iam_role" "aws_batch_service_role" {
   name               = "aws_batch_service_role"
-  tags               = var.tags
+
   assume_role_policy = data.aws_iam_policy_document.aws_batch_service_role_trust.json
 }
 
@@ -1291,7 +1291,7 @@ resource "aws_iam_role" "lambda-batch-trigger-role" {
   description        = "This role triggers a Lambda that submits an AWS Batch Job."
   path               = "/sawyer/"
   assume_role_policy = data.aws_iam_policy_document.lambda-s3-trigger-trust-policy.json
-  tags               = var.tags
+
 }
 
 
@@ -1328,7 +1328,6 @@ data "aws_iam_policy_document" "lambda-submit-batch-job-core-permission" {
 
   statement {
     actions = [
-      # "datapipeline:ActivatePipeline",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
       "xray:PutTraceSegments",

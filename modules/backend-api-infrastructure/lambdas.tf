@@ -110,5 +110,5 @@ resource "aws_lambda_function_event_invoke_config" "setupDB-trigger-lambda-invok
 resource "aws_cloudwatch_log_group" "setupDB-lambda-cloudwatch-group" {
   name              = "/aws/lambda/setup_db"
   retention_in_days = 1
-  kms_key_id        = data.aws_kms_key.main-key-alias.arn
+  kms_key_id        = local.default-kms-policy
 }

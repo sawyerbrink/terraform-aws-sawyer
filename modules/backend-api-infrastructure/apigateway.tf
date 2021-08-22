@@ -6,8 +6,7 @@ resource "aws_api_gateway_account" "api-logging" {
 }
 
 module "apigateway-core" {
-  source                   = "app.terraform.io/SawyerBrink/apigateway-v2-core/aws"
-  version                  = "1.0.8"
+  source                   = "../apigateway-v2-core"
   api-description          = var.api-description
   api-name                 = var.api-name
   api-version              = var.api-version
@@ -25,7 +24,6 @@ module "apigateway-core" {
   cors-allow-methods  = var.cors-allow-methods
   cors-expose-headers = var.cors-expose-headers
 
-  tags          = merge({ type = "v2" }, var.tags)
   audience      = [aws_cognito_user_pool_client.authorized-flow-client.id, aws_cognito_user_pool_client.implicit-flow-client.id]
   auth-endpoint = aws_cognito_user_pool.user-pool.endpoint
 

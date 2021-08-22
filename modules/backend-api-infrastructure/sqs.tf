@@ -11,7 +11,6 @@ resource "aws_sqs_queue" "audit-queue" {
   })
   kms_master_key_id                 = data.aws_kms_key.main-key-alias.arn
   kms_data_key_reuse_period_seconds = 86400 // 24 hrs
-  tags                              = var.tags
 
   depends_on = [aws_sqs_queue.deadletter-audit-queue]
 }

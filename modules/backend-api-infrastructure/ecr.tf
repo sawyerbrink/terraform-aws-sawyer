@@ -7,7 +7,7 @@ resource "aws_ecr_repository" "sb-registry" {
   }
   encryption_configuration {
     encryption_type = "KMS"
-    kms_key         = var.kms-key-arn
+    kms_key         = local.default-kms-policy
   }
 }
 

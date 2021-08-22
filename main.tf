@@ -37,6 +37,7 @@ module "backend-api-infrastructure" {
   risk-sensing-image-version                  = var.backendinfra-risk-sensing-image-version
   batch-cpu                                   = var.backendinfra-batch-cpu
   batch-memory                                = var.backendinfra-batch-memory
+  rds-instance-size                           = var.backendinfra-rds-instance-size
   fargate-version                             = var.backendinfra-fargate-version
   rds-read-role                               = var.backendinfra-rds-read-role
   rds-write-role                              = var.backendinfra-rds-write-role
@@ -44,8 +45,11 @@ module "backend-api-infrastructure" {
   rds-db-port                                 = var.backendinfra-rds-db-port
   rds-postgres-engine-version                 = var.backendinfra-rds-postgres-engine-version
   rds-postgres-engine                         = var.backendinfra-rds-postgres-engine
+  rds-az-list                                 = var.backendinfra-rds-az-list
   disable-default-endpoint                    = var.backendinfra-disable-default-endpoint
   authorizer-type                             = var.backendinfra-authorizer-type
+
+  vpc-id               = var.backendinfra-vpc-id
 
   batch-state          = var.backendinfra-batch-state
   batch-type           = var.backendinfra-batch-type

@@ -292,6 +292,22 @@ variable "iam-kms-grant-policy" {
   description = "IAM policy that grants access to KMS key."
 }
 
+variable "vpc-id" {
+  type = string
+  description = "The VPC ID to use."
+}
+
+variable "rds-instance-size" {
+  type = string
+  description = "The Amazon Aurora instance size to use"
+}
+
+variable "rds-az-list" {
+  type = list(string)
+  description = "A list of availability zones to deploy RDS into."
+  
+}
+
 locals {
   codeBucket         = "sawyerbrink-lambda-binaries-${var.lambda-repository-region}"
   image              = "https://github.com/sawyerbrink/sawyer/pkgs/container/sawyer/risk-sensing:${var.sawyer-version}"
