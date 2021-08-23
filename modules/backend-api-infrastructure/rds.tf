@@ -1,10 +1,7 @@
 resource "aws_rds_cluster" "postgresql-rds" {
   cluster_identifier = "sawyerbrink-${var.environment}-${var.region}-relational-db"
-  availability_zones = length(var.rds-az-list) > 0 ? var.rds-az-list : [
-    data.aws_availability_zones.available.names[0],
-    data.aws_availability_zones.available.names[1],
-    data.aws_availability_zones.available.names[2],
-  ]
+  availability_zones = length(var.rds-az-list) > 0 ? var.rds-az-list : slice(data.aws_availability_zones.available.names,0, 2)
+  
   database_name = var.rds-db-name
 
   master_username                     = "postgres"
@@ -94,7 +91,25 @@ resource "aws_cloudwatch_log_group" "rds-logs" {
 ############################
 # Execut CLI script
 ############################
+resource "null_resource" "init-rds-with-profile" {
+
+  count = var.profile != "" ? 1 : 0
+
+  triggers = {
+    id = aws_rds_cluster.postgresql-rds.arn
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      aws lambda invoke --function-name setup_db --region ${var.region} response.json --profile ${var.profile}
+    EOT
+  }
+  depends_on = [aws_rds_cluster.postgresql-rds, aws_rds_cluster_instance.main-cluster-instances, aws_lambda_function.setupDB]
+}
+
 resource "null_resource" "init-rds" {
+
+  count = var.profile == "" ? 1 : 0
 
   triggers = {
     id = aws_rds_cluster.postgresql-rds.arn
