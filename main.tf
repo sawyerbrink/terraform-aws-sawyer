@@ -5,9 +5,11 @@ module "backend-api-infrastructure" {
   profile                  = var.profile
   region                   = var.region
   tags                     = var.tags
+  logs-retention           = var.logs-retention
   name                     = local.name
   kms-key-arn              = var.kms-key-arn
   lambda-repository-region = var.lambda-repository-region
+  newslit-api-key          = var.newslit-api-key
 
   support-sns-topic                           = var.backendinfra-support-sns-topic
   api-name                                    = var.backendinfra-api-name
@@ -37,7 +39,15 @@ module "backend-api-infrastructure" {
   risk-sensing-image-version                  = var.backendinfra-risk-sensing-image-version
   batch-cpu                                   = var.backendinfra-batch-cpu
   batch-memory                                = var.backendinfra-batch-memory
+  rds-db-master-password                      = local.db-master-password
   rds-instance-size                           = var.backendinfra-rds-instance-size
+  rds-instances                               = var.backendinfra-rds-instances
+  rds-apply-immediately                       = var.backendinfra-rds-apply-immediately
+  rds-enable-public-ip                        = var.backendinfra-rds-enable-public-ip
+  rds-maintenance-window                      = var.backendinfra-rds-maintenance-window
+  rds-preferred-backup-window                 = var.backendinfra-rds-preferred-backup-window
+  rds-backup-retention-period                 = var.backendinfra-rds-backup-retention-period
+  rds-delete-protection                       = var.backendinfra-rds-delete-protection
   fargate-version                             = var.backendinfra-fargate-version
   rds-read-role                               = var.backendinfra-rds-read-role
   rds-write-role                              = var.backendinfra-rds-write-role
@@ -49,7 +59,8 @@ module "backend-api-infrastructure" {
   disable-default-endpoint                    = var.backendinfra-disable-default-endpoint
   authorizer-type                             = var.backendinfra-authorizer-type
 
-  vpc-id               = var.backendinfra-vpc-id
+  vpc-id         = var.backendinfra-vpc-id
+  db-subnets-ids = var.backendinfra-db-subnets-ids
 
   batch-state          = var.backendinfra-batch-state
   batch-type           = var.backendinfra-batch-type

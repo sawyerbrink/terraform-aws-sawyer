@@ -44,7 +44,7 @@ resource "aws_lambda_function_event_invoke_config" "preSignUp-trigger-lambda-inv
 
 resource "aws_cloudwatch_log_group" "pollsqs-lambda-cloudwatch-group" {
   name              = "/aws/lambda/preSignUp"
-  retention_in_days = 1
+  retention_in_days = var.logs-retention
   kms_key_id        = var.kms-key-arn
 }
 ############################################################
@@ -69,7 +69,7 @@ resource "aws_lambda_function" "setupDB" {
       RDS_ENDPOINT        = aws_rds_cluster.postgresql-rds.endpoint
       RDS_MASTER_USR      = "postgres"
       RDS_DATABASE_NAME   = var.rds-db-name
-      RDS_MASTER_USR_PWRD = data.aws_ssm_parameter.db-password.value
+      RDS_MASTER_USR_PWRD = var.rds-db-master-password
       TEMP_PWD_TWO        = random_password.password.result
     }
   }
@@ -109,6 +109,6 @@ resource "aws_lambda_function_event_invoke_config" "setupDB-trigger-lambda-invok
 
 resource "aws_cloudwatch_log_group" "setupDB-lambda-cloudwatch-group" {
   name              = "/aws/lambda/setup_db"
-  retention_in_days = 1
-  kms_key_id        = local.default-kms-policy
+  retention_in_days = var.logs-retention
+  kms_key_id        = var.kms-key-arn
 }

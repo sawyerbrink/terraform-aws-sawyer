@@ -19,6 +19,16 @@ variable "sawyer-version" {
   default     = "latest"
 }
 
+variable "newslit-api-key" {
+  type        = string
+  description = "The Newslit API Key value"
+}
+
+variable "logs-retention" {
+  type        = number
+  description = "The number of days to retain logs"
+}
+
 variable "tags" {
   type        = map(any)
   description = "A map of commonly used tags"
@@ -210,32 +220,81 @@ variable "backendinfra-rds-write-role" {
 variable "backendinfra-rds-db-name" {
   type        = string
   description = "The DB name"
-  default = "sawyer"
+  default     = "sawyer"
+}
+
+variable "backendinfra-ds-db-master-password" {
+  type = string
+  description = "The RDS DB master password"
 }
 
 variable "backendinfra-rds-db-port" {
   type        = number
   description = "The RDS port that accepts network traffic."
-  default = 5432
+  default     = 5432
+}
+
+variable "backendinfra-rds-backup-retention-period" {
+  type        = number
+  description = "The number of days to retain an RDS backup"
+  default     = 7
+
+}
+
+variable "backendinfra-rds-apply-immediately" {
+  type        = bool
+  description = "Apply RDS changes immediately"
+  default     = false
+}
+
+variable "backendinfra-rds-enable-public-ip" {
+  type        = bool
+  description = "Toggle a public IP to the RDS cluster"
+  default     = false
+}
+
+variable "backendinfra-rds-maintenance-window" {
+  type        = string
+  description = "The RDS maintenance to apply minor/major changes to."
+  default     = "Fri:23:00-Sat:02:00"
+}
+
+variable "backendinfra-rds-preferred-backup-window" {
+  type        = string
+  description = "The prefered window for RDS to create backup snapshots"
+  default     = "02:15-03:00"
+}
+
+variable "backendinfra-rds-delete-protection" {
+  type        = bool
+  description = "Enable RDS deletion protection"
+  default     = false
 }
 
 variable "backendinfra-rds-az-list" {
-  type = list(string)
+  type        = list(string)
   description = "A list of availability zones to deploy RDS into."
-  default = []
-  
+  default     = []
+
 }
+
+variable "backendinfra-rds-instances" {
+  type        = number
+  description = "The number of RDS instances to deploy"
+  default     = 1
+}
+
 
 variable "backendinfra-rds-postgres-engine-version" {
   type        = string
   description = "The RDS postgres engine version to use."
-  default = "12.4"
+  default     = "12.4"
 }
 
 variable "backendinfra-rds-postgres-engine" {
   type        = string
   description = "The RDS postgres engine to utilize"
-  default = "aurora-postgresql"
+  default     = "aurora-postgresql"
 }
 
 variable "backendinfra-disable-default-endpoint" {
@@ -315,16 +374,22 @@ variable "backendinfra-iam-kms-grant-policy" {
 }
 
 variable "backendinfra-vpc-id" {
-  type = string
+  type        = string
   description = "The VPC ID to deploy Sawyer resources into."
 }
 
+variable "backendinfra-db-subnets-ids" {
+  type        = list(string)
+  description = "The ids of subnets that are to be used for RDS"
+}
+
 variable "backendinfra-rds-instance-size" {
-  type = string
+  type        = string
   description = "The Amazon Aurora instance size to use"
-  default = "db.t3.medium"
+  default     = "db.t3.medium"
 }
 
 locals {
   name = var.name != "" ? var.name : random_string.id.result
+  db-master-password = var.backendinfra-ds-db-master-password  != "" ? var.var.backendinfra-ds-db-master-password : random_password.db-password.result
 }

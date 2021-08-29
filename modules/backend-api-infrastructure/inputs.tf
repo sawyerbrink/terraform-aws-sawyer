@@ -16,6 +16,13 @@ variable "support-sns-topic" {
   description = "The SNS topic to leverage for support purposes"
 }
 
+
+variable "logs-retention" {
+  type = number
+  description = "The number of days to retain CloudWatch logs"
+  default = 3
+}
+
 variable "api-name" {
   type = string
 }
@@ -113,10 +120,6 @@ variable "auth-domain" {
   type = string
 }
 
-variable "newslitapi-parameter-name" {
-  type = string
-}
-
 variable "dynamodb-billing-mode" {
   type        = string
   description = "The billing mode for DynamoDB"
@@ -203,6 +206,11 @@ variable "rds-db-port" {
   description = "The RDS port that accepts network traffic."
 }
 
+variable "rds-db-master-password" {
+  type = string
+  description = "The RDS DB master password"
+}
+
 variable "rds-postgres-engine-version" {
   type        = string
   description = "The RDS postgres engine version to use."
@@ -217,6 +225,48 @@ variable "cognito-auto-verify-attrs" {
   type        = list(string)
   description = "The list of cogito attributes to auto-verify"
   default     = ["email"]
+}
+
+variable "rds-instances" {
+  type = number
+  description = "The number of RDS instances to deploy"  
+}
+
+variable "rds-maintenance-window" {
+  type = string
+  description = "The RDS maintenance to apply minor/major changes to."
+}
+
+variable "rds-preferred-backup-window" {
+  type = string
+  description = "The prefered window for RDS to create backup snapshots"
+}
+
+variable "rds-delete-protection" {
+  type = bool
+  description = "Enable RDS delete protection"
+  
+}
+
+variable "rds-enable-public-ip" {
+  type = bool
+  description = "Toggle a public IP to the RDS cluster"
+}
+
+variable "rds-apply-immediately" {
+  type = bool
+  description = "Apply RDS changes immediately"
+}
+
+variable "rds-backup-retention-period" {
+  type = number
+  description = "The number of days to retain an RDS backup"
+  
+}
+
+variable "db-subnets-ids" {
+  type = list(string)
+  description = "The ids of subnets that are to be used for RDS"
 }
 
 variable "sawyer-version" {
@@ -305,6 +355,11 @@ variable "rds-instance-size" {
 variable "rds-az-list" {
   type = list(string)
   description = "A list of availability zones to deploy RDS into."
+}
+
+variable "newslit-api-key" {
+  type = string
+  description = "The API Key value for Newslit API"
   
 }
 

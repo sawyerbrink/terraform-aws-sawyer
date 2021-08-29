@@ -229,32 +229,3 @@ output "aurora-db-custom-reader-endpoint" {
 output "aurora-db-custom-writer-endpoint" {
   value = try(aws_rds_cluster_endpoint.static-read[0].endpoint, aws_rds_cluster.postgresql-rds.endpoint)
 }
-############################################
-# AWS Data Pipeline
-############################################
-# output "export-pipeline-id" {
-#   value = module.data-pipeline.datapipeline-id
-# }
-
-# output "import-pipeline-id" {
-#   value = module.data-pipeline-import.datapipeline-id
-# }
-############################################
-# Cloudwatch
-#############################################
-
-
-###################
-# Signed Files
-##################
-# output "signed-files-list" {
-#   value = local.signedSourceList
-# }
-
-# output "source-hash" {
-#   value = local.sourceHashList
-# }
-
-# output "source-hash-zip" {
-#   value = local.sourceHashMap
-# }

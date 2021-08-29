@@ -6,7 +6,7 @@ resource "aws_s3_bucket" "logging-storage" {
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        kms_master_key_id = data.aws_kms_key.main-key-alias.arn
+        kms_master_key_id = var.kms-key-arn
         sse_algorithm     = "aws:kms"
       }
     }

@@ -9,7 +9,7 @@ resource "aws_sqs_queue" "audit-queue" {
     deadLetterTargetArn = aws_sqs_queue.deadletter-audit-queue.arn
     maxReceiveCount     = 1
   })
-  kms_master_key_id                 = data.aws_kms_key.main-key-alias.arn
+  kms_master_key_id                 = var.kms-key-arn
   kms_data_key_reuse_period_seconds = 86400 // 24 hrs
 
   depends_on = [aws_sqs_queue.deadletter-audit-queue]
@@ -69,7 +69,7 @@ resource "aws_sqs_queue" "deadletter-audit-queue" {
   visibility_timeout_seconds        = 43200
   message_retention_seconds         = 1209600 // 14 days
   receive_wait_time_seconds         = 20
-  kms_master_key_id                 = data.aws_kms_key.main-key-alias.arn
+  kms_master_key_id                 = var.kms-key-arn
   kms_data_key_reuse_period_seconds = 86400 // 24 hrs
   tags                              = merge({ "IsDeadLetter" = true }, var.tags)
 }
@@ -113,7 +113,7 @@ resource "aws_sqs_queue" "customer-documents-queue" {
     deadLetterTargetArn = aws_sqs_queue.deadletter-customer-documents-queue.arn
     maxReceiveCount     = 1
   })
-  kms_master_key_id                 = data.aws_kms_key.main-key-alias.arn
+  kms_master_key_id                 = var.kms-key-arn
   kms_data_key_reuse_period_seconds = 86400 // 24 hrs
 
 
@@ -174,7 +174,7 @@ resource "aws_sqs_queue" "deadletter-customer-documents-queue" {
   visibility_timeout_seconds        = 45
   message_retention_seconds         = 14400
   receive_wait_time_seconds         = 20
-  kms_master_key_id                 = data.aws_kms_key.main-key-alias.arn
+  kms_master_key_id                 = var.kms-key-arn
   kms_data_key_reuse_period_seconds = 86400 // 24 hrs
   tags                              = merge({ "IsDeadLetter" = true }, var.tags)
 }

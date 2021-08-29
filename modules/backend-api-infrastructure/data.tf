@@ -16,11 +16,6 @@ data "aws_acm_certificate" "api-cert" {
   statuses = ["ISSUED"]
 }
 
-data "aws_ssm_parameter" "newslit-api-key" {
-  name            = "Newslit-API"
-  with_decryption = true
-}
-
 data "aws_ssm_parameter" "db-password" {
   name            = "aurora-db-password"
   with_decryption = true

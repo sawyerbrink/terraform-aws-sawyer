@@ -54,7 +54,7 @@ resource "aws_batch_job_definition" "batch-compute-job-definition" {
     "readonlyRootFilesystem": false,
     "environment": [
         {
-          "name": "NEWSLIT_API_KEY", "value": "${data.aws_ssm_parameter.newslit-api-key.value}"
+          "name": "NEWSLIT_API_KEY", "value": "${var.newslit-api-key}"
         },
         {
           "name": "TABLE", "value": "${aws_dynamodb_table.organization-table.id}"
@@ -63,7 +63,7 @@ resource "aws_batch_job_definition" "batch-compute-job-definition" {
           "name": "DEBUG", "value": "${false}"
         },
         {
-          "name": "SNS_ARN", "value": "${data.aws_sns_topic.sawyerbrink-support.arn}"
+          "name": "SNS_ARN", "value": "${var.support-sns-topic}"
         },
         {
           "name": "RDS_CLUSTER", "value": "${aws_rds_cluster.postgresql-rds.cluster_identifier}"

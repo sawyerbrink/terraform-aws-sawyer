@@ -136,7 +136,7 @@ data "aws_iam_policy_document" "core-permission" {
     actions = [
       "sns:Publish"
     ]
-    resources = [data.aws_sns_topic.sawyerbrink-support.arn]
+    resources = [var.support-sns-topic]
   }
 }
 #######################################
@@ -230,7 +230,7 @@ data "aws_iam_policy_document" "core-rds-permission" {
     actions = [
       "sns:Publish"
     ]
-    resources = [data.aws_sns_topic.sawyerbrink-support.arn]
+    resources = [var.support-sns-topic]
   }
 }
 
@@ -353,7 +353,7 @@ data "aws_iam_policy_document" "sqs-core-permission" {
     actions = [
       "sns:Publish"
     ]
-    resources = [data.aws_sns_topic.sawyerbrink-support.arn]
+    resources = [var.support-sns-topic]
   }
 }
 ########################################
@@ -443,7 +443,7 @@ data "aws_iam_policy_document" "core-permission-lambdas3" {
     actions = [
       "sns:Publish"
     ]
-    resources = [data.aws_sns_topic.sawyerbrink-support.arn]
+    resources = [var.support-sns-topic]
   }
 }
 ########################################
@@ -580,7 +580,7 @@ data "aws_iam_policy_document" "core-permission-lambdas-s3-apigateway" {
     actions = [
       "sns:Publish"
     ]
-    resources = [data.aws_sns_topic.sawyerbrink-support.arn]
+    resources = [var.support-sns-topic]
   }
 }
 ###############################################
@@ -720,7 +720,7 @@ data "aws_iam_policy_document" "core-permission-delete" {
     actions = [
       "sns:Publish"
     ]
-    resources = [data.aws_sns_topic.sawyerbrink-support.arn]
+    resources = [var.support-sns-topic]
   }
 
   // For Attaching a Lambda to a VPC
@@ -847,7 +847,7 @@ data "aws_iam_policy_document" "core-permission-lambdas-s3-presigned-apigateway"
     actions = [
       "sns:Publish"
     ]
-    resources = [data.aws_sns_topic.sawyerbrink-support.arn]
+    resources = [var.support-sns-topic]
   }
 }
 ########################################
@@ -952,7 +952,7 @@ data "aws_iam_policy_document" "index-document-core-permission" {
     actions = [
       "sns:Publish"
     ]
-    resources = [data.aws_sns_topic.sawyerbrink-support.arn]
+    resources = [var.support-sns-topic]
   }
 }
 
@@ -1223,7 +1223,7 @@ data "aws_iam_policy_document" "ecs_instance_task_permissions" {
     actions = [
       "ssm:GetParameter"
     ]
-    resources = [data.aws_ssm_parameter.newslit-api-key.arn]
+    resources = [var.newslit-api-key]
   }
 
   statement {
