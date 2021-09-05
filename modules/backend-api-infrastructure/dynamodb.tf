@@ -47,7 +47,7 @@ resource "aws_dynamodb_table" "organization-table" {
 
 }
 
-resource "aws_dynamodb_table" "organization-table" {
+resource "aws_dynamodb_table" "organization-table-" {
   count = var.dynamodb-billing-mode == "PROVISIONED" ? 1 : 0
   name         = "${local.name}-main"
   billing_mode = var.dynamodb-billing-mode

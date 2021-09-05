@@ -1,3 +1,8 @@
+variable "account_number" {
+  type        = string
+  description = "The account number to target"
+}
+
 variable "profile" {
   description = "The AWS configuration profile to use"
 }
@@ -34,15 +39,6 @@ variable "tags" {
   description = "A map of commonly used tags"
 }
 
-variable "kms-key-arn" {
-  type        = string
-  description = "The KMS arn to use for encryption"
-}
-
-variable "backendinfra-support-sns-topic" {
-  type        = string
-  description = "The SNS topic to leverage for support purposes"
-}
 
 variable "backendinfra-api-name" {
   type = string
@@ -93,7 +89,6 @@ variable "backendinfra-route-timeout" {
 
 variable "backendinfra-access-log-format" {
   type = string
-  default = "{ \"ApiId\": \"$context.apiId\" , \"requestId\":\"$context.requestId\", \"ip\": \"$context.identity.sourceIp\", \"userName\": \"$context.authorizer.claims.username\", \"authorizerError\": \"$context.authorizer.error\", \"authorizerLatency\": \"$context.authorizer.latency\", \"authorizerStatus\": \"$context.authorizer.status\", \"requestTime\":\"$context.requestTime\",\"httpMethod\":\"$context.httpMethod\",\"userAgent\":\"$context.identity.userAgent\",\"routeKey\":\"$context.routeKey\",\"path\":\"$context.path\",\"stage\":\"$context.stage\", \"status\":\"$context.status\", \"intergrationLatency\": \"$context.integrationLatency\", \"responseLatency\": \"$context.responseLatency\", \"protocol\":\"$context.protocol\", \"responseLength\":\"$context.responseLength\", \"domainName\": \"$context.domainName \",\"errorMessage\": \"$context.error.message\", \"integrationErrorMessage\": \"$context.integrationErrorMessage\"}"
 }
 
 variable "backendinfra-cors-allow-origins" {
@@ -169,60 +164,47 @@ variable "backendinfra-dynamodb-gsi-provisioning-write-capacity" {
 variable "backendinfra-lambda-sqs-index-document-concurrency-limit" {
   type        = number
   description = "Amount of capacity to allocate. Must be greater than or equal to 1"
-  default = 10
 }
 
 variable "backendinfra-lambda-sqs-logging-concurrency-limit" {
   type        = number
   description = "Amount of capacity to allocate. Must be greater than or equal to 1"
-  default = 10
 }
 
 variable "backendinfra-risk-sensing-image-version" {
   type        = string
   description = "The version for the risk-sensing image to use"
-  default = "latest"
 }
 
 variable "backendinfra-batch-cpu" {
   type        = number
   description = "The number of CPUs to allocated for the batch job"
-  default = 6144
 }
 
 variable "backendinfra-batch-memory" {
   type        = number
   description = "The memory size to allocated for the batch job"
-  default = 2
 }
 
 variable "backendinfra-fargate-version" {
   type        = string
   description = "The AWS Fargate version to use for batch jobs."
-  default = "1.4.0"
 }
 
 variable "backendinfra-rds-read-role" {
   type        = string
   description = "The read role for the RDS postgres database"
-  default = "app_read_role"
 }
 
 variable "backendinfra-rds-write-role" {
   type        = string
   description = "The write role for the RDS postgres database"
-  default = "app_write_role"
 }
 
 variable "backendinfra-rds-db-name" {
   type        = string
   description = "The DB name"
   default     = "sawyer"
-}
-
-variable "backendinfra-ds-db-master-password" {
-  type        = string
-  description = "The RDS DB master password"
 }
 
 variable "backendinfra-rds-db-port" {
@@ -235,6 +217,7 @@ variable "backendinfra-rds-backup-retention-period" {
   type        = number
   description = "The number of days to retain an RDS backup"
   default     = 7
+
 }
 
 variable "backendinfra-rds-apply-immediately" {
@@ -301,7 +284,6 @@ variable "backendinfra-disable-default-endpoint" {
 
 variable "backendinfra-authorizer-type" {
   type        = string
-  default     = "JWT"
   description = "The default authentication type for API Gateway"
 }
 
@@ -343,35 +325,7 @@ variable "backendinfra-ecr-image-tag-mutability" {
 
 variable "lambda-repository-region" {
   type    = string
-  validation {
-    condition     = can(regex("us-east-1|us-west-2", var.lambda-repository-region))
-    error_message = "ERROR: Lambda repository is only available in us-east-1 or us-west-2."
-  }
-}
-
-variable "backendinfra-private-subnet-ids" {
-  type        = list(string)
-  description = "A list of private subnet ids"
-}
-
-variable "backendinfra-security-group-ids" {
-  type        = list(string)
-  description = "A list of security group ids"
-}
-
-variable "backendinfra-iam-kms-grant-policy" {
-  type        = string
-  description = "IAM policy that grants access to KMS key."
-}
-
-variable "backendinfra-vpc-id" {
-  type        = string
-  description = "The VPC ID to deploy Sawyer resources into."
-}
-
-variable "backendinfra-db-subnets-ids" {
-  type        = list(string)
-  description = "The ids of subnets that are to be used for RDS"
+  default = "us-east-1"
 }
 
 variable "backendinfra-rds-instance-size" {
@@ -384,9 +338,4 @@ variable "backendinfra-s3-force-destroy" {
   type        = bool
   description = "Enable S3 Force destroy"
   default     = false
-}
-
-locals {
-  name               = var.name != "" ? var.name : random_string.id.result
-  db-master-password = var.backendinfra-ds-db-master-password != "" ? var.var.backendinfra-ds-db-master-password : random_password.db-password.result
 }

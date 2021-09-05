@@ -15,3 +15,15 @@ terraform {
     }
   }
 }
+
+provider "aws" {
+  region  = "us-east-1"
+  profile = var.profile
+  assume_role {
+    role_arn = "arn:aws:iam::${var.account_number}:role/administrator"
+  }
+  default_tags {
+    tags = var.tags
+  }
+}
+

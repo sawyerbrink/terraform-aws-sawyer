@@ -100,14 +100,6 @@ variable "cors-expose-headers" {
   type = list(any)
 }
 
-variable "sawyerbrink-ns" {
-  type = list(any)
-}
-
-variable "sawyerbrink-soa" {
-  type = string
-}
-
 variable "domain-name" {
   type = string
 }
@@ -320,6 +312,7 @@ variable "batch-retry-attempts" {
 variable "ecr-image-tag-mutability" {
   type        = string
   description = "Mutability setting for risk-sensing ECR repository"
+  default = "MUTABLE"
 }
 
 variable "lambda-repository-region" {
@@ -361,6 +354,12 @@ variable "newslit-api-key" {
   type = string
   description = "The API Key value for Newslit API"
   
+}
+
+variable "s3-force-destroy" {
+  type = bool
+  description = "Enable S3 Force destroy"
+  default = false
 }
 
 locals {

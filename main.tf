@@ -28,12 +28,10 @@ module "backend-api-infrastructure" {
   cors-allow-headers                          = var.backendinfra-cors-allow-headers
   cors-allow-methods                          = var.backendinfra-cors-allow-methods
   cors-expose-headers                         = var.backendinfra-cors-expose-headers
-  sawyerbrink-ns                              = var.backendinfra-sawyerbrink-ns
-  sawyerbrink-soa                             = var.backendinfra-sawyerbrink-soa
+  s3-force-destroy                            = var.backendinfra-s3-force-destroy
   domain-name                                 = var.backendinfra-domain-name
   api-domain-name                             = var.backendinfra-api-domain-name
   auth-domain                                 = var.backendinfra-auth-domain
-  newslitapi-parameter-name                   = var.backendinfra-newslitapi-parameter-name
   lambda-sqs-index-document-concurrency-limit = var.backendinfra-lambda-sqs-index-document-concurrency-limit
   lambda-sqs-logging-concurrency-limit        = var.backendinfra-lambda-sqs-logging-concurrency-limit
   risk-sensing-image-version                  = var.backendinfra-risk-sensing-image-version

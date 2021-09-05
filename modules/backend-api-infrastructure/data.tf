@@ -15,8 +15,3 @@ data "aws_acm_certificate" "api-cert" {
   domain   = var.api-domain-name
   statuses = ["ISSUED"]
 }
-
-data "aws_ssm_parameter" "db-password" {
-  name            = "aurora-db-password"
-  with_decryption = true
-}
