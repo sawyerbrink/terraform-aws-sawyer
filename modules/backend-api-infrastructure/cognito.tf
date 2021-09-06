@@ -59,12 +59,12 @@ resource "aws_cognito_user_pool" "user-pool" {
     }
   }
 
-  email_verification_subject = "${local.name} User Verification Code"
+  email_verification_subject = "${var.name} User Verification Code"
   email_verification_message = "<div><h1> Welcome to Sawyer!</1></div><div><p>Your verification code is {####}.</p></div>"
 
   email_configuration {
-    source_arn            = data.terraform_remote_state.support-infra.outputs.ses-email-arn
-    email_sending_account = "DEVELOPER"
+    source_arn            = var.ses-email-arn
+    email_sending_account = var.ses-email-arn != "" ? "DEVELOPER" : "COGNITO_DEFAULT"
   }
 
   account_recovery_setting {
@@ -152,7 +152,7 @@ resource "aws_cognito_user_pool_client" "authorized-flow-client" {
 
 
 resource "aws_cognito_user_pool_domain" "cognito-domain" {
-  domain       = "${var.environment}-${local.name}"
+  domain       = "${var.environment}-${var.name}"
   user_pool_id = aws_cognito_user_pool.user-pool.id
   # certificate_arn = data.aws_acm_certificate.auth-cert.arn
 }

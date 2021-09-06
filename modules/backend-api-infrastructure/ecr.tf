@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "sb-registry" {
-  name                 = "${local.name}-risk-sensing"
+  name                 = "${lower(var.name)}-risk-sensing"
   image_tag_mutability = var.ecr-image-tag-mutability
 
   image_scanning_configuration {
@@ -7,7 +7,7 @@ resource "aws_ecr_repository" "sb-registry" {
   }
   encryption_configuration {
     encryption_type = "KMS"
-    kms_key         = lvar.kms-key-arn
+    kms_key         = var.kms-key-arn
   }
 }
 

@@ -27,6 +27,7 @@ variable "newslit-api-key" {
 variable "logs-retention" {
   type        = number
   description = "The number of days to retain logs"
+  default = 3
 }
 
 variable "tags" {
@@ -68,6 +69,8 @@ variable "backendinfra-api-stage-name" {
 
 variable "backendinfra-protocol-type" {
   type = string
+  description = "The API Gateway Protocol"
+  default = "HTTP"
 }
 
 variable "backendinfra-api-stage-auto-deploy" {
@@ -81,14 +84,19 @@ variable "backendinfra-security-policy" {
 
 variable "backendinfra-passthrough-behavior" {
   type = string
+  description = "The API Gateway Passthough behavior"
+  default = "WHEN_NO_MATCH"
 }
 
 variable "backendinfra-tracing-mode" {
   type = string
+  description = "The API Gateway tracing to enable"
+  default = "Active"
 }
 
 variable "backendinfra-route-timeout" {
   type = number
+  default = 29000
 }
 
 variable "backendinfra-access-log-format" {
@@ -98,18 +106,22 @@ variable "backendinfra-access-log-format" {
 
 variable "backendinfra-cors-allow-origins" {
   type = list(any)
+  default = ["*"]
 }
 
 variable "backendinfra-cors-allow-headers" {
   type = list(any)
+  default = ["*"]
 }
 
 variable "backendinfra-cors-allow-methods" {
   type = list(any)
+  default = ["GET", "PUT", "POST", "DELETE", "OPTIONS"]
 }
 
 variable "backendinfra-cors-expose-headers" {
   type = list(any)
+  default = ["*"]
 }
 
 variable "backendinfra-domain-name" {
@@ -122,6 +134,7 @@ variable "backendinfra-api-domain-name" {
 
 variable "backendinfra-auth-domain" {
   type = string
+  default = ""
 }
 
 variable "backendinfra-dynamodb-billing-mode" {
@@ -145,6 +158,7 @@ variable "backendinfra-dynamodb-provisioning-write-capacity" {
 variable "backendinfra-dynamodb-point-in-recovery" {
   type        = bool
   description = "Enable/Disable DynamoDB point in time recovery"
+  default = false
 }
 
 variable "backendinfra-dynamodb-stream" {
@@ -223,6 +237,7 @@ variable "backendinfra-rds-db-name" {
 variable "backendinfra-ds-db-master-password" {
   type        = string
   description = "The RDS DB master password"
+  default = ""
 }
 
 variable "backendinfra-rds-db-port" {
@@ -362,6 +377,7 @@ variable "backendinfra-security-group-ids" {
 variable "backendinfra-iam-kms-grant-policy" {
   type        = string
   description = "IAM policy that grants access to KMS key."
+  default = ""
 }
 
 variable "backendinfra-vpc-id" {
@@ -386,7 +402,18 @@ variable "backendinfra-s3-force-destroy" {
   default     = false
 }
 
+variable "ses-email-arn" {
+  type = string
+  description = "The ARN of the SES email to utilize. If empty the default Cognito email will be used."
+  default = ""
+}
+
+variable "backendinfra-api-certificate-arn" {
+  type = string
+  description = "The AWS ACM certificate arn for API Gateway to utilize for HTTPS"
+}
+
 locals {
   name               = var.name != "" ? var.name : random_string.id.result
-  db-master-password = var.backendinfra-ds-db-master-password != "" ? var.var.backendinfra-ds-db-master-password : random_password.db-password.result
+  db-master-password = var.backendinfra-ds-db-master-password != "" ? var.backendinfra-ds-db-master-password : random_password.db-password.result
 }

@@ -6,7 +6,7 @@ module "backend-api-infrastructure" {
   region                   = var.region
   tags                     = var.tags
   logs-retention           = var.logs-retention
-  name                     = local.name
+  name                     = var.name
   kms-key-arn              = var.kms-key-arn
   lambda-repository-region = var.lambda-repository-region
   newslit-api-key          = var.newslit-api-key
@@ -56,6 +56,10 @@ module "backend-api-infrastructure" {
   rds-az-list                                 = var.backendinfra-rds-az-list
   disable-default-endpoint                    = var.backendinfra-disable-default-endpoint
   authorizer-type                             = var.backendinfra-authorizer-type
+
+  ses-email-arn = var.ses-email-arn
+  api-certificate-arn = var.backendinfra-api-certificate-arn
+
 
   vpc-id         = var.backendinfra-vpc-id
   db-subnets-ids = var.backendinfra-db-subnets-ids

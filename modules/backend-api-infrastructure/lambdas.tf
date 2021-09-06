@@ -76,7 +76,7 @@ resource "aws_lambda_function" "setupDB" {
 
   vpc_config {
     security_group_ids = var.security-group-ids
-    subnet_ids         = var.subnet-ids
+    subnet_ids         = var.private-subnet-ids
   }
 
 

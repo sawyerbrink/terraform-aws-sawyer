@@ -7,8 +7,8 @@ resource "aws_batch_compute_environment" "batch-compute-environment" {
   compute_resources {
     max_vcpus = var.batch-max-cpus
 
-    security_group_ids = data.aws_security_groups.sb-list.ids
-    subnets            = data.aws_subnet_ids.sb-vpc.ids
+    security_group_ids = var.security-group-ids
+    subnets            = var.private-subnet-ids
 
     type = var.batch-compute-type
   }
@@ -57,7 +57,7 @@ resource "aws_batch_job_definition" "batch-compute-job-definition" {
           "name": "NEWSLIT_API_KEY", "value": "${var.newslit-api-key}"
         },
         {
-          "name": "TABLE", "value": "${aws_dynamodb_table.organization-table.id}"
+          "name": "TABLE", "value": "${aws_dynamodb_table.organization-table[0].id}"
         },
         {
           "name": "DEBUG", "value": "${false}"

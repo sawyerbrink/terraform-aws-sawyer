@@ -3,7 +3,7 @@
 #############################
 resource "aws_dynamodb_table" "organization-table" {
   count = var.dynamodb-billing-mode == "PAY_PER_REQUEST" ? 1 : 0
-  name         = "${local.name}-main"
+  name         = "${var.name}-main"
   billing_mode = var.dynamodb-billing-mode
   hash_key  = "pk"
   range_key = "sk"
@@ -43,13 +43,13 @@ resource "aws_dynamodb_table" "organization-table" {
     enabled = var.dynamodb-point-in-recovery
   }
 
-  tags = merge({ Name = "${local.name}-table-${var.environment}-${var.region}" }, var.tags)
+  tags = merge({ Name = "${var.name}-table-${var.environment}-${var.region}" }, var.tags)
 
 }
 
 resource "aws_dynamodb_table" "organization-table-" {
   count = var.dynamodb-billing-mode == "PROVISIONED" ? 1 : 0
-  name         = "${local.name}-main"
+  name         = "${var.name}-main"
   billing_mode = var.dynamodb-billing-mode
   read_capacity  = var.dynamodb-provisioning-read-capacity
   write_capacity = var.dynamodb-provisioning-write-capacity
@@ -91,6 +91,6 @@ resource "aws_dynamodb_table" "organization-table-" {
     enabled = var.dynamodb-point-in-recovery
   }
 
-  tags = merge({ Name = "${local.name}-table-${var.environment}-${var.region}" }, var.tags)
+  tags = merge({ Name = "${var.name}-table-${var.environment}-${var.region}" }, var.tags)
 
 }

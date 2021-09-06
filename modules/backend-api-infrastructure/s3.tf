@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "logging-storage" {
-  bucket        = "sawyerbrink-audit-logging-${var.environment}"
+  bucket        = "${lower(var.name)}-audit-logging-${var.environment}"
   acl           = "private"
   force_destroy = var.s3-force-destroy
 
@@ -118,14 +118,14 @@ resource "aws_s3_bucket_ownership_controls" "logging-storage-bucket-ownership" {
 # }
 
 resource "aws_s3_bucket" "customers-documents" {
-  bucket        = "sawyerbrink-customers-documents-${var.environment}"
+  bucket        = "${lower(var.name)}-customers-documents-${var.environment}"
   acl           = "private"
   force_destroy = var.s3-force-destroy
 
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        kms_master_key_id = data.aws_kms_key.main-key-alias.arn
+        kms_master_key_id = var.kms-key-arn
         sse_algorithm     = "aws:kms"
       }
     }

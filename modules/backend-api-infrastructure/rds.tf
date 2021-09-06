@@ -1,11 +1,11 @@
 resource "aws_rds_cluster" "postgresql-rds" {
   cluster_identifier = "sawyerbrink-${var.environment}-${var.region}-relational-db"
-  availability_zones = length(var.rds-az-list) > 0 ? var.rds-az-list : slice(data.aws_availability_zones.available.names,0, 2)
+  availability_zones = var.rds-az-list
   
   database_name = var.rds-db-name
 
   master_username                     = "postgres"
-  master_password                     = var.db-master-password
+  master_password                     = var.rds-db-master-password
   iam_database_authentication_enabled = true
 
   backup_retention_period   = var.rds-backup-retention-period

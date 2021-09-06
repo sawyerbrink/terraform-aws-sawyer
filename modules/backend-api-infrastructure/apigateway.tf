@@ -36,7 +36,7 @@ resource "aws_apigatewayv2_domain_name" "api-sawyerbrink" {
   domain_name = var.api-domain-name
 
   domain_name_configuration {
-    certificate_arn = data.aws_acm_certificate.api-cert.arn
+    certificate_arn = var.api-certificate-arn
     endpoint_type   = "REGIONAL"
     security_policy = var.security-policy
   }

@@ -1,5 +1,5 @@
 resource "aws_sns_topic" "sawyerbrink_support" {
-  name              = "sawyerbrink-support"
+  name              = "sawyerbrink-support-demo"
   kms_master_key_id = module.kms-key.kms-key-id
 }
 

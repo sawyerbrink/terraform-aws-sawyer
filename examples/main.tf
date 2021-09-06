@@ -1,18 +1,41 @@
 module "backend-infra" {
+  source                             = "../"
+  profile                            = var.profile
+  region                             = var.region
+  name                               = var.name
+  backendinfra-api-name              = var.backendinfra-api-name
+  backendinfra-api-description       = var.backendinfra-api-description
+  backendinfra-api-stage-auto-deploy = var.backendinfra-api-stage-auto-deploy
+  backendinfra-api-domain-name       = var.backendinfra-api-domain-name
+  backendinfra-api-stage-name        = var.backendinfra-api-stage-name
+  backendinfra-security-policy       = var.backendinfra-security-policy
+  backendinfra-api-version           = var.backendinfra-api-version
+  backendinfra-environment           = var.backendinfra-environment
+  backendinfra-api-certificate-arn = aws_acm_certificate.api-cert.arn
+  backendinfra-cors-expose-headers   = var.backendinfra-cors-expose-headers
+  logs-retention                     = var.logs-retention
 
-  source = "../"
+  backendinfra-domain-name           = var.backendinfra-domain-name
+  newslit-api-key = var.newslit-api-key
 
-  kms-key-arn                    = module.kms-key.kms-key-arn
-  support-sns-topic = aws_sns_topic.sawyerbrink_support.arn
-  vpc-id            = module.vpc.vpc_id
-  db-subnets-ids    = module.vpc.database_subnets
-  security-group-ids = [module.vpc.default_security_group_id]
-  
+  lambda-repository-region          = var.lambda-repository-region
+  backendinfra-iam-kms-grant-policy = ""
+  kms-key-arn                       = module.kms-key.kms-key-arn
+  backendinfra-support-sns-topic    = aws_sns_topic.sawyerbrink_support.arn
+  backendinfra-vpc-id               = module.vpc.vpc_id
+  backendinfra-private-subnet-ids   = module.vpc.private_subnets
+  backendinfra-db-subnets-ids       = module.vpc.database_subnets
+
+  backendinfra-security-group-ids = [
+    module.vpc.default_security_group_id
+  ]
 
   depends_on = [
-    module,kms-key,
+    module.kms-key,
     module.vpc
   ]
+
+  tags = var.tags
 }
 
 
@@ -32,23 +55,16 @@ module "kms-key" {
     "autoscaling.amazonaws.com",
     "ec2.amazonaws.com"
   ]
-  iam-policy-name        = "sb-kms-allow"
+  iam-policy-name        = "sb-kms-allow-demo"
   key-administrators-arn = [data.aws_iam_role.admin-role.arn]
   key-description        = "Account Main Key"
   key-usage              = "ENCRYPT_DECRYPT"
   kms-delete-window      = 7
   region                 = var.region
-  tags                   = var.tags
+  tags                   = {}
   env                    = "test"
 }
 
-data "aws_iam_role" "admin-role" {
-  name = "administrator"
-}
-
-data "aws_caller_identity" "current" {}
-
-data "aws_region" "current" {}
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"

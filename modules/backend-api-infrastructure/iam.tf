@@ -42,8 +42,8 @@ data "aws_iam_policy_document" "core-permission" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
-      "${aws_dynamodb_table.organization-table.arn}/index/*"
+      aws_dynamodb_table.organization-table[0].arn,
+      "${aws_dynamodb_table.organization-table[0].arn}/index/*"
     ]
   }
   statement {
@@ -52,8 +52,8 @@ data "aws_iam_policy_document" "core-permission" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
-      "${aws_dynamodb_table.organization-table.arn}/index/*"
+      aws_dynamodb_table.organization-table[0].arn,
+      "${aws_dynamodb_table.organization-table[0].arn}/index/*"
     ]
   }
 
@@ -74,7 +74,7 @@ data "aws_iam_policy_document" "core-permission" {
       "ssm:GetParametersByPath"
     ]
     resources = [
-      "arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:parameter/${var.newslitapi-parameter-name}",
+      "arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:parameter/${var.newslit-api-key}",
     ]
   }
 
@@ -127,7 +127,7 @@ data "aws_iam_policy_document" "core-permission" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
+      aws_dynamodb_table.organization-table[0].arn,
       "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:*/v${var.api-version}/*"
     ]
   }
@@ -183,7 +183,7 @@ data "aws_iam_policy_document" "core-rds-permission" {
     ]
 
     resources = [
-      "arn:aws:dynamodb:${var.region}:${data.aws_caller_identity.current.account_id}:table/${aws_dynamodb_table.organization-table.id}/stream/*"
+      "arn:aws:dynamodb:${var.region}:${data.aws_caller_identity.current.account_id}:table/${aws_dynamodb_table.organization-table[0].id}/stream/*"
     ]
   }
 
@@ -571,7 +571,7 @@ data "aws_iam_policy_document" "core-permission-lambdas-s3-apigateway" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
+      aws_dynamodb_table.organization-table[0].arn,
       "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${module.apigateway-core.main-api-id}/v${var.api-version}/GET/logs/*"
     ]
   }
@@ -624,8 +624,8 @@ data "aws_iam_policy_document" "core-permission-delete" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
-      "${aws_dynamodb_table.organization-table.arn}/index/*"
+      aws_dynamodb_table.organization-table[0].arn,
+      "${aws_dynamodb_table.organization-table[0].arn}/index/*"
     ]
   }
 
@@ -709,7 +709,7 @@ data "aws_iam_policy_document" "core-permission-delete" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
+      aws_dynamodb_table.organization-table[0].arn,
       "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${module.apigateway-core.main-api-id}/v${var.api-version}/DELETE/audits/{audit_id}/documents*",
       "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${module.apigateway-core.main-api-id}/v${var.api-version}/DELETE/controls/*",
       "arn:aws:execute-api:${var.region}:${data.aws_caller_identity.current.account_id}:${module.apigateway-core.main-api-id}/v${var.api-version}/DELETE/risks/*"
@@ -892,8 +892,8 @@ data "aws_iam_policy_document" "index-document-core-permission" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
-      "${aws_dynamodb_table.organization-table.arn}/index/*"
+      aws_dynamodb_table.organization-table[0].arn,
+      "${aws_dynamodb_table.organization-table[0].arn}/index/*"
     ]
   }
 
@@ -944,7 +944,7 @@ data "aws_iam_policy_document" "index-document-core-permission" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
+      aws_dynamodb_table.organization-table[0].arn,
     ]
   }
 
@@ -1100,15 +1100,13 @@ data "aws_iam_policy_document" "aws_batch_service_role_trust" {
 }
 
 
+
 resource "aws_iam_role" "aws_batch_service_role" {
   name               = "aws_batch_service_role"
 
   assume_role_policy = data.aws_iam_policy_document.aws_batch_service_role_trust.json
-}
-
-resource "aws_iam_role_policy_attachment" "aws_batch_service_role" {
-  role       = aws_iam_role.aws_batch_service_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole"
+  managed_policy_arns = [ "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole" ]
+ 
 }
 
 resource "aws_iam_role_policy_attachment" "aws_batch_service_role_policy_attachment_kms" {
@@ -1236,8 +1234,8 @@ data "aws_iam_policy_document" "ecs_instance_task_permissions" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
-      "${aws_dynamodb_table.organization-table.arn}/index/*"
+      aws_dynamodb_table.organization-table[0].arn,
+      "${aws_dynamodb_table.organization-table[0].arn}/index/*"
     ]
   }
   statement {
@@ -1246,8 +1244,8 @@ data "aws_iam_policy_document" "ecs_instance_task_permissions" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
-      "${aws_dynamodb_table.organization-table.arn}/index/*"
+      aws_dynamodb_table.organization-table[0].arn,
+      "${aws_dynamodb_table.organization-table[0].arn}/index/*"
     ]
   }
 
@@ -1259,7 +1257,7 @@ data "aws_iam_policy_document" "ecs_instance_task_permissions" {
     ]
 
     resources = [
-      aws_dynamodb_table.organization-table.arn,
+      aws_dynamodb_table.organization-table[0].arn,
     ]
   }
 
@@ -1269,7 +1267,7 @@ data "aws_iam_policy_document" "ecs_instance_task_permissions" {
       "sns:Publish"
     ]
 
-    resources = [data.terraform_remote_state.support-infra.outputs.sb-support-sns-arn]
+    resources = [var.support-sns-topic]
   }
 }
 ################################
@@ -1347,7 +1345,6 @@ data "aws_iam_policy_document" "lambda-submit-batch-job-core-permission" {
 }
 
 data "aws_iam_policy_document" "iam-kms-policy" {
-  count = local.default-kms-policy != "" ? 0 : 1
   statement {
     effect = "Allow"
     actions = [
@@ -1370,7 +1367,6 @@ data "aws_iam_policy_document" "iam-kms-policy" {
 }
 
 resource "aws_iam_policy" "iam-kms-policy" {
-  count       = local.default-kms-policy != "" ? 0 : 1
   name        = "${var.name}-iam-kms-grant-policy"
   path        = "/sawyer/"
   description = "IAM policy that grants access to the main kms key"

@@ -2,15 +2,15 @@
 # Organization Table
 ########################
 output "organization-table-id" {
-  value = aws_dynamodb_table.organization-table.id
+  value = aws_dynamodb_table.organization-table[0].id
 }
 
 output "organization-table-arn" {
-  value = aws_dynamodb_table.organization-table.arn
+  value = aws_dynamodb_table.organization-table[0].arn
 }
 
 output "organization-table-stream-arn" {
-  value = aws_dynamodb_table.organization-table.stream_arn
+  value = aws_dynamodb_table.organization-table[0].stream_arn
 }
 ##############################
 # Cognito

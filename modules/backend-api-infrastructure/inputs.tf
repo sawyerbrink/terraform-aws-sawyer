@@ -16,6 +16,10 @@ variable "support-sns-topic" {
   description = "The SNS topic to leverage for support purposes"
 }
 
+variable "ses-email-arn" {
+  type = string
+  description = "The ARN of the SES email to utilize"
+}
 
 variable "logs-retention" {
   type = number
@@ -110,6 +114,7 @@ variable "api-domain-name" {
 
 variable "auth-domain" {
   type = string
+  default = ""
 }
 
 variable "dynamodb-billing-mode" {
@@ -362,11 +367,13 @@ variable "s3-force-destroy" {
   default = false
 }
 
+variable "api-certificate-arn" {
+  type = string
+  description = "The AWS ACM certificate arn for API Gateway to utilize for HTTPS"
+}
+
 locals {
   codeBucket         = "sawyerbrink-lambda-binaries-${var.lambda-repository-region}"
   image              = "https://github.com/sawyerbrink/sawyer/pkgs/container/sawyer/risk-sensing:${var.sawyer-version}"
-  signedSourceList   = data.aws_s3_bucket_objects.signedLambdas.keys
-  sourceHashList     = data.aws_s3_bucket_object.object_info.*.metadata
-  sourceHashMap      = zipmap(local.signedSourceList, local.sourceHashList)
   default-kms-policy = var.iam-kms-grant-policy != "" ? var.iam-kms-grant-policy : aws_iam_policy.iam-kms-policy.arn
 }
