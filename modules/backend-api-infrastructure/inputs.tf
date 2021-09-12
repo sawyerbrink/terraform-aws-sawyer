@@ -245,6 +245,11 @@ variable "rds-delete-protection" {
   
 }
 
+variable "rds-db-subnet-name" {
+  type = string
+  description = "The the name of the DB subnet"
+}
+
 variable "rds-enable-public-ip" {
   type = bool
   description = "Toggle a public IP to the RDS cluster"

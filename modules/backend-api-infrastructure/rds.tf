@@ -4,6 +4,7 @@ resource "aws_rds_cluster" "postgresql-rds" {
   
   database_name = var.rds-db-name
 
+
   master_username                     = "postgres"
   master_password                     = var.rds-db-master-password
   iam_database_authentication_enabled = true
@@ -22,6 +23,7 @@ resource "aws_rds_cluster" "postgresql-rds" {
   port           = var.rds-db-port
 
   vpc_security_group_ids = var.security-group-ids
+  db_subnet_group_name   = var.rds-db-subnet-name
 
   storage_encrypted = true
   kms_key_id        = var.kms-key-arn
@@ -48,6 +50,7 @@ resource "aws_rds_cluster_instance" "main-cluster-instances" {
   apply_immediately     = var.rds-apply-immediately
   publicly_accessible   = var.rds-enable-public-ip
   copy_tags_to_snapshot = true
+  db_subnet_group_name   = var.rds-db-subnet-name
 
   preferred_maintenance_window = var.rds-maintenance-window
   auto_minor_version_upgrade   = false
@@ -74,13 +77,11 @@ resource "aws_rds_cluster_endpoint" "static-read" {
   ]
 }
 
-resource "aws_db_subnet_group" "default" {
-  name        = "sawyer-${var.environment}-db-subnets"
-  subnet_ids  = var.db-subnets-ids
-  description = "Managed by Terraform"
-
-
-}
+# resource "aws_db_subnet_group" "default" {
+#   name        = "sawyer-${var.environment}-db-subnets"
+#   subnet_ids  = var.db-subnets-ids
+#   description = "Managed by Terraform"
+# }
 
 resource "aws_cloudwatch_log_group" "rds-logs" {
   name              = "/aws/rds/sawyerbrink-${var.environment}-${var.region}-relational-db/postgresql"

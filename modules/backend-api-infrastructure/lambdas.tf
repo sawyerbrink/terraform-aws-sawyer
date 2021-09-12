@@ -12,9 +12,7 @@ resource "aws_lambda_function" "preSignUp-trigger" {
 
   environment {
     variables = {
-      REGION      = var.region
-      ENV         = var.environment
-      API_VERSION = var.api-version
+      APPROVED_EMAIL_DOMAIN = var.domain-name
     }
   }
 }

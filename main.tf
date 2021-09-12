@@ -14,6 +14,8 @@ module "backend-api-infrastructure" {
   support-sns-topic                           = var.backendinfra-support-sns-topic
   api-name                                    = var.backendinfra-api-name
   api-description                             = var.backendinfra-api-description
+  disable-default-endpoint                    = var.backendinfra-disable-default-endpoint
+  authorizer-type                             = var.backendinfra-authorizer-type
   environment                                 = var.backendinfra-environment
   api-version                                 = var.backendinfra-api-version
   api-stage-name                              = var.backendinfra-api-stage-name
@@ -32,11 +34,20 @@ module "backend-api-infrastructure" {
   domain-name                                 = var.backendinfra-domain-name
   api-domain-name                             = var.backendinfra-api-domain-name
   auth-domain                                 = var.backendinfra-auth-domain
+
   lambda-sqs-index-document-concurrency-limit = var.backendinfra-lambda-sqs-index-document-concurrency-limit
   lambda-sqs-logging-concurrency-limit        = var.backendinfra-lambda-sqs-logging-concurrency-limit
+  # Batch
   risk-sensing-image-version                  = var.backendinfra-risk-sensing-image-version
   batch-cpu                                   = var.backendinfra-batch-cpu
   batch-memory                                = var.backendinfra-batch-memory
+  fargate-version                             = var.backendinfra-fargate-version
+  batch-state          = var.backendinfra-batch-state
+  batch-type           = var.backendinfra-batch-type
+  batch-max-cpus       = var.backendinfra-batch-max-cpus
+  batch-compute-type   = var.backendinfra-batch-compute-type
+  batch-retry-attempts = var.backendinfra-batch-retry-attempts
+  # RDS
   rds-db-master-password                      = local.db-master-password
   rds-instance-size                           = var.backendinfra-rds-instance-size
   rds-instances                               = var.backendinfra-rds-instances
@@ -46,7 +57,6 @@ module "backend-api-infrastructure" {
   rds-preferred-backup-window                 = var.backendinfra-rds-preferred-backup-window
   rds-backup-retention-period                 = var.backendinfra-rds-backup-retention-period
   rds-delete-protection                       = var.backendinfra-rds-delete-protection
-  fargate-version                             = var.backendinfra-fargate-version
   rds-read-role                               = var.backendinfra-rds-read-role
   rds-write-role                              = var.backendinfra-rds-write-role
   rds-db-name                                 = var.backendinfra-rds-db-name
@@ -54,8 +64,7 @@ module "backend-api-infrastructure" {
   rds-postgres-engine-version                 = var.backendinfra-rds-postgres-engine-version
   rds-postgres-engine                         = var.backendinfra-rds-postgres-engine
   rds-az-list                                 = var.backendinfra-rds-az-list
-  disable-default-endpoint                    = var.backendinfra-disable-default-endpoint
-  authorizer-type                             = var.backendinfra-authorizer-type
+  rds-db-subnet-name                          = var.backendinfra-rds-db-subnet-name
 
   ses-email-arn = var.ses-email-arn
   api-certificate-arn = var.backendinfra-api-certificate-arn
@@ -64,11 +73,7 @@ module "backend-api-infrastructure" {
   vpc-id         = var.backendinfra-vpc-id
   db-subnets-ids = var.backendinfra-db-subnets-ids
 
-  batch-state          = var.backendinfra-batch-state
-  batch-type           = var.backendinfra-batch-type
-  batch-max-cpus       = var.backendinfra-batch-max-cpus
-  batch-compute-type   = var.backendinfra-batch-compute-type
-  batch-retry-attempts = var.backendinfra-batch-retry-attempts
+
 
   dynamodb-billing-mode                    = var.backendinfra-dynamodb-billing-mode
   dynamodb-provisioning-read-capacity      = var.backendinfra-dynamodb-provisioning-read-capacity

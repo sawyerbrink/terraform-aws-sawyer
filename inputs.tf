@@ -296,6 +296,12 @@ variable "backendinfra-rds-instances" {
 }
 
 
+variable "backendinfra-rds-db-subnet-name" {
+  type = string
+  description = "The the name of the DB subnet"
+}
+
+
 variable "backendinfra-rds-postgres-engine-version" {
   type        = string
   description = "The RDS postgres engine version to use."
