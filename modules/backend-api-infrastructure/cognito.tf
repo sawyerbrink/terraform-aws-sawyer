@@ -152,7 +152,7 @@ resource "aws_cognito_user_pool_client" "authorized-flow-client" {
 
 
 resource "aws_cognito_user_pool_domain" "cognito-domain" {
-  domain       = "${var.environment}-${var.name}"
+  domain       = "${lower(var.name)}-sawyerbrink"
   user_pool_id = aws_cognito_user_pool.user-pool.id
   # certificate_arn = data.aws_acm_certificate.auth-cert.arn
 }

@@ -2,6 +2,7 @@ module "backend-api-infrastructure" {
   source = "./modules/backend-api-infrastructure"
 
   sawyer-version           = var.sawyer-version
+  org-id                   = data.null_data_source.values.outputs["org_id"]
   profile                  = var.profile
   region                   = var.region
   tags                     = var.tags

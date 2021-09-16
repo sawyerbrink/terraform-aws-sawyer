@@ -1,3 +1,8 @@
+variable "org-id" {
+  type = string
+  description = "The organization id"
+}
+
 variable "profile" {
   description = "The AWS configuration profile to use"
 }
@@ -169,12 +174,12 @@ variable "risk-sensing-image-version" {
 }
 
 variable "batch-cpu" {
-  type        = number
+  type        = string
   description = "The number of CPUs to allocated for the batch job"
 }
 
 variable "batch-memory" {
-  type        = number
+  type        = string
   description = "The memory size to allocated for the batch job"
 }
 

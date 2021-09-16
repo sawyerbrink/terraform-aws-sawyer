@@ -197,3 +197,7 @@ output "backendinfra-aurora-db-custom-reader-endpoint" {
 output "backendinfra-aurora-db-custom-writer-endpoint" {
   value = module.backend-api-infrastructure.aurora-db-custom-writer-endpoint
 }
+
+output "organization-id" {
+  value = data.null_data_source.values.outputs["org_id"]
+}

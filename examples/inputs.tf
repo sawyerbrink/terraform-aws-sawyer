@@ -177,12 +177,12 @@ variable "backendinfra-risk-sensing-image-version" {
 }
 
 variable "backendinfra-batch-cpu" {
-  type        = number
+  type        = string
   description = "The number of CPUs to allocated for the batch job"
 }
 
 variable "backendinfra-batch-memory" {
-  type        = number
+  type        = string
   description = "The memory size to allocated for the batch job"
 }
 

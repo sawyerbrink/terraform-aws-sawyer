@@ -69,6 +69,7 @@ resource "aws_lambda_function" "setupDB" {
       RDS_DATABASE_NAME   = var.rds-db-name
       RDS_MASTER_USR_PWRD = var.rds-db-master-password
       TEMP_PWD_TWO        = random_password.password.result
+      ORG_ID              = var.org-id
     }
   }
 

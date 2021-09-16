@@ -1219,13 +1219,6 @@ data "aws_iam_policy_document" "ecs_instance_task_permissions" {
 
   statement {
     actions = [
-      "ssm:GetParameter"
-    ]
-    resources = [var.newslit-api-key]
-  }
-
-  statement {
-    actions = [
       "dynamodb:BatchGetItem",
       "dynamodb:ConditionCheckItem",
       "dynamodb:GetItem",

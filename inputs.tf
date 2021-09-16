@@ -16,7 +16,6 @@ variable "name" {
 variable "sawyer-version" {
   type        = string
   description = "The version of sawyer to use"
-  default     = "latest"
 }
 
 variable "newslit-api-key" {
@@ -199,15 +198,15 @@ variable "backendinfra-risk-sensing-image-version" {
 }
 
 variable "backendinfra-batch-cpu" {
-  type        = number
+  type        = string
   description = "The number of CPUs to allocated for the batch job"
-  default = 6144
+  default = "2"
 }
 
 variable "backendinfra-batch-memory" {
-  type        = number
+  type        = string
   description = "The memory size to allocated for the batch job"
-  default = 2
+  default = "6144"
 }
 
 variable "backendinfra-fargate-version" {

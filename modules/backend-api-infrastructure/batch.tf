@@ -29,7 +29,7 @@ resource "aws_batch_job_queue" "batch-compute-queue" {
 }
 
 resource "aws_batch_job_definition" "batch-compute-job-definition" {
-  name = "${var.name}-risk-sensing-compute-tf-job-definition"
+  name = "${lower(var.name)}-risk-sensing-compute-tf-job-definition"
   type = "container"
 
   platform_capabilities = var.batch-compute-type == "FARGATE_SPOT" ? ["FARGATE"] : []

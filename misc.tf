@@ -18,3 +18,10 @@ resource "random_password" "db-password" {
   special          = true
   override_special = "_%@"
 }
+
+data "null_data_source" "values" {
+
+  inputs = {
+    org_id = "o${formatdate("05040302012006", timestamp())}${substr(uuidv5("6ba7b810-9dad-11d1-80b4-00c04fd430c8", var.name),0,8)}"
+  }
+}
