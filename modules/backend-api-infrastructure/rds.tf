@@ -123,3 +123,37 @@ resource "null_resource" "init-rds" {
   }
   depends_on = [aws_rds_cluster.postgresql-rds, aws_rds_cluster_instance.main-cluster-instances, aws_lambda_function.setupDB]
 }
+
+resource "null_resource" "populate-rds-with-profile" {
+  count = var.profile != "" ? 1 : 0
+  // Only execute if org id changes environment
+
+  triggers = {
+    id = var.org-id
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      sleep 5
+      aws lambda invoke --function-name populate_rds --region ${var.region} response.json
+    EOT
+  }
+  depends_on = [null_resource.init-rds-with-profile]
+}
+
+resource "null_resource" "populate-rds" {
+  count = var.profile == "" ? 1 : 0
+  // Only execute if org id changes environment
+
+  triggers = {
+    id = var.org-id
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      sleep 5
+      aws lambda invoke --function-name populate_rds --region ${var.region} response.json
+    EOT
+  }
+  depends_on = [null_resource.init-rds]
+}

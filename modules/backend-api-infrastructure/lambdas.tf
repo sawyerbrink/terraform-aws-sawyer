@@ -69,7 +69,6 @@ resource "aws_lambda_function" "setupDB" {
       RDS_DATABASE_NAME   = var.rds-db-name
       RDS_MASTER_USR_PWRD = var.rds-db-master-password
       TEMP_PWD_TWO        = random_password.password.result
-      ORG_ID              = var.org-id
     }
   }
 
@@ -108,6 +107,64 @@ resource "aws_lambda_function_event_invoke_config" "setupDB-trigger-lambda-invok
 
 resource "aws_cloudwatch_log_group" "setupDB-lambda-cloudwatch-group" {
   name              = "/aws/lambda/setup_db"
+  retention_in_days = var.logs-retention
+  kms_key_id        = var.kms-key-arn
+}
+
+########################################
+# Create Initial Organization
+########################################
+resource "aws_lambda_function" "populate_rds" {
+  s3_bucket     = local.codeBucket
+  s3_key        = "${var.sawyer-version}/populate_rds.zip"
+  function_name           = "populate_rds"
+  role                    = aws_iam_role.lambda-rds-role.arn
+  handler                 = "populate_rds.lambda_handler"
+  runtime                 = "python3.7"
+  description             = "A lambda function that populates RDS with mock data"
+  timeout                 = 30
+  memory_size             = 128
+  publish                 = true
+
+
+  environment {
+    variables = {
+      REGION              = var.region
+      ENV                 = var.environment
+      RDS_ENDPOINT        = aws_rds_cluster.postgresql-rds.endpoint
+      RDS_MASTER_USR      = "postgres"
+      RDS_DATABASE_NAME   = var.rds-db-name
+      RDS_MASTER_USR_PWRD = var.rds-db-master-password
+      TEMP_PWD_TWO        = random_password.password.result
+      REGION              = var.region
+      ORG_ID              = var.org-id
+    }
+  }
+
+  vpc_config {
+    security_group_ids = var.security-group-ids
+    subnet_ids         = var.private-subnet-ids
+  }
+
+
+}
+
+resource "aws_lambda_alias" "populate_rds-trigger-alias" {
+  name             = upper(var.environment)
+  description      = "Alias for the populate_rds lambda"
+  function_name    = aws_lambda_function.populate_rds.arn
+  function_version = aws_lambda_function.populate_rds.version
+  depends_on       = [aws_lambda_function.populate_rds]
+}
+
+resource "aws_lambda_function_event_invoke_config" "populate_rds-trigger-lambda-invoke-settings" {
+  function_name                = aws_lambda_alias.populate_rds-trigger-alias.function_name
+  maximum_event_age_in_seconds = 60
+  maximum_retry_attempts       = 1
+}
+
+resource "aws_cloudwatch_log_group" "populate_rds-lambda-cloudwatch-group" {
+  name              = "/aws/lambda/populate_rds"
   retention_in_days = var.logs-retention
   kms_key_id        = var.kms-key-arn
 }
