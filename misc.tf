@@ -20,8 +20,9 @@ resource "random_password" "db-password" {
 }
 
 data "null_data_source" "values" {
-
+ // Ignore the deprecation warning. A locals variable will regenerate the value in each Terraform run. We need to this value to only be generated once.
+ // As of Terraform 1.0.7
   inputs = {
-    org_id = "o${formatdate("05040302012006", timestamp())}${substr(uuidv5("6ba7b810-9dad-11d1-80b4-00c04fd430c8", var.name),0,8)}"
+    org_id = "o${formatdate("05040302012006", timestamp())}${substr(uuidv5("6ba7b810-9dad-11d1-80b4-00c04fd430c8", var.name), 0, 8)}"
   }
 }

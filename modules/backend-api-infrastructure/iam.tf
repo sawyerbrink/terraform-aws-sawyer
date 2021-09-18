@@ -976,7 +976,7 @@ resource "aws_iam_role" "ecs_instance_role" {
   name               = "ecs_batch_role"
   assume_role_policy = data.aws_iam_policy_document.ecs_instance_role_trust.json
 
-  depends_on         = [aws_cloudwatch_log_group.aws_batch]
+  depends_on = [aws_cloudwatch_log_group.aws_batch]
 }
 
 resource "aws_iam_instance_profile" "ecs_instance_role" {
@@ -1102,11 +1102,11 @@ data "aws_iam_policy_document" "aws_batch_service_role_trust" {
 
 
 resource "aws_iam_role" "aws_batch_service_role" {
-  name               = "aws_batch_service_role"
+  name = "aws_batch_service_role"
 
-  assume_role_policy = data.aws_iam_policy_document.aws_batch_service_role_trust.json
-  managed_policy_arns = [ "arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole" ]
- 
+  assume_role_policy  = data.aws_iam_policy_document.aws_batch_service_role_trust.json
+  managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AWSBatchServiceRole"]
+
 }
 
 resource "aws_iam_role_policy_attachment" "aws_batch_service_role_policy_attachment_kms" {

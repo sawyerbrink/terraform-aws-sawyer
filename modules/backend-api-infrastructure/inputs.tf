@@ -1,6 +1,28 @@
 variable "org-id" {
-  type = string
+  type        = string
   description = "The organization id"
+}
+
+variable "org-name" {
+  type        = string
+  description = "The name of the organization"
+}
+
+variable "org-email-domain" {
+  type        = string
+  description = "The email domain of the organization"
+}
+
+variable "org-industry" {
+  type        = string
+  description = "The industry of the organization"
+  default = "NONE"
+}
+
+variable "org-size" {
+  type        = string
+  description = "The employee size of the organization"
+  default = "42"
 }
 
 variable "profile" {
@@ -22,14 +44,14 @@ variable "support-sns-topic" {
 }
 
 variable "ses-email-arn" {
-  type = string
+  type        = string
   description = "The ARN of the SES email to utilize"
 }
 
 variable "logs-retention" {
-  type = number
+  type        = number
   description = "The number of days to retain CloudWatch logs"
-  default = 3
+  default     = 3
 }
 
 variable "api-name" {
@@ -118,7 +140,7 @@ variable "api-domain-name" {
 }
 
 variable "auth-domain" {
-  type = string
+  type    = string
   default = ""
 }
 
@@ -209,7 +231,7 @@ variable "rds-db-port" {
 }
 
 variable "rds-db-master-password" {
-  type = string
+  type        = string
   description = "The RDS DB master password"
 }
 
@@ -230,49 +252,49 @@ variable "cognito-auto-verify-attrs" {
 }
 
 variable "rds-instances" {
-  type = number
-  description = "The number of RDS instances to deploy"  
+  type        = number
+  description = "The number of RDS instances to deploy"
 }
 
 variable "rds-maintenance-window" {
-  type = string
+  type        = string
   description = "The RDS maintenance to apply minor/major changes to."
 }
 
 variable "rds-preferred-backup-window" {
-  type = string
+  type        = string
   description = "The prefered window for RDS to create backup snapshots"
 }
 
 variable "rds-delete-protection" {
-  type = bool
+  type        = bool
   description = "Enable RDS delete protection"
-  
+
 }
 
 variable "rds-db-subnet-name" {
-  type = string
+  type        = string
   description = "The the name of the DB subnet"
 }
 
 variable "rds-enable-public-ip" {
-  type = bool
+  type        = bool
   description = "Toggle a public IP to the RDS cluster"
 }
 
 variable "rds-apply-immediately" {
-  type = bool
+  type        = bool
   description = "Apply RDS changes immediately"
 }
 
 variable "rds-backup-retention-period" {
-  type = number
+  type        = number
   description = "The number of days to retain an RDS backup"
-  
+
 }
 
 variable "db-subnets-ids" {
-  type = list(string)
+  type        = list(string)
   description = "The ids of subnets that are to be used for RDS"
 }
 
@@ -327,7 +349,7 @@ variable "batch-retry-attempts" {
 variable "ecr-image-tag-mutability" {
   type        = string
   description = "Mutability setting for risk-sensing ECR repository"
-  default = "MUTABLE"
+  default     = "MUTABLE"
 }
 
 variable "lambda-repository-region" {
@@ -351,34 +373,34 @@ variable "iam-kms-grant-policy" {
 }
 
 variable "vpc-id" {
-  type = string
+  type        = string
   description = "The VPC ID to use."
 }
 
 variable "rds-instance-size" {
-  type = string
+  type        = string
   description = "The Amazon Aurora instance size to use"
 }
 
 variable "rds-az-list" {
-  type = list(string)
+  type        = list(string)
   description = "A list of availability zones to deploy RDS into."
 }
 
 variable "newslit-api-key" {
-  type = string
+  type        = string
   description = "The API Key value for Newslit API"
-  
+
 }
 
 variable "s3-force-destroy" {
-  type = bool
+  type        = bool
   description = "Enable S3 Force destroy"
-  default = false
+  default     = false
 }
 
 variable "api-certificate-arn" {
-  type = string
+  type        = string
   description = "The AWS ACM certificate arn for API Gateway to utilize for HTTPS"
 }
 

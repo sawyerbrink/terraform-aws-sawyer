@@ -1,7 +1,7 @@
 resource "aws_rds_cluster" "postgresql-rds" {
   cluster_identifier = "sawyerbrink-${var.environment}-${var.region}-relational-db"
   availability_zones = var.rds-az-list
-  
+
   database_name = var.rds-db-name
 
 
@@ -50,7 +50,7 @@ resource "aws_rds_cluster_instance" "main-cluster-instances" {
   apply_immediately     = var.rds-apply-immediately
   publicly_accessible   = var.rds-enable-public-ip
   copy_tags_to_snapshot = true
-  db_subnet_group_name   = var.rds-db-subnet-name
+  db_subnet_group_name  = var.rds-db-subnet-name
 
   preferred_maintenance_window = var.rds-maintenance-window
   auto_minor_version_upgrade   = false
@@ -135,7 +135,7 @@ resource "null_resource" "populate-rds-with-profile" {
   provisioner "local-exec" {
     command = <<EOT
       sleep 5
-      aws lambda invoke --function-name populate_rds --region ${var.region} response.json
+      aws lambda invoke --function-name populate_rds --profile ${var.profile} --region ${var.region} response.json
     EOT
   }
   depends_on = [null_resource.init-rds-with-profile]
@@ -155,5 +155,5 @@ resource "null_resource" "populate-rds" {
       aws lambda invoke --function-name populate_rds --region ${var.region} response.json
     EOT
   }
-  depends_on = [null_resource.init-rds]
+  depends_on = [null_resource.init-rds, aws_rds_cluster_instance.main-cluster-instances, aws_lambda_function.setupDB]
 }

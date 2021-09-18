@@ -17,6 +17,26 @@ variable "name" {
   description = "The global name of the owner. This could be a company, owning team, or area name. A default name will be provided if not specified."
   default     = ""
 }
+variable "org-name" {
+  type        = string
+  description = "The name of the organization"
+}
+
+variable "org-email-domain" {
+  type        = string
+  description = "The email domain of the organization"
+}
+
+variable "org-industry" {
+  type        = string
+  description = "The industry of the organization"
+
+}
+
+variable "org-size" {
+  type        = string
+  description = "The employee size of the organization"
+}
 
 variable "sawyer-version" {
   type        = string
@@ -229,7 +249,6 @@ variable "backendinfra-rds-apply-immediately" {
 variable "backendinfra-rds-enable-public-ip" {
   type        = bool
   description = "Toggle a public IP to the RDS cluster"
-  default     = false
 }
 
 variable "backendinfra-rds-maintenance-window" {

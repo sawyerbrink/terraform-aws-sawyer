@@ -2,11 +2,11 @@
 # DynomoDB
 #############################
 resource "aws_dynamodb_table" "organization-table" {
-  count = var.dynamodb-billing-mode == "PAY_PER_REQUEST" ? 1 : 0
+  count        = var.dynamodb-billing-mode == "PAY_PER_REQUEST" ? 1 : 0
   name         = "${var.name}-main"
   billing_mode = var.dynamodb-billing-mode
-  hash_key  = "pk"
-  range_key = "sk"
+  hash_key     = "pk"
+  range_key    = "sk"
 
   stream_enabled = var.dynamodb-stream
 
@@ -48,13 +48,13 @@ resource "aws_dynamodb_table" "organization-table" {
 }
 
 resource "aws_dynamodb_table" "organization-table-" {
-  count = var.dynamodb-billing-mode == "PROVISIONED" ? 1 : 0
-  name         = "${var.name}-main"
-  billing_mode = var.dynamodb-billing-mode
+  count          = var.dynamodb-billing-mode == "PROVISIONED" ? 1 : 0
+  name           = "${var.name}-main"
+  billing_mode   = var.dynamodb-billing-mode
   read_capacity  = var.dynamodb-provisioning-read-capacity
   write_capacity = var.dynamodb-provisioning-write-capacity
-  hash_key  = "pk"
-  range_key = "sk"
+  hash_key       = "pk"
+  range_key      = "sk"
 
   stream_enabled = var.dynamodb-stream
 

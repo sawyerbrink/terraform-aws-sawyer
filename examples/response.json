@@ -1,1 +1,1 @@
-{"errorMessage": "Unable to import module 'setup_db': No module named 'psycopg2._psycopg'", "errorType": "Runtime.ImportModuleError", "stackTrace": []}
+{"errorMessage": "duplicate key value violates unique constraint \"Organizations_pkey\"\nDETAIL:  Key (pk)=(o0504030201200600c89a19) already exists.\n", "errorType": "UniqueViolation", "stackTrace": ["  File \"/var/task/populate_rds.py\", line 45, in lambda_handler\n    org_payload,\n"]}

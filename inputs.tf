@@ -13,6 +13,29 @@ variable "name" {
   default     = ""
 }
 
+variable "org-name" {
+  type        = string
+  description = "The name of the organization"
+}
+
+variable "org-email-domain" {
+  type        = string
+  description = "The email domain of the organization"
+}
+
+variable "org-industry" {
+  type        = string
+  description = "The industry of the organization"
+  default = "NONE"
+}
+
+variable "org-size" {
+  type        = string
+  description = "The employee size of the organization"
+  default = "42"
+}
+
+
 variable "sawyer-version" {
   type        = string
   description = "The version of sawyer to use"
@@ -26,7 +49,7 @@ variable "newslit-api-key" {
 variable "logs-retention" {
   type        = number
   description = "The number of days to retain logs"
-  default = 3
+  default     = 3
 }
 
 variable "tags" {
@@ -50,6 +73,7 @@ variable "backendinfra-api-name" {
 
 variable "backendinfra-api-description" {
   type = string
+  default = "The Saywer API for risk and governance management"
 }
 
 variable "backendinfra-environment" {
@@ -64,16 +88,18 @@ variable "backendinfra-api-version" {
 
 variable "backendinfra-api-stage-name" {
   type = string
+  default = "default"
 }
 
 variable "backendinfra-protocol-type" {
-  type = string
+  type        = string
   description = "The API Gateway Protocol"
-  default = "HTTP"
+  default     = "HTTP"
 }
 
 variable "backendinfra-api-stage-auto-deploy" {
   type = bool
+  default = true
 }
 
 variable "backendinfra-security-policy" {
@@ -82,44 +108,44 @@ variable "backendinfra-security-policy" {
 }
 
 variable "backendinfra-passthrough-behavior" {
-  type = string
+  type        = string
   description = "The API Gateway Passthough behavior"
-  default = "WHEN_NO_MATCH"
+  default     = "WHEN_NO_MATCH"
 }
 
 variable "backendinfra-tracing-mode" {
-  type = string
+  type        = string
   description = "The API Gateway tracing to enable"
-  default = "Active"
+  default     = "Active"
 }
 
 variable "backendinfra-route-timeout" {
-  type = number
+  type    = number
   default = 29000
 }
 
 variable "backendinfra-access-log-format" {
-  type = string
+  type    = string
   default = "{ \"ApiId\": \"$context.apiId\" , \"requestId\":\"$context.requestId\", \"ip\": \"$context.identity.sourceIp\", \"userName\": \"$context.authorizer.claims.username\", \"authorizerError\": \"$context.authorizer.error\", \"authorizerLatency\": \"$context.authorizer.latency\", \"authorizerStatus\": \"$context.authorizer.status\", \"requestTime\":\"$context.requestTime\",\"httpMethod\":\"$context.httpMethod\",\"userAgent\":\"$context.identity.userAgent\",\"routeKey\":\"$context.routeKey\",\"path\":\"$context.path\",\"stage\":\"$context.stage\", \"status\":\"$context.status\", \"intergrationLatency\": \"$context.integrationLatency\", \"responseLatency\": \"$context.responseLatency\", \"protocol\":\"$context.protocol\", \"responseLength\":\"$context.responseLength\", \"domainName\": \"$context.domainName \",\"errorMessage\": \"$context.error.message\", \"integrationErrorMessage\": \"$context.integrationErrorMessage\"}"
 }
 
 variable "backendinfra-cors-allow-origins" {
-  type = list(any)
+  type    = list(any)
   default = ["*"]
 }
 
 variable "backendinfra-cors-allow-headers" {
-  type = list(any)
+  type    = list(any)
   default = ["*"]
 }
 
 variable "backendinfra-cors-allow-methods" {
-  type = list(any)
+  type    = list(any)
   default = ["GET", "PUT", "POST", "DELETE", "OPTIONS"]
 }
 
 variable "backendinfra-cors-expose-headers" {
-  type = list(any)
+  type    = list(any)
   default = ["*"]
 }
 
@@ -132,7 +158,7 @@ variable "backendinfra-api-domain-name" {
 }
 
 variable "backendinfra-auth-domain" {
-  type = string
+  type    = string
   default = ""
 }
 
@@ -157,7 +183,7 @@ variable "backendinfra-dynamodb-provisioning-write-capacity" {
 variable "backendinfra-dynamodb-point-in-recovery" {
   type        = bool
   description = "Enable/Disable DynamoDB point in time recovery"
-  default = false
+  default     = false
 }
 
 variable "backendinfra-dynamodb-stream" {
@@ -182,49 +208,49 @@ variable "backendinfra-dynamodb-gsi-provisioning-write-capacity" {
 variable "backendinfra-lambda-sqs-index-document-concurrency-limit" {
   type        = number
   description = "Amount of capacity to allocate. Must be greater than or equal to 1"
-  default = 10
+  default     = 10
 }
 
 variable "backendinfra-lambda-sqs-logging-concurrency-limit" {
   type        = number
   description = "Amount of capacity to allocate. Must be greater than or equal to 1"
-  default = 10
+  default     = 10
 }
 
 variable "backendinfra-risk-sensing-image-version" {
   type        = string
   description = "The version for the risk-sensing image to use"
-  default = "latest"
+  default     = "latest"
 }
 
 variable "backendinfra-batch-cpu" {
   type        = string
   description = "The number of CPUs to allocated for the batch job"
-  default = "2"
+  default     = "2"
 }
 
 variable "backendinfra-batch-memory" {
   type        = string
   description = "The memory size to allocated for the batch job"
-  default = "6144"
+  default     = "6144"
 }
 
 variable "backendinfra-fargate-version" {
   type        = string
   description = "The AWS Fargate version to use for batch jobs."
-  default = "1.4.0"
+  default     = "1.4.0"
 }
 
 variable "backendinfra-rds-read-role" {
   type        = string
   description = "The read role for the RDS postgres database"
-  default = "app_read_role"
+  default     = "app_read_role"
 }
 
 variable "backendinfra-rds-write-role" {
   type        = string
   description = "The write role for the RDS postgres database"
-  default = "app_write_role"
+  default     = "app_write_role"
 }
 
 variable "backendinfra-rds-db-name" {
@@ -236,7 +262,7 @@ variable "backendinfra-rds-db-name" {
 variable "backendinfra-ds-db-master-password" {
   type        = string
   description = "The RDS DB master password"
-  default = ""
+  default     = ""
 }
 
 variable "backendinfra-rds-db-port" {
@@ -296,7 +322,7 @@ variable "backendinfra-rds-instances" {
 
 
 variable "backendinfra-rds-db-subnet-name" {
-  type = string
+  type        = string
   description = "The the name of the DB subnet"
 }
 
@@ -362,7 +388,7 @@ variable "backendinfra-ecr-image-tag-mutability" {
 }
 
 variable "lambda-repository-region" {
-  type    = string
+  type = string
   validation {
     condition     = can(regex("us-east-1|us-west-2", var.lambda-repository-region))
     error_message = "ERROR: Lambda repository is only available in us-east-1 or us-west-2."
@@ -382,7 +408,7 @@ variable "backendinfra-security-group-ids" {
 variable "backendinfra-iam-kms-grant-policy" {
   type        = string
   description = "IAM policy that grants access to KMS key."
-  default = ""
+  default     = ""
 }
 
 variable "backendinfra-vpc-id" {
@@ -408,13 +434,13 @@ variable "backendinfra-s3-force-destroy" {
 }
 
 variable "ses-email-arn" {
-  type = string
+  type        = string
   description = "The ARN of the SES email to utilize. If empty the default Cognito email will be used."
-  default = ""
+  default     = ""
 }
 
 variable "backendinfra-api-certificate-arn" {
-  type = string
+  type        = string
   description = "The AWS ACM certificate arn for API Gateway to utilize for HTTPS"
 }
 

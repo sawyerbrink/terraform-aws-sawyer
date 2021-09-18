@@ -9,6 +9,8 @@ resource "aws_lambda_function" "preSignUp-trigger" {
   timeout       = 30
   memory_size   = 128
   publish       = true
+  // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
+  source_code_hash = base64encode(var.sawyer-version)
 
   environment {
     variables = {
@@ -59,6 +61,8 @@ resource "aws_lambda_function" "setupDB" {
   timeout       = 30
   memory_size   = 128
   publish       = true
+   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
+  source_code_hash = base64encode(var.sawyer-version)
 
   environment {
     variables = {
@@ -117,14 +121,16 @@ resource "aws_cloudwatch_log_group" "setupDB-lambda-cloudwatch-group" {
 resource "aws_lambda_function" "populate_rds" {
   s3_bucket     = local.codeBucket
   s3_key        = "${var.sawyer-version}/populate_rds.zip"
-  function_name           = "populate_rds"
-  role                    = aws_iam_role.lambda-rds-role.arn
-  handler                 = "populate_rds.lambda_handler"
-  runtime                 = "python3.7"
-  description             = "A lambda function that populates RDS with mock data"
-  timeout                 = 30
-  memory_size             = 128
-  publish                 = true
+  function_name = "populate_rds"
+  role          = aws_iam_role.lambda-rds-role.arn
+  handler       = "populate_rds.lambda_handler"
+  runtime       = "python3.7"
+  description   = "A lambda function that populates RDS with mock data"
+  timeout       = 30
+  memory_size   = 128
+  publish       = true
+  // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
+  source_code_hash = base64encode(var.sawyer-version)
 
 
   environment {
@@ -138,6 +144,11 @@ resource "aws_lambda_function" "populate_rds" {
       TEMP_PWD_TWO        = random_password.password.result
       REGION              = var.region
       ORG_ID              = var.org-id
+      ORG_NAME            = var.org-name
+      EMAIL_DOMAIN        = var.org-email-domain
+      INDUSTRY            = var.org-industry
+      ORG_SIZE            = var.org-size
+
     }
   }
 
