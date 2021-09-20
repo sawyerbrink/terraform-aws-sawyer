@@ -84,19 +84,6 @@ resource "aws_cognito_user_pool" "user-pool" {
   }
 }
 
-resource "aws_cognito_user_group" "user-group-non-admins" {
-  name         = "non-admins"
-  user_pool_id = aws_cognito_user_pool.user-pool.id
-  description  = "Customer regular consumers, non-admins"
-}
-
-resource "aws_cognito_user_group" "user-group-admins" {
-  name         = "admins"
-  user_pool_id = aws_cognito_user_pool.user-pool.id
-  description  = "Customer Admin group"
-}
-
-
 resource "aws_cognito_user_pool_client" "implicit-flow-client" {
   name = "implicit-flow-users"
 
@@ -155,4 +142,18 @@ resource "aws_cognito_user_pool_domain" "cognito-domain" {
   domain       = "${lower(var.name)}-sawyerbrink"
   user_pool_id = aws_cognito_user_pool.user-pool.id
   # certificate_arn = data.aws_acm_certificate.auth-cert.arn
+}
+
+resource "aws_cognito_user_group" "admin-group" {
+  name         = "${var.org-id}-admin"
+  user_pool_id = aws_cognito_user_pool.user-pool.id
+  description  = "Administration group"
+  precedence   = 1
+}
+
+resource "aws_cognito_user_group" "non-admin-group" {
+  name         = "${var.org-id}-non-admin"
+  user_pool_id = aws_cognito_user_pool.user-pool.id
+  description  = "Non-admin user group"
+  precedence   = 2
 }

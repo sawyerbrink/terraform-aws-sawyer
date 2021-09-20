@@ -50,19 +50,19 @@ output "main-api-arn" {
   value = module.apigateway-core.main-api-endpoint
 }
 
-output "main-api-prod-stage-id" {
+output "main-api-stage-id" {
   value = module.apigateway-core.main-api-stage-id
 }
 
-output "main-api-prod-stage-arn" {
+output "main-api-stage-arn" {
   value = module.apigateway-core.main-api-stage-arn
 }
 
-output "main-api-prod-execution-arn" {
+output "main-api-execution-arn" {
   value = module.apigateway-core.main-api-execution-arn
 }
 
-output "main-api-prod-stage-invoke-url" {
+output "main-api-stage-invoke-url" {
   value = module.apigateway-core.main-api-stage-invoke-url
 }
 

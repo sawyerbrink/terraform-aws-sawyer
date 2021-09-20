@@ -395,6 +395,12 @@ variable "lambda-repository-region" {
   }
 }
 
+variable "lambda-publish" {
+  type = bool
+  description = "Setting to enable Lambda publishing"
+  default = true
+}
+
 variable "backendinfra-private-subnet-ids" {
   type        = list(string)
   description = "A list of private subnet ids"
@@ -442,6 +448,25 @@ variable "ses-email-arn" {
 variable "backendinfra-api-certificate-arn" {
   type        = string
   description = "The AWS ACM certificate arn for API Gateway to utilize for HTTPS"
+}
+
+
+variable "backendinfra-lambda-security-groups-ids" {
+  type = list(string)
+  description = "A list of security groups to apply to all Sawyer Lambdas"
+  default = []
+}
+
+variable "backendinfra-lambda-subnet-ids" {
+  type = list(string)
+  description = "A list of subnet ids to associate Lambdas with. Required for accessing RDS"
+  default = []
+}
+
+variable "backendinfra-enable-audit-logging" {
+  type = bool
+  description = "Enable audit logging"
+  default = true
 }
 
 locals {

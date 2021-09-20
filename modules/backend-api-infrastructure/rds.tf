@@ -126,11 +126,6 @@ resource "null_resource" "init-rds" {
 
 resource "null_resource" "populate-rds-with-profile" {
   count = var.profile != "" ? 1 : 0
-  // Only execute if org id changes environment
-
-  triggers = {
-    id = var.org-id
-  }
 
   provisioner "local-exec" {
     command = <<EOT
@@ -143,11 +138,6 @@ resource "null_resource" "populate-rds-with-profile" {
 
 resource "null_resource" "populate-rds" {
   count = var.profile == "" ? 1 : 0
-  // Only execute if org id changes environment
-
-  triggers = {
-    id = var.org-id
-  }
 
   provisioner "local-exec" {
     command = <<EOT

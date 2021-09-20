@@ -38,6 +38,11 @@ variable "kms-key-arn" {
   type        = string
   description = "The KMS arn to use for encryption"
 }
+
+variable "newslit-api-key" {
+  type        = string
+  description = "The Newslit API Key value"
+}
 variable "support-sns-topic" {
   type        = string
   description = "The SNS topic to leverage for support purposes"
@@ -387,11 +392,6 @@ variable "rds-az-list" {
   description = "A list of availability zones to deploy RDS into."
 }
 
-variable "newslit-api-key" {
-  type        = string
-  description = "The API Key value for Newslit API"
-
-}
 
 variable "s3-force-destroy" {
   type        = bool

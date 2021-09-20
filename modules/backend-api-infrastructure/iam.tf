@@ -447,46 +447,6 @@ data "aws_iam_policy_document" "core-permission-lambdas3" {
   }
 }
 ########################################
-# CloudWatch Events - StartLambda
-#######################################
-data "aws_iam_policy_document" "cloudwatch-role-assume-role-policy" {
-  statement {
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["events.amazonaws.com"]
-    }
-  }
-}
-
-resource "aws_iam_role" "cloudwatch-cron-log-role" {
-  name               = "cloudwatch-cron-lambda-role"
-  description        = "This is a role for Sawyer Cloudwatch Events to trigger the log aggregator Lambda"
-  path               = "/sawyer/"
-  assume_role_policy = data.aws_iam_policy_document.cloudwatch-role-assume-role-policy.json
-
-}
-
-resource "aws_iam_role_policy" "cloudwatch-core-permissions" {
-  name = "CLoudwatch-Core-Permissions"
-  role = aws_iam_role.cloudwatch-cron-log-role.id
-
-  policy = data.aws_iam_policy_document.core-permission-lambdas3.json
-}
-
-data "aws_iam_policy_document" "cloudwatch-core-permission-statements" {
-  statement {
-    actions = [
-      "logs:CreateLogStream",
-      "logs:CreateLogGroup",
-      "logs:PutLogEvents"
-    ]
-
-    resources = ["*"]
-  }
-}
-########################################
 # Lambdas - LambdaApiGatewayReadS3
 #######################################
 data "aws_iam_policy_document" "lambda-api-gateway-reads3-assume-role-policy" {
@@ -1364,4 +1324,45 @@ resource "aws_iam_policy" "iam-kms-policy" {
   path        = "/sawyer/"
   description = "IAM policy that grants access to the main kms key"
   policy      = data.aws_iam_policy_document.iam-kms-policy.json
+}
+
+########################################
+# CloudWatch Events - StartLambda
+#######################################
+data "aws_iam_policy_document" "cloudwatch-role-assume-role-policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "cloudwatch-cron-log-role" {
+  name               = "cloudwatch-cron-lambda-role"
+  description        = "This is a role for Sawyer Cloudwatch Events to trigger the log aggregator Lambda"
+  path               = "/sawyer/"
+  assume_role_policy = data.aws_iam_policy_document.cloudwatch-role-assume-role-policy.json
+
+}
+
+resource "aws_iam_role_policy" "cloudwatch-core-permissions" {
+  name = "CLoudwatch-Core-Permissions"
+  role = aws_iam_role.cloudwatch-cron-log-role.id
+
+  policy = data.aws_iam_policy_document.core-permission-lambdas3.json
+}
+
+data "aws_iam_policy_document" "cloudwatch-core-permission-statements" {
+  statement {
+    actions = [
+      "logs:CreateLogStream",
+      "logs:CreateLogGroup",
+      "logs:PutLogEvents"
+    ]
+
+    resources = ["*"]
+  }
 }

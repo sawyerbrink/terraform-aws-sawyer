@@ -34,3 +34,4 @@ override.tf.json
 *.tfvars
 *.pdf
 *.terraform.lock.hcl
+response.json

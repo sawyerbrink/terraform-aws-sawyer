@@ -27,5 +27,5 @@ output "main-api-stage-invoke-url" {
 }
 
 output "main-api-authorizer-id" {
-  value = aws_apigatewayv2_authorizer.route-authorizer.*.id
+  value = aws_apigatewayv2_authorizer.route-authorizer[0].id
 }

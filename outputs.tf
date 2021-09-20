@@ -42,19 +42,19 @@ output "backendinfra-main-api-arn" {
 }
 
 output "backendinfra-main-api-prod-stage-id" {
-  value = module.backend-api-infrastructure.main-api-prod-stage-id
+  value = module.backend-api-infrastructure.main-api-stage-id
 }
 
 output "backendinfra-main-api-prod-stage-arn" {
-  value = module.backend-api-infrastructure.main-api-prod-stage-arn
+  value = module.backend-api-infrastructure.main-api-stage-arn
 }
 
 output "backendinfra-main-api-prod-execution-arn" {
-  value = module.backend-api-infrastructure.main-api-prod-execution-arn
+  value = module.backend-api-infrastructure.main-api-execution-arn
 }
 
 output "backendinfra-main-api-prod-stage-invoke-url" {
-  value = module.backend-api-infrastructure.main-api-prod-stage-invoke-url
+  value = module.backend-api-infrastructure.main-api-stage-invoke-url
 }
 
 output "backendinfra-ApiGateway-domain-id" {
@@ -200,4 +200,8 @@ output "backendinfra-aurora-db-custom-writer-endpoint" {
 
 output "organization-id" {
   value = data.null_data_source.values.outputs["org_id"]
+}
+
+output "rds-masster-password" {
+  value = "The Sawyer RDS master password can be viewed in the AWS SSM Paramter Store. \n The secret identifier is: ${var.name}-master-db-password"
 }
