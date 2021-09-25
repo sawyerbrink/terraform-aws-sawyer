@@ -149,6 +149,16 @@ resource "aws_cognito_user_group" "admin-group" {
   user_pool_id = aws_cognito_user_pool.user-pool.id
   description  = "Administration group"
   precedence   = 1
+
+  depends_on = [
+    aws_cognito_user_pool.user-pool
+  ]
+
+  lifecycle {
+    create_before_destroy = true
+    # The orgId forces a replacement
+    ignore_changes = [name]
+  }
 }
 
 resource "aws_cognito_user_group" "non-admin-group" {
@@ -156,4 +166,14 @@ resource "aws_cognito_user_group" "non-admin-group" {
   user_pool_id = aws_cognito_user_pool.user-pool.id
   description  = "Non-admin user group"
   precedence   = 2
+
+  depends_on = [
+    aws_cognito_user_pool.user-pool
+  ]
+
+  lifecycle {
+    create_before_destroy = true
+    # The orgId forces a replacement
+    ignore_changes = [name]
+  }
 }

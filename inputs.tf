@@ -7,6 +7,11 @@ variable "region" {
   description = "The AWS region to use"
 }
 
+variable "dr-region" {
+  type        = string
+  description = "The AWS disaster region to use"
+}
+
 variable "name" {
   type        = string
   description = "The global name of the owner. This could be a company, owning team, or area name. A default name will be provided if not specified."
@@ -395,6 +400,20 @@ variable "lambda-repository-region" {
   }
 }
 
+variable "frontendinfra-min-tls-version" {
+  type        = string
+  description = "The minimum version of the SSL protocol that you want CloudFront to use for HTTPS connections"
+  default     = "TLSv1.2_2021"
+}
+
+variable "website-repository-region" {
+  type = string
+  validation {
+    condition     = can(regex("us-east-1|us-west-2", var.website-repository-region))
+    error_message = "ERROR: Website repository is only available in us-east-1 or us-west-2."
+  }
+}
+
 variable "lambda-publish" {
   type = bool
   description = "Setting to enable Lambda publishing"
@@ -472,4 +491,5 @@ variable "backendinfra-enable-audit-logging" {
 locals {
   name               = var.name != "" ? var.name : random_string.id.result
   db-master-password = var.backendinfra-ds-db-master-password != "" ? var.backendinfra-ds-db-master-password : random_password.db-password.result
+  orgId = "o${formatdate("05040302012006", timestamp())}${substr(uuidv5("6ba7b810-9dad-11d1-80b4-00c04fd430c8", var.name), 0, 8)}"
 }

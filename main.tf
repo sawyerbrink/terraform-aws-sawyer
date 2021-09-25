@@ -2,7 +2,7 @@ module "backend-api-infrastructure" {
   source = "./modules/backend-api-infrastructure"
 
   sawyer-version           = var.sawyer-version
-  org-id                   = data.null_data_source.values.outputs["org_id"]
+  org-id                   = local.orgId
   org-name                 = var.org-name
   org-email-domain         = var.org-email-domain
   org-industry             = var.org-industry
@@ -146,4 +146,31 @@ module "backend-api-functions" {
   depends_on = [
     module.backend-api-infrastructure
   ]
+}
+
+
+module "frontend-infrastructure" {
+  source = "./modules/frontend-infrastructure"
+
+  profile = var.profile
+  sawyer-version  = var.sawyer-version
+  website-repository-region = var.website-repository-region
+  name =  var.name
+  domain  = var.backendinfra-domain-name
+  region  = var.region
+  dr-region = var.dr-region
+  environment  = var.backendinfra-environment
+
+  min-tls-version = var.frontendinfra-min-tls-version
+
+  providers = {
+    aws = aws
+    aws.dr = aws.dr
+   }
+
+  depends_on = [
+    module.backend-api-infrastructure,
+    module.backend-api-functions
+  ]
+  
 }

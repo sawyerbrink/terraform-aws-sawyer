@@ -97,14 +97,6 @@ POLICY
   depends_on = [aws_iam_role.lambda-sqs-role]
 }
 
-resource "aws_s3_bucket_ownership_controls" "logging-storage-bucket-ownership" {
-  bucket = aws_s3_bucket.logging-storage.id
-
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
-
 #  This is for test purpose
 # resource "aws_s3_bucket_object" "object" {
 #   count  = var.environment == "test" ? 1 : 0
@@ -170,16 +162,6 @@ resource "aws_s3_bucket" "customers-documents" {
   }
 }
 
-resource "aws_s3_bucket_ownership_controls" "customer-documents-bucket-ownership" {
-  bucket = aws_s3_bucket.customers-documents.id
-
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-
-  depends_on = [aws_s3_bucket.customers-documents]
-}
-
 resource "aws_s3_bucket_notification" "customer-documents-bucket-notification" {
   bucket = aws_s3_bucket.customers-documents.id
 
@@ -188,7 +170,7 @@ resource "aws_s3_bucket_notification" "customer-documents-bucket-notification" {
     events    = ["s3:ObjectCreated:*"]
   }
 
-  depends_on = [aws_s3_bucket.customers-documents, aws_sqs_queue.customer-documents-queue]
+  depends_on = [aws_s3_bucket.customers-documents, aws_sqs_queue.customer-documents-queue, aws_s3_bucket_policy.customer-documents-bucket-policy]
 }
 
 

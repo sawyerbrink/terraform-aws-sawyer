@@ -12,6 +12,11 @@ variable "region" {
   description = "The AWS region to use"
 }
 
+variable "dr-region" {
+  type        = string
+  description = "The AWS disaster region to use"
+}
+
 variable "name" {
   type        = string
   description = "The global name of the owner. This could be a company, owning team, or area name. A default name will be provided if not specified."
@@ -41,7 +46,7 @@ variable "org-size" {
 variable "sawyer-version" {
   type        = string
   description = "The version of sawyer to use"
-  default     = "latest"
+  default     = "1.0.0"
 }
 
 variable "newslit-api-key" {
@@ -343,8 +348,11 @@ variable "backendinfra-ecr-image-tag-mutability" {
 }
 
 variable "lambda-repository-region" {
-  type    = string
-  default = "us-east-1"
+  type = string
+}
+
+variable "website-repository-region" {
+  type = string
 }
 
 variable "backendinfra-rds-instance-size" {
@@ -357,4 +365,9 @@ variable "backendinfra-s3-force-destroy" {
   type        = bool
   description = "Enable S3 Force destroy"
   default     = false
+}
+
+variable "frontendinfra-min-tls-version" {
+  type        = string
+  description = "The minimum version of the SSL protocol that you want CloudFront to use for HTTPS connections"
 }

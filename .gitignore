@@ -35,3 +35,4 @@ override.tf.json
 *.pdf
 *.terraform.lock.hcl
 response.json
+replication-config.json

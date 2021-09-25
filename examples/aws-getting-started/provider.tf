@@ -27,3 +27,15 @@ provider "aws" {
   }
 }
 
+# Disaster Recovery region
+provider "aws" {
+  region  = "us-west-2"
+  alias   = "dr"
+  profile = var.profile
+  assume_role {
+    role_arn = "arn:aws:iam::${var.account_number}:role/administrator"
+  }
+  default_tags {
+    tags = var.tags
+  }
+}
