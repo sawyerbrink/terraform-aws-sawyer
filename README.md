@@ -5,7 +5,7 @@ For instructions on how to consume the module and require inputsd, please see [t
 
 <p align="center">
   <img src="/static/img/SawyerBrink.png" alt="drawing" width="800" />
-</p>%
+</p>
 
 
 ## Backend Infrastructure
