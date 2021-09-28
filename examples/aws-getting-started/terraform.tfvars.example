@@ -1,0 +1,87 @@
+account_number   = "123456789"
+org-name         = "DemoOrg"
+org-email-domain = "demoOrg.io"
+org-industry     = "Finance"
+org-size         = 11
+#########################################
+# Environment
+#########################################
+profile                           = "demoOrg-ci-cd"
+region                            = "us-east-1"
+dr-region                         = "us-west-2"
+backendinfra-api-name             = "SawyerBrink-API"
+name                              = "DemoOrg"
+sawyer-version                    = "1.0.0"
+newslit-api-key                   = "a04ebd1249msh9c40374d3411b6bp12145djsnb4632ab26b73"
+logs-retention                    = 1
+backendinfra-api-description      = "This is the main API for SawyerBrink customers to use and interact with."
+backendinfra-passthrough-behavior = "WHEN_NO_MATCH"
+backendinfra-tracing-mode         = "Active"
+backendinfra-route-timeout        = 29000
+backendinfra-environment          = "prod"
+backendinfra-protocol-type        = "HTTP"
+backendinfra-api-stage-name       = "prod"
+backendinfra-api-version          = "1"
+backendinfra-authorizer-type      = "JWT"
+
+backendinfra-api-stage-auto-deploy = true
+tags = {
+  owner             = "DemoOrg"
+  terraform_managed = "true"
+  environment       = "prod"
+  source            = "aws-getting-started_repository"
+}
+backendinfra-access-log-format                           = "{ \"ApiId\": \"$context.apiId\" , \"requestId\":\"$context.requestId\", \"ip\": \"$context.identity.sourceIp\", \"userName\": \"$context.authorizer.claims.username\", \"authorizerError\": \"$context.authorizer.error\", \"authorizerLatency\": \"$context.authorizer.latency\", \"authorizerStatus\": \"$context.authorizer.status\", \"requestTime\":\"$context.requestTime\",\"httpMethod\":\"$context.httpMethod\",\"userAgent\":\"$context.identity.userAgent\",\"routeKey\":\"$context.routeKey\",\"path\":\"$context.path\",\"stage\":\"$context.stage\", \"status\":\"$context.status\", \"intergrationLatency\": \"$context.integrationLatency\", \"responseLatency\": \"$context.responseLatency\", \"protocol\":\"$context.protocol\", \"responseLength\":\"$context.responseLength\", \"domainName\": \"$context.domainName \",\"errorMessage\": \"$context.error.message\", \"integrationErrorMessage\": \"$context.integrationErrorMessage\"}"
+backendinfra-lambda-sqs-index-document-concurrency-limit = 10
+backendinfra-lambda-sqs-logging-concurrency-limit        = 10
+backendinfra-security-policy                             = "TLS_1_2"
+backendinfra-risk-sensing-image-version                  = "prod"
+######################
+# DynamoDB
+#####################
+backendinfra-dynamodb-point-in-recovery = true
+#######################
+# Networking
+#######################
+backendinfra-domain-name     = "demoOrg.io"
+backendinfra-api-domain-name = "api.demoOrg.io"
+backendinfra-auth-domain     = "auth.demoOrg.io"
+############################
+# CORS
+############################
+backendinfra-cors-allow-origins  = ["*"]
+backendinfra-cors-allow-headers  = ["*"]
+backendinfra-cors-allow-methods  = ["GET", "PUT", "POST", "DELETE", "OPTIONS"]
+backendinfra-cors-expose-headers = ["*"]
+###########################
+# Battch
+###########################
+backendinfra-batch-memory    = "6144"
+backendinfra-batch-cpu       = "2"
+backendinfra-fargate-version = "1.4.0"
+backendinfra-batch-max-cpus  = 16
+###########################
+# RDS 
+##########################
+backendinfra-rds-db-name                 = "sawyer"
+backendinfra-rds-postgres-engine-version = "12.4"
+backendinfra-rds-postgres-engine         = "aurora-postgresql"
+backendinfra-rds-apply-immediately       = true
+backendinfra-rds-enable-public-ip        = true
+backendinfra-rds-instances               = 1
+backendinfra-rds-instance-size           = "db.t3.medium"
+backendinfra-rds-read-role               = "app_read_role"
+backendinfra-rds-write-role              = "app_write_role"
+###########################
+# Lambda
+###########################
+lambda-repository-region  = "us-east-1"
+website-repository-region = "us-east-1"
+###########################
+# S3
+###########################
+backendinfra-s3-force-destroy = true
+###########################
+# CloudFront
+###########################
+frontendinfra-min-tls-version = "TLSv1.2_2021"

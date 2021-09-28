@@ -1,0 +1,32 @@
+#########################################
+# Environment
+#########################################
+profile               = "sb-ci-cd-test"
+api-description       = "This is the main API for SawyerBrink customers to use and interact with."
+passthrough-behavior  = "WHEN_NO_MATCH"
+tracing-mode          = "Active"
+route-timeout         = 29000
+environment           = "test"
+api-version           = "1"
+region                = "us-east-1"
+lambda-alias          = "TEST"
+lambda-handler        = "main"
+lambda-runtime        = "go1.x"
+lambda-timeout        = 15
+lambda-memory-size    = 128
+lambda-publish        = true
+lambda-logs-retention = 1
+payload-format        = "2.0"
+tags = {
+  owner             = "Karl Cardenas"
+  terraform_managed = "true"
+  environment       = "test"
+  source            = "backend-api-functions"
+}
+authorization-type                          = "JWT"
+lambda-sqs-index-document-concurrency-limit = 10
+lambda-sqs-logging-concurrency-limit        = 10
+rds-table-name                              = "sawyer"
+rds-read-role                               = "app_read_role"
+rds-write-role                              = "app_write_role"
+rds-access-port                             = 5432
