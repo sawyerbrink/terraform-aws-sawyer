@@ -2,7 +2,7 @@ name: Release to Production
 
 on:
   push:
-    branches-ignore: [ main ]
+    branches: [ main ]
 env:
   GITHUB_TOKEN: ${{ github.token }}
 
@@ -34,6 +34,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        npm install @semantic-release/exec -D
-        npm install @semantic-release/github
-        npx semantic-release
+          npm install
+          npm install @semantic-release/exec -D
+          npm install @semantic-release/changelog -D
+          npm install @semantic-release/github -D
+          npx semantic-release --dry-run
