@@ -31,13 +31,13 @@ variable "org-email-domain" {
 variable "org-industry" {
   type        = string
   description = "The industry of the organization"
-  default = "NONE"
+  default     = "NONE"
 }
 
 variable "org-size" {
   type        = string
   description = "The employee size of the organization"
-  default = "42"
+  default     = "42"
 }
 
 
@@ -77,7 +77,7 @@ variable "backendinfra-api-name" {
 }
 
 variable "backendinfra-api-description" {
-  type = string
+  type    = string
   default = "The Saywer API for risk and governance management"
 }
 
@@ -92,7 +92,7 @@ variable "backendinfra-api-version" {
 }
 
 variable "backendinfra-api-stage-name" {
-  type = string
+  type    = string
   default = "default"
 }
 
@@ -103,7 +103,7 @@ variable "backendinfra-protocol-type" {
 }
 
 variable "backendinfra-api-stage-auto-deploy" {
-  type = bool
+  type    = bool
   default = true
 }
 
@@ -415,9 +415,9 @@ variable "website-repository-region" {
 }
 
 variable "lambda-publish" {
-  type = bool
+  type        = bool
   description = "Setting to enable Lambda publishing"
-  default = true
+  default     = true
 }
 
 variable "backendinfra-private-subnet-ids" {
@@ -471,25 +471,25 @@ variable "backendinfra-api-certificate-arn" {
 
 
 variable "backendinfra-lambda-security-groups-ids" {
-  type = list(string)
+  type        = list(string)
   description = "A list of security groups to apply to all Sawyer Lambdas"
-  default = []
+  default     = []
 }
 
 variable "backendinfra-lambda-subnet-ids" {
-  type = list(string)
+  type        = list(string)
   description = "A list of subnet ids to associate Lambdas with. Required for accessing RDS"
-  default = []
+  default     = []
 }
 
 variable "backendinfra-enable-audit-logging" {
-  type = bool
+  type        = bool
   description = "Enable audit logging"
-  default = true
+  default     = true
 }
 
 locals {
   name               = var.name != "" ? var.name : random_string.id.result
   db-master-password = var.backendinfra-ds-db-master-password != "" ? var.backendinfra-ds-db-master-password : random_password.db-password.result
-  orgId = "o${formatdate("05040302012006", timestamp())}${substr(uuidv5("6ba7b810-9dad-11d1-80b4-00c04fd430c8", var.name), 0, 8)}"
+  orgId              = "o${formatdate("05040302012006", timestamp())}${substr(uuidv5("6ba7b810-9dad-11d1-80b4-00c04fd430c8", var.name), 0, 8)}"
 }

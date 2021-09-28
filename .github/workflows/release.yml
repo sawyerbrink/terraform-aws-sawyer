@@ -1,0 +1,41 @@
+name: Release to Production
+
+on:
+  push:
+    branches: [ main ]
+env:
+  GITHUB_TOKEN: ${{ github.token }}
+
+
+jobs: 
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14
+
+    - name: Caching nodeJs
+      uses: actions/cache@v2
+      id: npm-cache
+      with:
+        path: | 
+          ~/.npm
+          ./node_modules
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+          npm install
+          npm install @semantic-release/exec -D
+          npm install @semantic-release/changelog -D
+          npm install @semantic-release/github -D
+          npx semantic-release --dry-run

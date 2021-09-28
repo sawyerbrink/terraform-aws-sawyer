@@ -15,30 +15,30 @@ module "backend-api-infrastructure" {
   kms-key-arn              = var.kms-key-arn
   lambda-repository-region = var.lambda-repository-region
 
-  support-sns-topic        = var.backendinfra-support-sns-topic
-  api-name                 = var.backendinfra-api-name
-  api-description          = var.backendinfra-api-description
-  disable-default-endpoint = var.backendinfra-disable-default-endpoint
-  authorizer-type          = var.backendinfra-authorizer-type
-  environment              = var.backendinfra-environment
-  api-version              = var.backendinfra-api-version
-  api-stage-name           = var.backendinfra-api-stage-name
-  protocol-type            = var.backendinfra-protocol-type
-  api-stage-auto-deploy    = var.backendinfra-api-stage-auto-deploy
-  security-policy          = var.backendinfra-security-policy
-  passthrough-behavior     = var.backendinfra-passthrough-behavior
-  tracing-mode             = var.backendinfra-tracing-mode
-  route-timeout            = var.backendinfra-route-timeout
-  access-log-format        = var.backendinfra-access-log-format
-  cors-allow-origins       = var.backendinfra-cors-allow-origins
-  cors-allow-headers       = var.backendinfra-cors-allow-headers
-  cors-allow-methods       = var.backendinfra-cors-allow-methods
-  cors-expose-headers      = var.backendinfra-cors-expose-headers
-  s3-force-destroy         = var.backendinfra-s3-force-destroy
-  domain-name              = var.backendinfra-domain-name
-  api-domain-name          = var.backendinfra-api-domain-name
-  auth-domain              = var.backendinfra-auth-domain
-  newslit-api-key          = var.newslit-api-key
+  support-sns-topic                           = var.backendinfra-support-sns-topic
+  api-name                                    = var.backendinfra-api-name
+  api-description                             = var.backendinfra-api-description
+  disable-default-endpoint                    = var.backendinfra-disable-default-endpoint
+  authorizer-type                             = var.backendinfra-authorizer-type
+  environment                                 = var.backendinfra-environment
+  api-version                                 = var.backendinfra-api-version
+  api-stage-name                              = var.backendinfra-api-stage-name
+  protocol-type                               = var.backendinfra-protocol-type
+  api-stage-auto-deploy                       = var.backendinfra-api-stage-auto-deploy
+  security-policy                             = var.backendinfra-security-policy
+  passthrough-behavior                        = var.backendinfra-passthrough-behavior
+  tracing-mode                                = var.backendinfra-tracing-mode
+  route-timeout                               = var.backendinfra-route-timeout
+  access-log-format                           = var.backendinfra-access-log-format
+  cors-allow-origins                          = var.backendinfra-cors-allow-origins
+  cors-allow-headers                          = var.backendinfra-cors-allow-headers
+  cors-allow-methods                          = var.backendinfra-cors-allow-methods
+  cors-expose-headers                         = var.backendinfra-cors-expose-headers
+  s3-force-destroy                            = var.backendinfra-s3-force-destroy
+  domain-name                                 = var.backendinfra-domain-name
+  api-domain-name                             = var.backendinfra-api-domain-name
+  auth-domain                                 = var.backendinfra-auth-domain
+  newslit-api-key                             = var.newslit-api-key
   lambda-sqs-index-document-concurrency-limit = var.backendinfra-lambda-sqs-index-document-concurrency-limit
   lambda-sqs-logging-concurrency-limit        = var.backendinfra-lambda-sqs-logging-concurrency-limit
   # Batch
@@ -96,51 +96,51 @@ module "backend-api-infrastructure" {
 module "backend-api-functions" {
   source = "./modules/backend-api-functions"
   ## Environment
-  region = var.region
-  kms-key-arn = var.kms-key-arn
-  environment   = var.backendinfra-environment
+  region         = var.region
+  kms-key-arn    = var.kms-key-arn
+  environment    = var.backendinfra-environment
   sawyer-version = var.sawyer-version
 
   ## API
-  api-description = var.backendinfra-api-description
-  api-version = var.backendinfra-api-version
-  api-id =  module.backend-api-infrastructure.main-api-id
+  api-description   = var.backendinfra-api-description
+  api-version       = var.backendinfra-api-version
+  api-id            = module.backend-api-infrastructure.main-api-id
   api-execution-arn = module.backend-api-infrastructure.main-api-execution-arn
-  api-stage-id = module.backend-api-infrastructure.main-api-stage-id
-  authorizer-id = module.backend-api-infrastructure.api-gateway-authorizer-id
+  api-stage-id      = module.backend-api-infrastructure.main-api-stage-id
+  authorizer-id     = module.backend-api-infrastructure.api-gateway-authorizer-id
   ## DynamoDB
   dynamodb-table-id = module.backend-api-infrastructure.organization-table-id
   ## SQS
-  audit-sqs-url = module.backend-api-infrastructure.audit-sqs-url
-  lambda-sqs-role-arn = module.backend-api-infrastructure.lambda-sqs-role-arn
-  customer-documents-sqs-url = module.backend-api-infrastructure.customer-sqs-url
+  audit-sqs-url                = module.backend-api-infrastructure.audit-sqs-url
+  lambda-sqs-role-arn          = module.backend-api-infrastructure.lambda-sqs-role-arn
+  customer-documents-sqs-url   = module.backend-api-infrastructure.customer-sqs-url
   customer-documents-queue-arn = module.backend-api-infrastructure.customer-sqs-arn
-  audits-queue-arn = module.backend-api-infrastructure.audit-sqs-arn
+  audits-queue-arn             = module.backend-api-infrastructure.audit-sqs-arn
   ## RDS
   rds-reader-endpoint = module.backend-api-infrastructure.aurora-db-reader-endpoint
   ## Lambda
-  lambda-repository-region  = var.lambda-repository-region
-  main-lambda-role-arn = module.backend-api-infrastructure.main-lambda-role-arn
-  lambda-security-groups-ids = var.backendinfra-lambda-security-groups-ids
-  lambda-subnet-ids = var.backendinfra-lambda-subnet-ids
-  lambda-delete-audits-role-arn = module.backend-api-infrastructure.apigateway-delete-role-arn
-  lambda-presigned_url-role-arn = module.backend-api-infrastructure.apigateway-presigned-role-arn
+  lambda-repository-region        = var.lambda-repository-region
+  main-lambda-role-arn            = module.backend-api-infrastructure.main-lambda-role-arn
+  lambda-security-groups-ids      = var.backendinfra-lambda-security-groups-ids
+  lambda-subnet-ids               = var.backendinfra-lambda-subnet-ids
+  lambda-delete-audits-role-arn   = module.backend-api-infrastructure.apigateway-delete-role-arn
+  lambda-presigned_url-role-arn   = module.backend-api-infrastructure.apigateway-presigned-role-arn
   lambda-index-documents-role-arn = module.backend-api-infrastructure.lambda-index-documents-role-arn
   # S3
-  apigateway-s3-role-arn = module.backend-api-infrastructure.apigateway-s3-role-arn
-  lambda-s3-role-arn = module.backend-api-infrastructure.lambda-s3-role-arn
-  audit-logging-bucket = module.backend-api-infrastructure.logging-bucket-id
+  apigateway-s3-role-arn    = module.backend-api-infrastructure.apigateway-s3-role-arn
+  lambda-s3-role-arn        = module.backend-api-infrastructure.lambda-s3-role-arn
+  audit-logging-bucket      = module.backend-api-infrastructure.logging-bucket-id
   customer-documents-bucket = module.backend-api-infrastructure.customer-documents-bucket-id
   ## Batch
   lambda-batch-trigger-role-arn = module.backend-api-infrastructure.lambda-batch-trigger-role-arn
-  batch-compute-queue-arn = module.backend-api-infrastructure.batch-compute-queue-arn
-  batch-job-definition-arn = module.backend-api-infrastructure.batch-compute-environment-job-definition-arn
+  batch-compute-queue-arn       = module.backend-api-infrastructure.batch-compute-queue-arn
+  batch-job-definition-arn      = module.backend-api-infrastructure.batch-compute-environment-job-definition-arn
   ## Logging
-  enable-audit-logging = var.backendinfra-enable-audit-logging
-  sns-topic-arn = var.backendinfra-support-sns-topic
+  enable-audit-logging        = var.backendinfra-enable-audit-logging
+  sns-topic-arn               = var.backendinfra-support-sns-topic
   cloudwatch-trigger-role-arn = module.backend-api-infrastructure.cloudwatch-cron-role
   ## Newslit API
-  newslit-api-key          = var.newslit-api-key
+  newslit-api-key = var.newslit-api-key
 
 
   depends_on = [
@@ -152,25 +152,25 @@ module "backend-api-functions" {
 module "frontend-infrastructure" {
   source = "./modules/frontend-infrastructure"
 
-  profile = var.profile
-  sawyer-version  = var.sawyer-version
+  profile                   = var.profile
+  sawyer-version            = var.sawyer-version
   website-repository-region = var.website-repository-region
-  name =  var.name
-  domain  = var.backendinfra-domain-name
-  region  = var.region
-  dr-region = var.dr-region
-  environment  = var.backendinfra-environment
+  name                      = var.name
+  domain                    = var.backendinfra-domain-name
+  region                    = var.region
+  dr-region                 = var.dr-region
+  environment               = var.backendinfra-environment
 
   min-tls-version = var.frontendinfra-min-tls-version
 
   providers = {
-    aws = aws
+    aws    = aws
     aws.dr = aws.dr
-   }
+  }
 
   depends_on = [
     module.backend-api-infrastructure,
     module.backend-api-functions
   ]
-  
+
 }

@@ -1,11 +1,14 @@
 module "backend-infra" {
 
+  source  = "sawyerbrink/terraform-aws-sawyer"
+  version = "v0.0.1"
+
   providers = {
     aws    = aws
     aws.dr = aws.dr
   }
 
-  source                             = "../../"
+
   profile                            = var.profile
   region                             = var.region
   dr-region                          = var.dr-region
