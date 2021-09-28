@@ -10,7 +10,7 @@ For instructions on how to consume the module and require inputsd, please see [t
 
 ## Backend Infrastructure
 <p align="center">
-  <img src="https://raw.githubusercontent.com/sawyerbrink/terraform-aws-sawyer/readme-update/static/img/API-Architecture.png" alt="drawing"/>
+  <img src="https://raw.githubusercontent.com/sawyerbrink/terraform-aws-sawyer/main/static/img/API-Architecture.png" alt="drawing"/>
 </p>
 
 ## Frontend Infrastructure
