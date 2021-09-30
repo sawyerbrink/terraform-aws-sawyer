@@ -1,7 +1,7 @@
 module "backend-infra" {
 
-  source  = "sawyerbrink/terraform-aws-sawyer"
-  version = "v0.0.1"
+  source  = "sawyerbrink/sawyer/aws"
+  version = "1.0.0"
 
   providers = {
     aws    = aws
@@ -111,34 +111,3 @@ module "vpc" {
 
   database_subnet_group_name = "${var.name}-db-subnets"
 }
-
-# resource "aws_s3_bucket" "b" {
-#   bucket = "sawyer-demo-demo"
-#   acl    = "private"
-
-#   tags = {
-#     Environment = "Dev"
-#   }
-# }
-
-# data "aws_s3_bucket_objects" "my_objects" {
-#   bucket = "sawyerbrink-website-assets-us-east-1"
-#   prefix = "${var.sawyer-version}"
-# }
-
-# resource "aws_s3_object_copy" "test" {
-#   for_each = toset(data.aws_s3_bucket_objects.my_objects.keys)
-
-
-#   bucket = "${aws_s3_bucket.b.id}"
-#   key    = "${each.value}"
-#   source = "sawyerbrink-website-assets-us-east-1/${each.value}"
-#   acl = "private"
-
-#   copy_if_none_match = "etag"
-
-
-#   lifecycle {
-#     ignore_changes = [tags, tags_all]
-#   }
-# }
