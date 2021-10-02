@@ -20,7 +20,7 @@ backendinfra-tracing-mode         = "Active"
 backendinfra-route-timeout        = 29000
 backendinfra-environment          = "prod"
 backendinfra-protocol-type        = "HTTP"
-backendinfra-api-stage-name       = "prod"
+backendinfra-api-stage-name       = "sawyer"
 backendinfra-api-version          = "1"
 backendinfra-authorizer-type      = "JWT"
 
@@ -35,7 +35,7 @@ backendinfra-access-log-format                           = "{ \"ApiId\": \"$cont
 backendinfra-lambda-sqs-index-document-concurrency-limit = 10
 backendinfra-lambda-sqs-logging-concurrency-limit        = 10
 backendinfra-security-policy                             = "TLS_1_2"
-backendinfra-risk-sensing-image-version                  = "prod"
+backendinfra-risk-sensing-image-version                  = "1.0.0"
 ######################
 # DynamoDB
 #####################
