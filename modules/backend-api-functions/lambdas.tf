@@ -14,7 +14,7 @@ module "lambdas" {
   logs-retention         = var.lambda-logs-retention
   kms-key-arn-cloudwatch = var.kms-key-arn
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source-code-hash = base64encode(var.sawyer-version)
+  source-code-hash = base64encode(lower(var.sawyer-version))
 
   environment = {
     REGION        = var.region
@@ -32,7 +32,7 @@ module "lambdas" {
   ############################
   # Lambda Specific Settings
   ############################
-  s3-key = "${var.sawyer-version}/${each.value.s3-key}"
+  s3-key = "${lower(var.sawyer-version)}/${each.value.s3-key}"
 
 
   description         = each.value.description
@@ -56,7 +56,7 @@ module "lambdas" {
 module "getLogs-lambda" {
   source         = "../lambda-apigateway"
   s3-bucket-name = local.codeBucket
-  s3-key         = "${var.sawyer-version}/getLogs.zip"
+  s3-key         = "${lower(var.sawyer-version)}/getLogs.zip"
 
   alias             = var.lambda-alias
   alias-description = "Alias for the getLogs lambda"
@@ -68,7 +68,7 @@ module "getLogs-lambda" {
   timeout           = var.lambda-timeout
   memory-size       = var.lambda-memory-size
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source-code-hash = base64encode(var.sawyer-version)
+  source-code-hash = base64encode(lower(var.sawyer-version))
   publish          = var.lambda-publish
 
   logs-retention         = var.lambda-logs-retention
@@ -90,7 +90,7 @@ module "getLogs-lambda" {
 #############################
 resource "aws_lambda_function" "pollsqs-lambda" {
   s3_bucket     = local.codeBucket
-  s3_key        = "${var.sawyer-version}/pollSQS.zip"
+  s3_key        = "${lower(var.sawyer-version)}/pollSQS.zip"
   function_name = "pollSQS"
   role          = var.lambda-sqs-role-arn
   handler       = var.lambda-handler
@@ -99,7 +99,7 @@ resource "aws_lambda_function" "pollsqs-lambda" {
   timeout       = var.lambda-timeout
   memory_size   = var.lambda-memory-size
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source_code_hash               = base64encode(var.sawyer-version)
+  source_code_hash               = base64encode(lower(var.sawyer-version))
   publish                        = var.lambda-publish
   reserved_concurrent_executions = var.lambda-sqs-index-document-concurrency-limit
 
@@ -155,7 +155,7 @@ resource "aws_cloudwatch_log_group" "pollsqs-lambda-cloudwatch-group" {
 #############################
 resource "aws_lambda_function" "log-aggregator-lambda" {
   s3_bucket     = local.codeBucket
-  s3_key        = "${var.sawyer-version}/logAggregator.zip"
+  s3_key        = "${lower(var.sawyer-version)}/logAggregator.zip"
   function_name = "logAggregator"
   role          = var.lambda-s3-role-arn
   handler       = var.lambda-handler
@@ -164,7 +164,7 @@ resource "aws_lambda_function" "log-aggregator-lambda" {
   timeout       = 60
   memory_size   = 256
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source_code_hash = base64encode(var.sawyer-version)
+  source_code_hash = base64encode(lower(var.sawyer-version))
   publish          = var.lambda-publish
 
 
@@ -212,7 +212,7 @@ resource "aws_cloudwatch_log_group" "log-aggregator-lambda-cloudwatch-group" {
 ##############################
 resource "aws_lambda_function" "trigger-aws-batch" {
   s3_bucket     = local.codeBucket
-  s3_key        = "${var.sawyer-version}/triggerBatch.zip"
+  s3_key        = "${lower(var.sawyer-version)}/triggerBatch.zip"
   function_name = "triggerBatch"
   role          = var.lambda-batch-trigger-role-arn
   handler       = var.lambda-handler
@@ -221,7 +221,7 @@ resource "aws_lambda_function" "trigger-aws-batch" {
   timeout       = 15
   memory_size   = 128
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source_code_hash = base64encode(var.sawyer-version)
+  source_code_hash = base64encode(lower(var.sawyer-version))
   publish          = true
 
 
@@ -278,7 +278,7 @@ resource "aws_cloudwatch_log_group" "trigger-aws-batch-lambda-cloudwatch-group" 
 module "deleteAudit-lambda" {
   source         = "../lambda-apigateway"
   s3-bucket-name = local.codeBucket
-  s3-key         = "${var.sawyer-version}/deleteAudit.zip"
+  s3-key         = "${lower(var.sawyer-version)}/deleteAudit.zip"
 
   alias             = var.lambda-alias
   alias-description = "Alias for the deleteAudit lambda"
@@ -290,7 +290,7 @@ module "deleteAudit-lambda" {
   timeout           = var.lambda-timeout
   memory-size       = var.lambda-memory-size
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source-code-hash = base64encode(var.sawyer-version)
+  source-code-hash = base64encode(lower(var.sawyer-version))
   publish          = var.lambda-publish
 
   logs-retention         = var.lambda-logs-retention
@@ -323,7 +323,7 @@ module "deleteAudit-lambda" {
 module "deleteControl-lambda" {
   source         = "../lambda-apigateway"
   s3-bucket-name = local.codeBucket
-  s3-key         = "${var.sawyer-version}/deleteControl.zip"
+  s3-key         = "${lower(var.sawyer-version)}/deleteControl.zip"
 
   alias             = var.lambda-alias
   alias-description = "Alias for the deleteControl lambda"
@@ -335,7 +335,7 @@ module "deleteControl-lambda" {
   timeout           = var.lambda-timeout
   memory-size       = var.lambda-memory-size
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source-code-hash = base64encode(var.sawyer-version)
+  source-code-hash = base64encode(lower(var.sawyer-version))
   publish          = var.lambda-publish
 
   logs-retention         = var.lambda-logs-retention
@@ -366,7 +366,7 @@ module "deleteControl-lambda" {
 module "deleteRisk-lambda" {
   source         = "../lambda-apigateway"
   s3-bucket-name = local.codeBucket
-  s3-key         = "${var.sawyer-version}/deleteRisk.zip"
+  s3-key         = "${lower(var.sawyer-version)}/deleteRisk.zip"
 
   alias             = var.lambda-alias
   alias-description = "Alias for the deleteRisk lambda"
@@ -378,7 +378,7 @@ module "deleteRisk-lambda" {
   timeout           = var.lambda-timeout
   memory-size       = var.lambda-memory-size
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source-code-hash = base64encode(var.sawyer-version)
+  source-code-hash = base64encode(lower(var.sawyer-version))
   publish          = var.lambda-publish
 
   logs-retention         = var.lambda-logs-retention
@@ -410,7 +410,7 @@ module "deleteRisk-lambda" {
 module "getPresignedUrl-lambda" {
   source         = "../lambda-apigateway"
   s3-bucket-name = local.codeBucket
-  s3-key         = "${var.sawyer-version}/presignedUrl.zip"
+  s3-key         = "${lower(var.sawyer-version)}/presignedUrl.zip"
 
   alias             = var.lambda-alias
   alias-description = "Alias for the presignedUrl lambda"
@@ -422,7 +422,7 @@ module "getPresignedUrl-lambda" {
   timeout           = var.lambda-timeout
   memory-size       = var.lambda-memory-size
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source-code-hash = base64encode(var.sawyer-version)
+  source-code-hash = base64encode(lower(var.sawyer-version))
   publish          = var.lambda-publish
 
   logs-retention         = var.lambda-logs-retention
@@ -447,7 +447,7 @@ module "getPresignedUrl-lambda" {
 resource "aws_lambda_function" "Index-document-lambda" {
   function_name = "indexDocument"
   s3_bucket     = local.codeBucket
-  s3_key        = "${var.sawyer-version}/indexDocument.zip"
+  s3_key        = "${lower(var.sawyer-version)}/indexDocument.zip"
   role          = var.lambda-index-documents-role-arn
   handler       = var.lambda-handler
   runtime       = var.lambda-runtime
@@ -455,7 +455,7 @@ resource "aws_lambda_function" "Index-document-lambda" {
   timeout       = 40
   memory_size   = var.lambda-memory-size
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source_code_hash               = base64encode(var.sawyer-version)
+  source_code_hash               = base64encode(lower(var.sawyer-version))
   publish                        = var.lambda-publish
   reserved_concurrent_executions = var.lambda-sqs-logging-concurrency-limit
 
@@ -511,7 +511,7 @@ resource "aws_cloudwatch_log_group" "Index-document-lambda-cloudwatch-group" {
 module "deleteAuditDocument-lambda" {
   source         = "../lambda-apigateway"
   s3-bucket-name = local.codeBucket
-  s3-key         = "${var.sawyer-version}/deleteAuditDocument.zip"
+  s3-key         = "${lower(var.sawyer-version)}/deleteAuditDocument.zip"
 
   alias             = var.lambda-alias
   alias-description = "Alias for the deleteAuditDocument lambda"
@@ -522,7 +522,7 @@ module "deleteAuditDocument-lambda" {
   runtime           = var.lambda-runtime
   timeout           = var.lambda-timeout
   memory-size       = var.lambda-memory-size
-  source-code-hash  = base64encode(var.sawyer-version)
+  source-code-hash  = base64encode(lower(var.sawyer-version))
   publish           = var.lambda-publish
 
   logs-retention         = var.lambda-logs-retention
@@ -549,7 +549,7 @@ module "deleteAuditDocument-lambda" {
 module "deleteControlsDocuments-lambda" {
   source         = "../lambda-apigateway"
   s3-bucket-name = local.codeBucket
-  s3-key         = "${var.sawyer-version}/deleteControlsDocuments.zip"
+  s3-key         = "${lower(var.sawyer-version)}/deleteControlsDocuments.zip"
 
   alias             = var.lambda-alias
   alias-description = "Alias for the deleteControlsDocuments lambda"
@@ -561,7 +561,7 @@ module "deleteControlsDocuments-lambda" {
   timeout           = var.lambda-timeout
   memory-size       = var.lambda-memory-size
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source-code-hash = base64encode(var.sawyer-version)
+  source-code-hash = base64encode(lower(var.sawyer-version))
   publish          = var.lambda-publish
 
   logs-retention         = var.lambda-logs-retention
@@ -588,7 +588,7 @@ module "deleteControlsDocuments-lambda" {
 module "deleteRisksDocuments-lambda" {
   source         = "../lambda-apigateway"
   s3-bucket-name = local.codeBucket
-  s3-key         = "${var.sawyer-version}/deleteRisksDocuments.zip"
+  s3-key         = "${lower(var.sawyer-version)}/deleteRisksDocuments.zip"
 
   alias             = var.lambda-alias
   alias-description = "Alias for the deleteRisksDocuments lambda"
@@ -600,7 +600,7 @@ module "deleteRisksDocuments-lambda" {
   timeout           = var.lambda-timeout
   memory-size       = var.lambda-memory-size
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source-code-hash = base64encode(var.sawyer-version)
+  source-code-hash = base64encode(lower(var.sawyer-version))
   publish          = var.lambda-publish
 
   logs-retention         = var.lambda-logs-retention

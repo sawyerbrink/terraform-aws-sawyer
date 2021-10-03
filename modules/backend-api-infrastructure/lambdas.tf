@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "preSignUp-trigger" {
   s3_bucket     = local.codeBucket
-  s3_key        = "${var.sawyer-version}/preSignUp.zip"
+  s3_key        = "${lower(var.sawyer-version)}/preSignUp.zip"
   function_name = "preSignUp"
   role          = aws_iam_role.lambda-role.arn
   handler       = "main"
@@ -10,7 +10,7 @@ resource "aws_lambda_function" "preSignUp-trigger" {
   memory_size   = 128
   publish       = true
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source_code_hash = base64encode(var.sawyer-version)
+  source_code_hash = base64encode(lower(var.sawyer-version))
 
   environment {
     variables = {
@@ -52,7 +52,7 @@ resource "aws_cloudwatch_log_group" "pollsqs-lambda-cloudwatch-group" {
 ############################################################
 resource "aws_lambda_function" "setupDB" {
   s3_bucket     = local.codeBucket
-  s3_key        = "${var.sawyer-version}/setup_db.zip"
+  s3_key        = "${lower(var.sawyer-version)}/setup_db.zip"
   function_name = "setup_db"
   role          = aws_iam_role.lambda-role.arn
   handler       = "setup_db.lambda_handler"
@@ -62,7 +62,7 @@ resource "aws_lambda_function" "setupDB" {
   memory_size   = 128
   publish       = true
    // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source_code_hash = base64encode(var.sawyer-version)
+  source_code_hash = base64encode(lower(var.sawyer-version))
 
   environment {
     variables = {
@@ -120,7 +120,7 @@ resource "aws_cloudwatch_log_group" "setupDB-lambda-cloudwatch-group" {
 ########################################
 resource "aws_lambda_function" "populate_rds" {
   s3_bucket     = local.codeBucket
-  s3_key        = "${var.sawyer-version}/populate_rds.zip"
+  s3_key        = "${lower(var.sawyer-version)}/populate_rds.zip"
   function_name = "populate_rds"
   role          = aws_iam_role.lambda-rds-role.arn
   handler       = "populate_rds.lambda_handler"
@@ -130,7 +130,7 @@ resource "aws_lambda_function" "populate_rds" {
   memory_size   = 128
   publish       = true
   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
-  source_code_hash = base64encode(var.sawyer-version)
+  source_code_hash = base64encode(lower(var.sawyer-version))
 
 
   environment {
