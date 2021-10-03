@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "code-storage" {
-  bucket = "${lower(var.name)}-ui-code-${var.environment}-${data.aws_region.current.name}"
+  bucket = "${lower(var.name)}-ui-code-${var.environment}-${var.region}"
   acl    = "private"
   force_destroy = true
 
