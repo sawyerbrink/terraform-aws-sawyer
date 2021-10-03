@@ -1,7 +1,7 @@
 
 data "aws_s3_bucket_objects" "my_objects" {
   bucket = "sawyerbrink-website-assets-${var.website-repository-region}"
-  prefix = var.sawyer-version
+  prefix = lower(var.sawyer-version)
 }
 
 ## The AWS CLI must be used to circumvent the limitation of count and for_each not accepting dynamic values
@@ -17,7 +17,7 @@ resource "null_resource" "copy-website-assets-profile" {
     command = <<EOT
             aws s3 rm s3://${aws_s3_bucket.code-storage.id} --recursive --profile ${var.profile}
          %{for key in data.aws_s3_bucket_objects.my_objects.keys}
-            aws s3api copy-object --profile ${var.profile} --copy-source sawyerbrink-website-assets-${var.website-repository-region}/${key} --key ${substr(key, 6, -1)} --bucket ${aws_s3_bucket.code-storage.id} --acl private
+            aws s3api copy-object --profile ${var.profile} --copy-source sawyerbrink-website-assets-${var.website-repository-region}/${key} --key ${substr(key, lower(var.sawyer-version) != "test" ? 6 : 5 , -1)} --bucket ${aws_s3_bucket.code-storage.id} --acl private
          %{endfor~} 
     EOT
   }
@@ -35,7 +35,7 @@ resource "null_resource" "copy-website-assets" {
     command = <<EOT
             aws s3 rm s3://${aws_s3_bucket.code-storage.id} --recursive
          %{for key in data.aws_s3_bucket_objects.my_objects.keys}
-            aws s3api copy-object --copy-source sawyerbrink-website-assets-${var.website-repository-region}/${key} --key ${substr(key, 6, -1)} --bucket ${aws_s3_bucket.code-storage.id} --acl private
+            aws s3api copy-object --copy-source sawyerbrink-website-assets-${var.website-repository-region}/${key} --key ${substr(key, lower(var.sawyer-version) != "test" ? 6 : 5 , -1)} --bucket ${aws_s3_bucket.code-storage.id} --acl private
          %{endfor~} 
     EOT
   }
