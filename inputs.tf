@@ -494,6 +494,12 @@ variable "website-build-lambda-memory-size" {
   default = 512
 }
 
+variable "backendinfra-mfa-configuration" {
+  type = string
+  description = "Whether or not to enable MFA in AWS Cognito"
+  default = "ON"
+}
+
 locals {
   name               = var.name != "" ? var.name : random_string.id.result
   db-master-password = var.backendinfra-ds-db-master-password != "" ? var.backendinfra-ds-db-master-password : random_password.db-password.result

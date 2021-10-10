@@ -16,13 +16,13 @@ variable "org-email-domain" {
 variable "org-industry" {
   type        = string
   description = "The industry of the organization"
-  default = "NONE"
+  default     = "NONE"
 }
 
 variable "org-size" {
   type        = string
   description = "The employee size of the organization"
-  default = "42"
+  default     = "42"
 }
 
 variable "profile" {
@@ -255,6 +255,19 @@ variable "cognito-auto-verify-attrs" {
   description = "The list of cogito attributes to auto-verify"
   default     = ["email"]
 }
+
+variable "mfa_configuration" {
+  type        = string
+  description = "Whether or not to enable MFA in AWS Cognito"
+  default     = "ON"
+}
+
+variable "software_token_mfa_configuration_enabled" {
+  type        = bool
+  description = "Whether or not to enable mfa via software token"
+  default     = true
+}
+
 
 variable "rds-instances" {
   type        = number

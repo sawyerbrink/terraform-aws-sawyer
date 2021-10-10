@@ -69,6 +69,8 @@ module "backend-api-infrastructure" {
   rds-postgres-engine         = var.backendinfra-rds-postgres-engine
   rds-az-list                 = var.backendinfra-rds-az-list
   rds-db-subnet-name          = var.backendinfra-rds-db-subnet-name
+  # Cognito
+  mfa_configuration = var.backendinfra-mfa-configuration
 
   ses-email-arn       = var.ses-email-arn
   api-certificate-arn = var.backendinfra-api-certificate-arn
