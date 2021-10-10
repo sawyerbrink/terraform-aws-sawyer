@@ -70,8 +70,8 @@ data "aws_iam_policy_document" "iam-permissions" {
 resource "aws_iam_role" "lambda-website-build-role" {
   name = "saywer-lambda-website-build-role"
 
-  assume_role_policy = data.lambda-website-assume-role-policy.json
-  inline_policy      = data.lambda-website-permissions-policy.json
+  assume_role_policy = data.aws_iam_policy_document.lambda-website-assume-role-policy.json
+  inline_policy      = data.aws_iam_policy_document.lambda-website-permissions-policy.json
 }
 
 data "aws_iam_policy_document" "lambda-website-assume-role-policy" {
