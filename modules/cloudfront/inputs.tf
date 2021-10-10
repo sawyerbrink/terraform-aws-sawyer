@@ -8,10 +8,30 @@ variable "bucket-name" {
   description = "The name of the bucket that contains the source code"
 }
 
+variable "bucket-arn" {
+  type        = string
+  description = "The arn of the bucket that contains the source code"
+}
+
+variable "bucket-domain-name" {
+  type        = string
+  description = "The s3 domain name of the bucket that contains the source code"
+}
+
 
 variable "bucket-dr-name" {
   type        = string
   description = "The name of the disater recovery bucket that contains the source code"
+}
+
+variable "bucket-dr-arn" {
+  type        = string
+  description = "The arn of the bucket that contains the source code"
+}
+
+variable "bucket-domain-dr-name" {
+  type        = string
+  description = "The s3 domain name of the dr bucket that contains the source code"
 }
 
 variable "s3-replication-role-arn" {
@@ -70,10 +90,11 @@ variable "min_tls_version" {
   default     = "TLSv1.2_2021"
 }
 
-variable "hosted-zone-name" {
+variable "hosted-zone-id" {
   type        = string
-  description = "The name of the route53 hosted zone that the SPA belongs to"
+  description = "The id of the route53 hosted zone that the SPA belongs to"
 }
+
 
 variable "web-acl-id" {
   type        = string
@@ -81,6 +102,12 @@ variable "web-acl-id" {
   default     = null
 }
 
+
+variable "account_id" {
+  type = string
+  description = "The account number that Sawyer is getting deployed to."
+  
+}
 
 locals {
   s3_origin_id       = "${var.bucket-name}-origin"

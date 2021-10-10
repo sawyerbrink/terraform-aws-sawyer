@@ -9,7 +9,10 @@ module "cloudfront" {
 
   bucket-name             = aws_s3_bucket.code-storage.id
   bucket-dr-name          = aws_s3_bucket.code-storage-DR.id
+  bucket-domain-name      = aws_s3_bucket.code-storage.bucket_domain_name
+  bucket-domain-dr-name   = aws_s3_bucket.code-storage-DR.bucket_domain_name
   s3-replication-role-arn = aws_iam_role.s3-replication.arn
+  account_id              = var.account_id
 
   application = var.domain
   url-prefix  = var.url-prefix
@@ -24,7 +27,7 @@ module "cloudfront" {
     "error_caching_min_ttl" : "300"
   }]
   cache_items      = ["/static/*"]
-  hosted-zone-name = var.domain
+  hosted-zone-id   = local.domain_hosted_zone_id
   certificate-arn  = data.aws_acm_certificate.ui-cert.arn
 
   error_document = "index.html"

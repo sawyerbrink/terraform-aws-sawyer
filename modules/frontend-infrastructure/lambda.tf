@@ -22,3 +22,39 @@ resource "aws_lambda_function" "build-website" {
     }
   }
 }
+
+resource "aws_lambda_alias" "build-website-alias" {
+  name             = upper(var.environment)
+  description      = "Alias for the build-website lambda"
+  function_name    = aws_lambda_function.build-website.arn
+  function_version = aws_lambda_function.build-website.version
+  depends_on       = [aws_lambda_function.build-website]
+}
+
+resource "aws_lambda_function_event_invoke_config" "build-website-lambda-invoke-settings" {
+  function_name                = aws_lambda_alias.build-website-alias.function_name
+  maximum_event_age_in_seconds = 60
+  maximum_retry_attempts       = 1
+}
+
+resource "aws_cloudwatch_log_group" "build-website-cloudwatch-group" {
+  name              = "/aws/lambda/build_sawyer_website"
+  retention_in_days = var.logs-retention
+  kms_key_id        = var.kms-key-arn
+}
+
+
+resource "null_resource" "populate-rds" {
+  count = var.profile == "" ? 1 : 0
+
+  triggers = {
+    id = var.sawyer-version
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      aws lambda invoke --function-name build_sawyer_website --region ${var.region} response.json
+    EOT
+  }
+  depends_on = [aws_lambda_function.build-website,aws_cloudwatch_log_group.build-website-cloudwatch-group,aws_s3_bucket.code-storage]
+}

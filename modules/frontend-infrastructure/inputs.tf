@@ -28,9 +28,21 @@ variable "domain" {
   type = string
 }
 
+variable "account_id" {
+  type = string
+  description = "The account number that Sawyer is getting deployed to."
+  
+}
+
 variable "kms-key-arn" {
   type        = string
   description = "The KMS arn to use for encryption"
+}
+
+variable "logs-retention" {
+  type        = number
+  description = "The number of days to retain logs"
+  default     = 3
 }
 
 variable "environment" {
@@ -68,4 +80,8 @@ variable "website-build-lambda-memory-size" {
   type        = number
   description = "The memory size of the Lambda that builds the website assets"
   default     = 512
+}
+
+locals {
+  domain_hosted_zone_id = data.aws_route53_zone.hosted_zone.id
 }

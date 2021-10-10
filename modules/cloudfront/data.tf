@@ -10,23 +10,23 @@ data "aws_iam_policy_document" "sb-s3-spa-dr-policy-document" {
     effect  = "Allow"
     actions = ["s3:GetObject"]
     resources = [
-      data.aws_s3_bucket.source-code-dr.arn,
-      "${data.aws_s3_bucket.source-code-dr.arn}/*"
+      var.bucket-dr-arn,
+      "${var.bucket-dr-arn}/*"
     ]
   }
 
   statement {
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/administrator"]
+      identifiers = ["arn:aws:iam::${var.account_id}:role/administrator"]
     }
 
     sid     = "AllowSayerBrinkAdmins"
     effect  = "Allow"
     actions = ["s3:*"]
     resources = [
-      data.aws_s3_bucket.source-code-dr.arn,
-      "${data.aws_s3_bucket.source-code-dr.arn}/*"
+      var.bucket-dr-arn,
+      "${var.bucket-dr-arn}/*"
     ]
   }
 
@@ -43,8 +43,8 @@ data "aws_iam_policy_document" "sb-s3-spa-dr-policy-document" {
       "s3:ReplicateTags"
     ]
     resources = [
-      data.aws_s3_bucket.source-code-dr.arn,
-      "${data.aws_s3_bucket.source-code-dr.arn}/*"
+      var.bucket-dr-arn,
+      "${var.bucket-dr-arn}/*"
     ]
   }
 }
@@ -61,23 +61,23 @@ data "aws_iam_policy_document" "sb-s3-spa-policy-document" {
     effect  = "Allow"
     actions = ["s3:GetObject"]
     resources = [
-      data.aws_s3_bucket.source-code.arn,
-      "${data.aws_s3_bucket.source-code.arn}/*"
+      var.bucket-arn,
+      "${var.bucket-arn}/*"
     ]
   }
 
   statement {
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/administrator"]
+      identifiers = ["arn:aws:iam::${var.account_id}:role/administrator"]
     }
 
     sid     = "AllowSayerBrinkAdmins"
     effect  = "Allow"
     actions = ["s3:*"]
     resources = [
-      data.aws_s3_bucket.source-code.arn,
-      "${data.aws_s3_bucket.source-code.arn}/*"
+      var.bucket-arn,
+      "${var.bucket-arn}/*"
     ]
   }
 
@@ -95,8 +95,8 @@ data "aws_iam_policy_document" "sb-s3-spa-policy-document" {
       "s3:ReplicateDelete"
     ]
     resources = [
-      data.aws_s3_bucket.source-code.arn,
-      "${data.aws_s3_bucket.source-code.arn}/*"
+      var.bucket-arn,
+      "${var.bucket-arn}/*"
     ]
   }
 
@@ -112,8 +112,8 @@ data "aws_iam_policy_document" "sb-s3-spa-policy-document" {
       "s3:GetObjectVersionAcl"
     ]
     resources = [
-      data.aws_s3_bucket.source-code.arn,
-      "${data.aws_s3_bucket.source-code.arn}/*"
+      var.bucket-arn,
+      "${var.bucket-arn}/*"
     ]
   }
 
@@ -129,22 +129,7 @@ data "aws_iam_policy_document" "sb-s3-spa-policy-document" {
       "s3:ListBucket"
     ]
     resources = [
-      data.aws_s3_bucket.source-code.arn,
+      var.bucket-arn,
     ]
   }
-}
-
-data "aws_caller_identity" "current" {}
-
-data "aws_route53_zone" "hosted_zone" {
-  name = var.hosted-zone-name
-}
-
-data "aws_s3_bucket" "source-code" {
-  bucket = var.bucket-name
-}
-
-data "aws_s3_bucket" "source-code-dr" {
-  provider = aws.dr
-  bucket   = var.bucket-dr-name
 }

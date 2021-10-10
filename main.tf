@@ -166,6 +166,8 @@ module "frontend-infrastructure" {
 
   cognito-userpool-id = module.backend-api-infrastructure.user-pool-id
   cognito-userpool-client-id = module.backend-api-infrastructure.implicit-client-id
+  logs-retention           = var.logs-retention
+  account_id               = local.account_id
 
   providers = {
     aws    = aws
