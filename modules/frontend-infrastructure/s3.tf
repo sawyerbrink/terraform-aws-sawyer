@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "code-storage" {
-  bucket = "${lower(var.name)}-ui-code-${var.environment}-${var.region}"
-  acl    = "private"
+  bucket        = "${lower(var.name)}-ui-code-${var.environment}-${var.region}"
+  acl           = "private"
   force_destroy = true
 
   server_side_encryption_configuration {
@@ -60,9 +60,9 @@ resource "aws_s3_bucket" "code-storage" {
 # DR Bucket
 ##############################
 resource "aws_s3_bucket" "code-storage-DR" {
-  provider = aws.dr
-  bucket   = "${lower(var.name)}-ui-code-${var.environment}-${var.dr-region}"
-  acl      = "private"
+  provider      = aws.dr
+  bucket        = "${lower(var.name)}-ui-code-${var.environment}-${var.dr-region}"
+  acl           = "private"
   force_destroy = true
 
   server_side_encryption_configuration {
@@ -140,10 +140,10 @@ resource "local_file" "s3-replication-config" {
             "Destination": {
                 "Bucket": "${aws_s3_bucket.code-storage-DR.arn}",
                 "EncryptionConfiguration": {
-                  "ReplicaKmsKeyID": "arn:aws:kms:${var.dr-region}:${data.aws_caller_identity.current.id}:alias/aws/s3"
+                  "ReplicaKmsKeyID": "arn:aws:kms:${var.dr-region}:${var.account_id}:alias/aws/s3"
                  },
                 "StorageClass": "STANDARD",
-                "Account": "${data.aws_caller_identity.current.id}"
+                "Account": "${var.account_id}"
               }
         }
     ]

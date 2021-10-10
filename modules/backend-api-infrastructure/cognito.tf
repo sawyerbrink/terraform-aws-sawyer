@@ -3,6 +3,16 @@ resource "aws_cognito_user_pool" "user-pool" {
 
   auto_verified_attributes = var.cognito-auto-verify-attrs
 
+  mfa_configuration = var.mfa_configuration
+  dynamic "software_token_mfa_configuration" {
+    # enable if mfa is not OFF, so either ON or OPTIONAL
+    for_each = var.mfa_configuration != "OFF" ? [1] : []
+    content {
+      # enabled = var.software_token_mfa_configuration_enabled
+      enabled = true
+    }
+  }
+
 
   password_policy {
     minimum_length                   = 8

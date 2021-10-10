@@ -45,7 +45,7 @@ resource "aws_cloudfront_distribution" "application" {
 
 
   origin {
-    domain_name = data.aws_s3_bucket.source-code-dr.bucket_domain_name
+    domain_name = var.bucket-domain-dr-name
     origin_id   = local.s3_origin_dr_id
 
     s3_origin_config {
@@ -54,7 +54,7 @@ resource "aws_cloudfront_distribution" "application" {
   }
 
   origin {
-    domain_name = data.aws_s3_bucket.source-code.bucket_domain_name
+    domain_name = var.bucket-domain-name
     origin_id   = local.s3_origin_id
 
     s3_origin_config {

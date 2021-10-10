@@ -488,8 +488,22 @@ variable "backendinfra-enable-audit-logging" {
   default     = true
 }
 
+variable "website-build-lambda-memory-size" {
+  type = number
+  description = "The memory size of the Lambda that builds the website assets"
+  default = 512
+}
+
+variable "backendinfra-mfa-configuration" {
+  type = string
+  description = "Whether or not to enable MFA in AWS Cognito"
+  default = "ON"
+}
+
 locals {
   name               = var.name != "" ? var.name : random_string.id.result
   db-master-password = var.backendinfra-ds-db-master-password != "" ? var.backendinfra-ds-db-master-password : random_password.db-password.result
   orgId              = "o${formatdate("05040302012006", timestamp())}${substr(uuidv5("6ba7b810-9dad-11d1-80b4-00c04fd430c8", var.name), 0, 8)}"
+
+  account_id = data.aws_caller_identity.current
 }

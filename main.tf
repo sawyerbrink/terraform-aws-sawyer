@@ -69,6 +69,8 @@ module "backend-api-infrastructure" {
   rds-postgres-engine         = var.backendinfra-rds-postgres-engine
   rds-az-list                 = var.backendinfra-rds-az-list
   rds-db-subnet-name          = var.backendinfra-rds-db-subnet-name
+  # Cognito
+  mfa_configuration = var.backendinfra-mfa-configuration
 
   ses-email-arn       = var.ses-email-arn
   api-certificate-arn = var.backendinfra-api-certificate-arn
@@ -160,8 +162,14 @@ module "frontend-infrastructure" {
   region                    = var.region
   dr-region                 = var.dr-region
   environment               = var.backendinfra-environment
-
+  kms-key-arn               = var.kms-key-arn
+  website-build-lambda-memory-size = var.website-build-lambda-memory-size
   min-tls-version = var.frontendinfra-min-tls-version
+
+  cognito-userpool-id = module.backend-api-infrastructure.user-pool-id
+  cognito-userpool-client-id = module.backend-api-infrastructure.implicit-client-id
+  logs-retention           = var.logs-retention
+  account_id               = local.account_id
 
   providers = {
     aws    = aws

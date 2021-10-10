@@ -61,7 +61,7 @@ resource "aws_lambda_function" "setupDB" {
   timeout       = 30
   memory_size   = 128
   publish       = true
-   // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
+  // This will always trigger an update due to the issue #7385 in the terraform-provider-aws
   source_code_hash = base64encode(lower(var.sawyer-version))
 
   environment {

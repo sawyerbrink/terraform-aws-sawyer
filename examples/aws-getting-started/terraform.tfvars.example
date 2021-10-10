@@ -23,6 +23,7 @@ backendinfra-protocol-type        = "HTTP"
 backendinfra-api-stage-name       = "sawyer"
 backendinfra-api-version          = "1"
 backendinfra-authorizer-type      = "JWT"
+backendinfra-mfa-configuration    = "OFF"
 
 backendinfra-api-stage-auto-deploy = true
 tags = {

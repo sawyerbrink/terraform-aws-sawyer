@@ -1,5 +1,5 @@
 resource "aws_route53_record" "cloudfront-record" {
-  zone_id = data.aws_route53_zone.hosted_zone.zone_id
+  zone_id = var.hosted-zone-id
   name    = "${var.url-prefix}.${var.application}"
   type    = "A"
 
