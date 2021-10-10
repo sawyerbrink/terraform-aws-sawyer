@@ -488,6 +488,12 @@ variable "backendinfra-enable-audit-logging" {
   default     = true
 }
 
+variable "website-build-lambda-memory-size" {
+  type = number
+  description = "The memory size of the Lambda that builds the website assets"
+  default = 512
+}
+
 locals {
   name               = var.name != "" ? var.name : random_string.id.result
   db-master-password = var.backendinfra-ds-db-master-password != "" ? var.backendinfra-ds-db-master-password : random_password.db-password.result

@@ -66,3 +66,48 @@ data "aws_iam_policy_document" "iam-permissions" {
     ]
   }
 }
+
+resource "aws_iam_role" "lambda-website-build-role" {
+  name = "saywer-lambda-website-build-role"
+
+  assume_role_policy = data.lambda-website-assume-role-policy.json
+  inline_policy      = data.lambda-website-permissions-policy.json
+}
+
+data "aws_iam_policy_document" "lambda-website-assume-role-policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "lambda-website-permissions-policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:PutObject",
+      "s3:PutObjectAcl",
+      "s3:PutObjectRetention",
+      "s3:PutObjectTagging",
+      "s3:PutObjectVersionTagging",
+      "s3:GetEncryptionConfiguration",
+      "s3:GetBucketVersioning",
+      "s3:GetEncryptionConfiguration",
+      "s3:GetBucketVersioning",
+      "s3:GetBucketTagging",
+      "s3:GetBucketLocation",
+      "s3:DeleteObject",
+      "s3:DeleteObjectVersion",
+    ]
+    resources = [
+      aws_s3_bucket.code-storage.arn,
+      "${aws_s3_bucket.code-storage.arn}/*",
+      aws_s3_bucket.code-storage-DR.arn,
+      "${aws_s3_bucket.code-storage-DR.arn}/*"
+    ]
+  }
+}

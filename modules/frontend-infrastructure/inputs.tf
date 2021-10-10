@@ -28,6 +28,11 @@ variable "domain" {
   type = string
 }
 
+variable "kms-key-arn" {
+  type        = string
+  description = "The KMS arn to use for encryption"
+}
+
 variable "environment" {
   type        = string
   description = "The environment for the infrastrcutrue (dev, test, prod)"
@@ -40,11 +45,27 @@ variable "sawyer-version" {
 }
 
 variable "website-repository-region" {
-  type = string
+  type    = string
   default = "us-east-1"
 }
 
 variable "min-tls-version" {
   type        = string
   description = "The minimum version of the SSL protocol that you want CloudFront to use for HTTPS connections"
+}
+
+variable "cognito-userpool-id" {
+  type        = string
+  description = "The Cognito userpool id generated for Sawyer"
+}
+
+variable "cognito-userpool-client-id" {
+  type        = string
+  description = "The Cognito userpool web client id"
+}
+
+variable "website-build-lambda-memory-size" {
+  type        = number
+  description = "The memory size of the Lambda that builds the website assets"
+  default     = 512
 }

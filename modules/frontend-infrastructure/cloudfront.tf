@@ -7,8 +7,8 @@ module "cloudfront" {
     aws.dr = aws.dr
   }
 
-  bucket-name    = aws_s3_bucket.code-storage.id
-  bucket-dr-name = aws_s3_bucket.code-storage-DR.id
+  bucket-name             = aws_s3_bucket.code-storage.id
+  bucket-dr-name          = aws_s3_bucket.code-storage-DR.id
   s3-replication-role-arn = aws_iam_role.s3-replication.arn
 
   application = var.domain
