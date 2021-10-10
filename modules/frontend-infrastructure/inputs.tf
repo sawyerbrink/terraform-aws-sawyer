@@ -29,9 +29,9 @@ variable "domain" {
 }
 
 variable "account_id" {
-  type = string
+  type        = string
   description = "The account number that Sawyer is getting deployed to."
-  
+
 }
 
 variable "kms-key-arn" {

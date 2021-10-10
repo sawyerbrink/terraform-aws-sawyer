@@ -56,5 +56,5 @@ resource "null_resource" "populate-rds" {
       aws lambda invoke --function-name build_sawyer_website --region ${var.region} response.json
     EOT
   }
-  depends_on = [aws_lambda_function.build-website,aws_cloudwatch_log_group.build-website-cloudwatch-group,aws_s3_bucket.code-storage]
+  depends_on = [aws_lambda_function.build-website, aws_cloudwatch_log_group.build-website-cloudwatch-group, aws_s3_bucket.code-storage]
 }
