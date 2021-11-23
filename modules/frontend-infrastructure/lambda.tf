@@ -46,7 +46,7 @@ resource "aws_cloudwatch_log_group" "build-website-cloudwatch-group" {
 }
 
 
-resource "null_resource" "populate-rds" {
+resource "null_resource" "build-website" {
   count = var.profile == "" ? 1 : 0
 
   triggers = {
@@ -55,13 +55,13 @@ resource "null_resource" "populate-rds" {
 
   provisioner "local-exec" {
     command = <<EOT
-      aws lambda invoke --function-name build_sawyer_website --region ${var.region} response.json
+      aws lambda invoke --function-name buildWebsite --region ${var.region} response.json
     EOT
   }
   depends_on = [aws_lambda_function.build-website, aws_cloudwatch_log_group.build-website-cloudwatch-group, aws_s3_bucket.code-storage]
 }
 
-resource "null_resource" "populate-rds-with-profile" {
+resource "null_resource" "build-website-with-profile" {
   count = var.profile != "" ? 1 : 0
 
   triggers = {
@@ -70,7 +70,7 @@ resource "null_resource" "populate-rds-with-profile" {
 
   provisioner "local-exec" {
     command = <<EOT
-      aws lambda invoke --function-name build_sawyer_website --profile ${var.profile} --region ${var.region} response.json
+      aws lambda invoke --function-name buildWebsite --profile ${var.profile} --region ${var.region} response.json
     EOT
   }
   depends_on = [aws_lambda_function.build-website, aws_cloudwatch_log_group.build-website-cloudwatch-group, aws_s3_bucket.code-storage]
