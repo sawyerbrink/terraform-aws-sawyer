@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "build-website" {
   s3_bucket     = local.codeBucket
-  s3_key        = "${lower(var.sawyer-version)}/buildWebsite"
+  s3_key        = "${lower(var.sawyer-version)}/buildWebsite.zip"
   function_name = "buildWebsite"
   role          = aws_iam_role.lambda-website-build-role.arn
   handler       = "main"
