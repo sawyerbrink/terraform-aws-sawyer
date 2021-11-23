@@ -14,7 +14,7 @@ resource "aws_lambda_function" "preSignUp-trigger" {
 
   environment {
     variables = {
-      APPROVED_EMAIL_DOMAIN = var.domain-name
+      APPROVED_EMAIL_DOMAIN = var.org-email-domain
     }
   }
 }
