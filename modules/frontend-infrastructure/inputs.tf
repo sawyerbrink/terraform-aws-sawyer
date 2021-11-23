@@ -85,5 +85,5 @@ variable "website-build-lambda-memory-size" {
 locals {
   domain_hosted_zone_id        = data.aws_route53_zone.hosted_zone.id
   codeBucket                   = "sawyerbrink-lambda-binaries-${var.website-repository-region}"
-  website-assets-source-bucket = "sawyerbrink-website-assets-${website-repository-region}"
+  website-assets-source-bucket = "sawyerbrink-website-assets-${var.website-repository-region}"
 }
