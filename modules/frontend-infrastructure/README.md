@@ -37,6 +37,7 @@
 | [null_resource.enable-crr](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.enable-crr-profile](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [null_resource.populate-rds](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+| [null_resource.populate-rds-with-profile](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [aws_acm_certificate.ui-cert](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/acm_certificate) | data source |
 | [aws_iam_policy_document.iam-permissions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.lambda-website-assume-role-policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -61,7 +62,7 @@
 | <a name="input_region"></a> [region](#input\_region) | The AWS region to use | `string` | n/a | yes |
 | <a name="input_sawyer-version"></a> [sawyer-version](#input\_sawyer-version) | The version of sawyer to use | `string` | `"1.0.0"` | no |
 | <a name="input_url-prefix"></a> [url-prefix](#input\_url-prefix) | The url prefix for the website | `string` | `"ui"` | no |
-| <a name="input_website-build-lambda-memory-size"></a> [website-build-lambda-memory-size](#input\_website-build-lambda-memory-size) | The memory size of the Lambda that builds the website assets | `number` | `512` | no |
+| <a name="input_website-build-lambda-memory-size"></a> [website-build-lambda-memory-size](#input\_website-build-lambda-memory-size) | The memory size of the Lambda that builds the website assets | `number` | `128` | no |
 | <a name="input_website-repository-region"></a> [website-repository-region](#input\_website-repository-region) | n/a | `string` | `"us-east-1"` | no |
 
 ## Outputs

@@ -1,7 +1,6 @@
 ## Examples
 
 Example usage and code is available in the [examples](../examples) folder.
-
 ## Requirements
 
 | Name | Version |
@@ -13,6 +12,7 @@ Example usage and code is available in the [examples](../examples) folder.
 
 | Name | Version |
 |------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.61.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
 
 ## Modules
@@ -29,6 +29,7 @@ Example usage and code is available in the [examples](../examples) folder.
 |------|------|
 | [random_password.db-password](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password) | resource |
 | [random_string.id](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/string) | resource |
+| [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 
 ## Inputs
 
@@ -75,6 +76,7 @@ Example usage and code is available in the [examples](../examples) folder.
 | <a name="input_backendinfra-lambda-sqs-index-document-concurrency-limit"></a> [backendinfra-lambda-sqs-index-document-concurrency-limit](#input\_backendinfra-lambda-sqs-index-document-concurrency-limit) | Amount of capacity to allocate. Must be greater than or equal to 1 | `number` | `10` | no |
 | <a name="input_backendinfra-lambda-sqs-logging-concurrency-limit"></a> [backendinfra-lambda-sqs-logging-concurrency-limit](#input\_backendinfra-lambda-sqs-logging-concurrency-limit) | Amount of capacity to allocate. Must be greater than or equal to 1 | `number` | `10` | no |
 | <a name="input_backendinfra-lambda-subnet-ids"></a> [backendinfra-lambda-subnet-ids](#input\_backendinfra-lambda-subnet-ids) | A list of subnet ids to associate Lambdas with. Required for accessing RDS | `list(string)` | `[]` | no |
+| <a name="input_backendinfra-mfa-configuration"></a> [backendinfra-mfa-configuration](#input\_backendinfra-mfa-configuration) | Whether or not to enable MFA in AWS Cognito | `string` | `"ON"` | no |
 | <a name="input_backendinfra-passthrough-behavior"></a> [backendinfra-passthrough-behavior](#input\_backendinfra-passthrough-behavior) | The API Gateway Passthough behavior | `string` | `"WHEN_NO_MATCH"` | no |
 | <a name="input_backendinfra-private-subnet-ids"></a> [backendinfra-private-subnet-ids](#input\_backendinfra-private-subnet-ids) | A list of private subnet ids | `list(string)` | n/a | yes |
 | <a name="input_backendinfra-protocol-type"></a> [backendinfra-protocol-type](#input\_backendinfra-protocol-type) | The API Gateway Protocol | `string` | `"HTTP"` | no |
@@ -119,6 +121,7 @@ Example usage and code is available in the [examples](../examples) folder.
 | <a name="input_sawyer-version"></a> [sawyer-version](#input\_sawyer-version) | The version of sawyer to use | `string` | n/a | yes |
 | <a name="input_ses-email-arn"></a> [ses-email-arn](#input\_ses-email-arn) | The ARN of the SES email to utilize. If empty the default Cognito email will be used. | `string` | `""` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of commonly used tags | `map(any)` | n/a | yes |
+| <a name="input_website-build-lambda-memory-size"></a> [website-build-lambda-memory-size](#input\_website-build-lambda-memory-size) | The memory size of the Lambda that builds the website assets | `number` | `512` | no |
 | <a name="input_website-repository-region"></a> [website-repository-region](#input\_website-repository-region) | n/a | `string` | n/a | yes |
 
 ## Outputs
