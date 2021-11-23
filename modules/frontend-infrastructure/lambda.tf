@@ -8,7 +8,7 @@ resource "aws_lambda_function" "build-website" {
 
   source_code_hash = base64encode(lower(var.sawyer-version))
   runtime          = "go1.x"
-  timeout          = 128
+  timeout          = 30
   memory_size      = var.website-build-lambda-memory-size
   publish          = true
 
@@ -40,7 +40,7 @@ resource "aws_lambda_function_event_invoke_config" "build-website-lambda-invoke-
 }
 
 resource "aws_cloudwatch_log_group" "build-website-cloudwatch-group" {
-  name              = "/aws/lambda/build_sawyer_website"
+  name              = "/aws/lambda/buildWebsite"
   retention_in_days = var.logs-retention
   kms_key_id        = var.kms-key-arn
 }
