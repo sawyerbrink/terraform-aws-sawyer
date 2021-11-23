@@ -42,8 +42,8 @@ module "lambdas" {
   timeout             = each.value.lambda-timeout
   memory-size         = each.value.lambda-memory-size
   publish             = each.value.lambda-publish
-  security-groups-ids = each.value.vpc == true ? var.lambda-security-groups-ids : []
-  subnet-ids          = each.value.vpc == true ? var.lambda-subnet-ids : []
+  security-groups-ids = each.value.vpc == "true" ? var.lambda-security-groups-ids : []
+  subnet-ids          = each.value.vpc == "true" ? var.lambda-subnet-ids : []
   ####################
   # Dependencies
   ###################

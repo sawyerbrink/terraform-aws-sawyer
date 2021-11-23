@@ -83,6 +83,7 @@ variable "lambda-security-groups-ids" {
 variable "lambda-subnet-ids" {
   type        = list(string)
   description = "A list of subnet ids to associate Lambdas with. Required for accessing RDS"
+  default = []
 }
 
 variable "lambda-s3-role-arn" {
