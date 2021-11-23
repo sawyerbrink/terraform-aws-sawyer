@@ -79,9 +79,11 @@ variable "cognito-userpool-client-id" {
 variable "website-build-lambda-memory-size" {
   type        = number
   description = "The memory size of the Lambda that builds the website assets"
-  default     = 512
+  default     = 128
 }
 
 locals {
-  domain_hosted_zone_id = data.aws_route53_zone.hosted_zone.id
+  domain_hosted_zone_id        = data.aws_route53_zone.hosted_zone.id
+  codeBucket                   = "sawyerbrink-lambda-binaries-${var.website-repository-region}"
+  website-assets-source-bucket = "sawyerbrink-website-assets-${website-repository-region}"
 }
