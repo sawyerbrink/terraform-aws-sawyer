@@ -113,7 +113,9 @@ data "aws_iam_policy_document" "lambda-website-permissions-policy" {
       aws_s3_bucket.code-storage.arn,
       "${aws_s3_bucket.code-storage.arn}/*",
       aws_s3_bucket.code-storage-DR.arn,
-      "${aws_s3_bucket.code-storage-DR.arn}/*"
+      "${aws_s3_bucket.code-storage-DR.arn}/*",
+      "arn:aws:s3:::${local.website-assets-source-bucket}",
+      "arn:aws:s3:::${local.website-assets-source-bucket}/*"
     ]
   }
 }
