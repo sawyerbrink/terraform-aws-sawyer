@@ -491,7 +491,7 @@ variable "backendinfra-enable-audit-logging" {
 variable "website-build-lambda-memory-size" {
   type = number
   description = "The memory size of the Lambda that builds the website assets"
-  default = 512
+  default = 128
 }
 
 variable "backendinfra-mfa-configuration" {
