@@ -93,6 +93,8 @@ data "aws_iam_policy_document" "lambda-website-permissions-policy" {
   statement {
     effect = "Allow"
     actions = [
+      "s3:ListBucket",
+      "s3:ListBucketVersions",
       "s3:PutObject",
       "s3:PutObjectAcl",
       "s3:PutObjectRetention",
