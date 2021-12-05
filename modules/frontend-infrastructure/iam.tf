@@ -131,7 +131,7 @@ data "aws_iam_policy_document" "lambda-website-permissions-policy" {
       "s3:GetObject",
       "s3:GetObjectVersion"
     ]
-    resouresources = [
+    resources = [
       "arn:aws:s3:::${local.website-assets-source-bucket}",
       "arn:aws:s3:::${local.website-assets-source-bucket}/*"
     ]
