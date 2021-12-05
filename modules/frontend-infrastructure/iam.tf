@@ -113,7 +113,25 @@ data "aws_iam_policy_document" "lambda-website-permissions-policy" {
       aws_s3_bucket.code-storage.arn,
       "${aws_s3_bucket.code-storage.arn}/*",
       aws_s3_bucket.code-storage-DR.arn,
-      "${aws_s3_bucket.code-storage-DR.arn}/*",
+      "${aws_s3_bucket.code-storage-DR.arn}/*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:ListBucket",
+      "s3:ListBucketVersions",
+      "s3:GetEncryptionConfiguration",
+      "s3:GetBucketVersioning",
+      "s3:GetEncryptionConfiguration",
+      "s3:GetBucketVersioning",
+      "s3:GetBucketTagging",
+      "s3:GetBucketLocation",
+      "s3:GetObject",
+      "s3:GetObjectVersion"
+    ]
+    resouresources = [
       "arn:aws:s3:::${local.website-assets-source-bucket}",
       "arn:aws:s3:::${local.website-assets-source-bucket}/*"
     ]
