@@ -66,6 +66,11 @@ variable "min-tls-version" {
   description = "The minimum version of the SSL protocol that you want CloudFront to use for HTTPS connections"
 }
 
+variable "api-version" {
+  type        = string
+  description = "The API version"
+}
+
 variable "cognito-userpool-id" {
   type        = string
   description = "The Cognito userpool id generated for Sawyer"

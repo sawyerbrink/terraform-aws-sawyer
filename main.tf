@@ -154,22 +154,23 @@ module "backend-api-functions" {
 module "frontend-infrastructure" {
   source = "./modules/frontend-infrastructure"
 
-  profile                   = var.profile
-  sawyer-version            = var.sawyer-version
-  website-repository-region = var.website-repository-region
-  name                      = var.name
-  domain                    = var.backendinfra-domain-name
-  region                    = var.region
-  dr-region                 = var.dr-region
-  environment               = var.backendinfra-environment
-  kms-key-arn               = var.kms-key-arn
+  profile                          = var.profile
+  sawyer-version                   = var.sawyer-version
+  website-repository-region        = var.website-repository-region
+  name                             = var.name
+  domain                           = var.backendinfra-domain-name
+  region                           = var.region
+  dr-region                        = var.dr-region
+  environment                      = var.backendinfra-environment
+  kms-key-arn                      = var.kms-key-arn
   website-build-lambda-memory-size = var.website-build-lambda-memory-size
-  min-tls-version = var.frontendinfra-min-tls-version
+  min-tls-version                  = var.frontendinfra-min-tls-version
+  api-version                      = var.backendinfra-api-version
 
-  cognito-userpool-id = module.backend-api-infrastructure.user-pool-id
+  cognito-userpool-id        = module.backend-api-infrastructure.user-pool-id
   cognito-userpool-client-id = module.backend-api-infrastructure.implicit-client-id
-  logs-retention           = var.logs-retention
-  account_id               = local.account_id
+  logs-retention             = var.logs-retention
+  account_id                 = local.account_id
 
   providers = {
     aws    = aws
