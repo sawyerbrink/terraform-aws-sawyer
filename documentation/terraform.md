@@ -1,6 +1,7 @@
 ## Examples
 
 Example usage and code is available in the [examples](../examples) folder.
+
 ## Requirements
 
 | Name | Version |
@@ -42,7 +43,7 @@ Example usage and code is available in the [examples](../examples) folder.
 | <a name="input_backendinfra-api-name"></a> [backendinfra-api-name](#input\_backendinfra-api-name) | n/a | `string` | n/a | yes |
 | <a name="input_backendinfra-api-stage-auto-deploy"></a> [backendinfra-api-stage-auto-deploy](#input\_backendinfra-api-stage-auto-deploy) | n/a | `bool` | `true` | no |
 | <a name="input_backendinfra-api-stage-name"></a> [backendinfra-api-stage-name](#input\_backendinfra-api-stage-name) | n/a | `string` | `"default"` | no |
-| <a name="input_backendinfra-api-version"></a> [backendinfra-api-version](#input\_backendinfra-api-version) | The version of the API | `string` | n/a | yes |
+| <a name="input_backendinfra-api-version"></a> [backendinfra-api-version](#input\_backendinfra-api-version) | The version of the API | `string` | `"1"` | no |
 | <a name="input_backendinfra-auth-domain"></a> [backendinfra-auth-domain](#input\_backendinfra-auth-domain) | n/a | `string` | `""` | no |
 | <a name="input_backendinfra-authorizer-type"></a> [backendinfra-authorizer-type](#input\_backendinfra-authorizer-type) | The default authentication type for API Gateway | `string` | `"JWT"` | no |
 | <a name="input_backendinfra-batch-compute-type"></a> [backendinfra-batch-compute-type](#input\_backendinfra-batch-compute-type) | The type of the Batch compute environment | `string` | `"FARGATE_SPOT"` | no |
@@ -121,7 +122,7 @@ Example usage and code is available in the [examples](../examples) folder.
 | <a name="input_sawyer-version"></a> [sawyer-version](#input\_sawyer-version) | The version of sawyer to use | `string` | n/a | yes |
 | <a name="input_ses-email-arn"></a> [ses-email-arn](#input\_ses-email-arn) | The ARN of the SES email to utilize. If empty the default Cognito email will be used. | `string` | `""` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of commonly used tags | `map(any)` | n/a | yes |
-| <a name="input_website-build-lambda-memory-size"></a> [website-build-lambda-memory-size](#input\_website-build-lambda-memory-size) | The memory size of the Lambda that builds the website assets | `number` | `512` | no |
+| <a name="input_website-build-lambda-memory-size"></a> [website-build-lambda-memory-size](#input\_website-build-lambda-memory-size) | The memory size of the Lambda that builds the website assets | `number` | `128` | no |
 | <a name="input_website-repository-region"></a> [website-repository-region](#input\_website-repository-region) | n/a | `string` | n/a | yes |
 
 ## Outputs

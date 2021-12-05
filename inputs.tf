@@ -89,6 +89,7 @@ variable "backendinfra-environment" {
 variable "backendinfra-api-version" {
   type        = string
   description = "The version of the API"
+  default     = "1"
 }
 
 variable "backendinfra-api-stage-name" {
@@ -489,15 +490,15 @@ variable "backendinfra-enable-audit-logging" {
 }
 
 variable "website-build-lambda-memory-size" {
-  type = number
+  type        = number
   description = "The memory size of the Lambda that builds the website assets"
-  default = 128
+  default     = 128
 }
 
 variable "backendinfra-mfa-configuration" {
-  type = string
+  type        = string
   description = "Whether or not to enable MFA in AWS Cognito"
-  default = "ON"
+  default     = "ON"
 }
 
 locals {
