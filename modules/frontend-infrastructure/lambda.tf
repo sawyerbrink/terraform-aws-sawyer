@@ -17,7 +17,7 @@ resource "aws_lambda_function" "build-website" {
       REGION                = var.region
       USERPOOL_ID           = var.cognito-userpool-id
       WEBCLIENT_ID          = var.cognito-userpool-client-id
-      API_URL               = "api.${var.domain}"
+      API_URL               = var.api-url
       API_VERSION           = var.api-version
       SAWYER_VERSION        = lower(var.sawyer-version)
       ASSETS_SOURCE_BUCKET  = local.website-assets-source-bucket

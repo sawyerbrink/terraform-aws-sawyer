@@ -71,6 +71,11 @@ variable "api-version" {
   description = "The API version"
 }
 
+variable "api-url" {
+  type = string
+  description = "The API URL to use"
+}
+
 variable "cognito-userpool-id" {
   type        = string
   description = "The Cognito userpool id generated for Sawyer"
