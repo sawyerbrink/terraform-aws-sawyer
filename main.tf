@@ -166,6 +166,7 @@ module "frontend-infrastructure" {
   website-build-lambda-memory-size = var.website-build-lambda-memory-size
   min-tls-version                  = var.frontendinfra-min-tls-version
   api-version                      = var.backendinfra-api-version
+  api-url                          = var.backendinfra-api-domain-name
 
   cognito-userpool-id        = module.backend-api-infrastructure.user-pool-id
   cognito-userpool-client-id = module.backend-api-infrastructure.implicit-client-id
